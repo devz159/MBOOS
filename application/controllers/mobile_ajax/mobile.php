@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
+/* Ian Paul Kionisala as Rookie  */
 class Mobile extends CI_Controller {
 	
 
