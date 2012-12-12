@@ -1,0 +1,1 @@
+<input type="text" name="email" value="<?php echo $_POST['email']; ?>" />
