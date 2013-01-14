@@ -1,0 +1,8 @@
+<head>
+	<title>Validation Success</title>
+</head>
+
+<body>
+	<p>Your form has been successfully submitted!</p>
+    <p><?php echo anchor('form', 'Try it again!'); ?></p>
+</body>

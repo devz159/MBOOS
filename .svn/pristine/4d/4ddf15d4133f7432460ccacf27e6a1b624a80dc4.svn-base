@@ -1,0 +1,24 @@
+<?php
+class Login_validation extends CI_Controller{
+	function index(){
+		$this->load->helper(array('form','url'));
+		
+		$this->load->library(form_validation);
+		
+		$this->form_validation->set_rules('validation_username', 'Username', 'required');
+		$this->form_validation->set_rules('validation_password', 'Password', 'required|matches[validation_confirm]');
+		$this->form_validation->set_rules('validation_confirm', 'Confrim Password', 'required');
+		$this->form_validation->set_rules('validation_email', 'E-mail Address', 'required');
+		
+		if($this->form_validation->run() == FALSE)
+			{$this->load->view('admin/login_validation/login_validation');}
+			
+			else
+			{$this->load->view('admin/login_validation/validation_success');}
+		
+		}	
+	
+	
+}
+
+?>

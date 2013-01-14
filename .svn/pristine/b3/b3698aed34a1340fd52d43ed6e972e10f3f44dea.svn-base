@@ -1,0 +1,85 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Login extends CI_Controller {
+
+	public function __construct() {
+		parent::__construct();	
+		
+	
+	}
+	
+	/* Deo Module */
+	
+	public function index(){
+		
+		$data['main_content'] = 'admin/login_view/login_view';
+		$this->load->view('includes/template', $data);	
+	}
+	
+	
+	public function login_validate(){
+		/**echo $this->input->post('username');
+		echo $this->input->post('password');
+		**/
+	$username = 'deo';
+	$password = md5('jackass04');
+	if($username == $this->input->post('username') && $password == md5($this->input->post('password')) ) {
+		echo 'the account exists!';
+		}
+	else {
+		echo 'the account does not exist';
+			}
+	}
+	
+	/*Deo End Module*/
+	
+	/* Paul Module */
+	
+	public function forgot_password() {
+		
+		$data['main_content'] = 'admin/forgot_password_view/forgot_password_view';
+		$this->load->view('includes/template', $data);	
+	}
+	
+	public function forgot_password_validate() {
+		
+		$admin_email = $this->input->post('email');
+		
+		//scall_debug($admin_email);
+		
+		$DUMMYEMAIL = "nebula_a44@yahoo.com";
+		
+		$try = 'testing';
+		
+		if($DUMMYEMAIL == $admin_email) {
+			//echo "email exist";		
+			
+	 		$params = array(
+			 						'sender' => 'mboosCOM@gmail.com',
+			 						'receiver' => $admin_email,
+			 						'from_name' => 'Web Master', // OPTIONAL
+									'cc' => 'ianpaulkionisala@gmail.com', // OPTIONAL
+			 						'subject' => 'Reset Password', // OPTIONAL
+			 						'msg' => 'My message', // OPTIONAL
+			 						'email_temp_account' => TRUE, // OPTIONAL. Uses your specified google account only. Please see this method "_tmpEmailAccount" below (line 111).
+			 					);
+	 		
+	 		$this->load->library('emailutil', $params);
+	 		
+			
+ 					if($this->emailutil->send()){
+ 						echo "message sent";
+ 					}else{
+ 						echo "message not sent";
+ 					}
+			
+		} else {
+			echo "email does not exist";
+		}
+	}
+	
+	
+	/*Paul End Module*/
+	
+
+}

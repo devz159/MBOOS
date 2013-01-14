@@ -28,7 +28,7 @@ class Mobile extends CI_Controller {
 	
 	public function search() {
 		
-		$params['table'] = array('name' => 'mboos_products', 'criteria_phrase' => 'mboos_product_product_status="1"');
+		$params['table'] = array('name' => 'mboos_products', 'criteria_phrase' => 'mboos_product_status="1"');
 		
 		if($this->mdldata->select($params)) {
 		
@@ -46,17 +46,18 @@ class Mobile extends CI_Controller {
 		
 		$id = $this->input->get('id');
 
-		$params['table'] = array('name' => 'mboos_products', 'criteria_phrase' => 'mboos_product_id="'. $id . '"');
+		$params['querystring'] = "SELECT * FROM `mboos_products` left join mboos_product_price on mboos_products.mboos_product_id=mboos_product_price.mboos_product_id where mboos_products.mboos_product_status='1' AND mboos_product_price_status='1' AND mboos_products.mboos_product_id='". $id . "'";
 		
 		if($this->mdldata->select($params)) {
 		
-			$data = $this->mdldata->_mRecords;
-		
-			echo json_encode($data);
+			$product_info = $this->mdldata->_mRecords;
+						
+			echo '{"item_info":'. json_encode($product_info) .'}';
+
 		
 		} else {
 		
-			echo '[{"text":"Error"}]';
+			echo '{"error":{"text":"Error"}}';
 		}
 	}
 }

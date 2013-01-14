@@ -1,0 +1,16 @@
+<head>
+<title>Login Validation</title>
+</head>
+<body>
+	
+	<?php  echo validation_errors();  ?>
+	
+
+<form id="admin_login_validation" action="<?php echo base_url(); ?>admin/login_validation" method="POST">
+		<p>Username<input type="text" name="validation_username" value="" size="50"></p>
+        <p>Password<input name="validation_password" type="password" value="" size maxlength="50"></p>
+        <p>Confirm Password<input type="password" name="validation_confirm" value="" size="30"></p>
+        <p> E-mail Address<input type="text" name="validation_email" value="" size="30"></p>
+        <p><input id="admin_validation_button" type="submit"></p>
+</form>
+</body>
