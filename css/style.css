@@ -1,0 +1,45 @@
+/*MAIN CSS*/
+p { padding:0; margin:0; }
+
+.center-wrapper{  margin:auto;  text-align: center; width:100%; } 
+#categoriesPage form.ui-listview-filter { display:none; }
+.item_image { float:left; padding: 0 15px 0 0; }
+.item_more_info { clear:both; }
+#qtyForm_label { float:left;  margin-top:0.3em;  }
+#basic { width:100px;  margin: 0 0 0 5em; }
+.addCartBtn, .cancelBtn { clear:both; }
+.item_desc { padding:1em 0 0 0; }
+#qty_header {  height:5em; }
+
+#my_wrapper .ui-listview-filter {left: 15px; position: fixed; top:55px; width: 100%; z-index: 1000;}
+#search_data, #category_data { margin-top:25px; }
+
+div#subTotalBox { left:0;background-color:#e3e3e3; height:60px;  position: fixed; top:43px; width: 100%; z-index: 1000; }
+div#subTotalBox p { margin: 5px 0 5px 0; }
+#cart_data { margin-top:35px; }
+.subTotal_label { float:left; }
+.item_qty_label { float: right; width:78px; }
+
+#regPage input.error { border-color:red; }
+#domainPage input.error { border-color:red; }
+#loginPage input.error { border-color:red; }
+
+
+#dialog_info input.error { border-color:red; }
+#paypalBox input.error { border-color:red; }
+
+.nav-glyphish-example .ui-btn .ui-btn-inner { padding-top: 40px !important; }
+.nav-glyphish-example .ui-btn .ui-icon { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
+#profile .ui-icon { background:  url(images/111-user.png) 50% 50% no-repeat; background-size: 26px 26px;  }
+#cart .ui-icon { background:  url(images/80-shopping-cart.png) 50% 50% no-repeat;  background-size: 26px 26px; }
+#home .ui-icon { background:  url(images/53-house.png) 50% 50% no-repeat;  background-size: 26px 26px; }
+
+#username, #password {margin: 1em 0 1em 0;}
+
+.item_info { margin-bottom: 10px; }
+
+
+
+
+
+

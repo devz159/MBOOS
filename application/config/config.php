@@ -14,8 +14,8 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/MBOOS/';
-
+/*  $config['base_url']	= 'http://mboos.ipklab.dx.am/MBOOS/';  */
+$config['base_url']	= 'http://192.168.1.103/MBOOS/'; 
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -268,7 +268,7 @@ $config['sess_time_to_update']	= 300;
 $config['cookie_prefix']	= "";
 $config['cookie_domain']	= "";
 $config['cookie_path']		= "/";
-$config['cookie_secure']	= FALSE;
+$config['cookie_secure']	= false;
 
 /*
 |--------------------------------------------------------------------------

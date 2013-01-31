@@ -9,7 +9,7 @@ class Item extends CI_Controller{
 		//authenticate if logged in
 		authUser();
 		
-		$params['table'] = array('name' => 'mboos_products', 'criteria_phrase' => 'mboos_product_product_status = "1"');
+		$params['table'] = array('name' => 'mboos_products', 'criteria_phrase' => 'mboos_product_status = "1"');
 		$this->mdldata->select($params);
 		
 		$data['records'] = $this->mdldata->_mRecords;

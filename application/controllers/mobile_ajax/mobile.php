@@ -46,7 +46,7 @@ class Mobile extends CI_Controller {
 		
 		$id = $this->input->get('id');
 
-		$params['querystring'] = "SELECT * FROM `mboos_products` left join mboos_product_price on mboos_products.mboos_product_id=mboos_product_price.mboos_product_id where mboos_products.mboos_product_status='1' AND mboos_product_price_status='1' AND mboos_products.mboos_product_id='". $id . "'";
+		$params['querystring'] = "SELECT * FROM `mboos_products` left join mboos_product_price on mboos_products.mboos_product_id=mboos_product_price.mboos_product_id where mboos_products.mboos_product_status='1' AND mboos_products.mboos_product_id='". $id . "'";
 		
 		if($this->mdldata->select($params)) {
 		
@@ -59,6 +59,27 @@ class Mobile extends CI_Controller {
 		
 			echo '{"error":{"text":"Error"}}';
 		}
+	}
+	
+	public function getByCategory() {
+		
+		$id = $this->input->get('id');
+		
+		//$params['querystring'] = "SELECT * FROM `mboos_products` where mboos_product_category_id='". $id . "'";
+		$params['querystring'] = "SELECT * FROM `mboos_products` left join mboos_product_price on mboos_products.mboos_product_id=mboos_product_price.mboos_product_id where mboos_products.mboos_product_status='1' AND mboos_products.mboos_product_category_id='". $id . "'";
+		
+		if($this->mdldata->select($params)) {
+		
+			$product_info = $this->mdldata->_mRecords;
+		
+			echo '{"cat_item_list":'. json_encode($product_info) .'}';
+		
+		
+		} else {
+		
+			echo '{"error":{"text":"Error"}}';
+		}
+		
 	}
 }
 

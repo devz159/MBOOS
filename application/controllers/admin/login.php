@@ -1,14 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-/**
- *
- * Log in Controller
- * @author Thaddeus Abraham Along and Paul Edmund Janubas
- * @version 1.0.0
- * 
- *
- */
-
 class Login extends CI_Controller {
 
 	private $_mUser;	//declared a private variable
@@ -87,7 +78,7 @@ class Login extends CI_Controller {
 				return FALSE;
 				
 				} else {
-					echo 'this username is valid.';
+					
 					return TRUE;
 					}
 		}

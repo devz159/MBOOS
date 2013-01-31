@@ -15,9 +15,10 @@
 						
 		 
 		
-		 foreach ($records as $rec) {	echo '<tr><td><br />Product Name:'. $rec->mboos_product_name . '</td>'; 
-										echo '<td><a href="'. base_url() .'item/item/edit_item/'. $rec->mboos_product_id .'">Edit</a></td>';
-										echo '<td><a href="'. base_url() .'item/item/delete_item/'. $rec->mboos_product_id .'">Delete</a></td>'; } 
+		 foreach ($records as $rec) {	
+		 	echo '<tr><td><br />Product Name:'. $rec->mboos_product_name . '</td>'; 
+			echo '<td><a href="'. base_url() .'item/item/edit_item/'. $rec->mboos_product_id .'">Edit</a></td>';
+			echo '<td><a href="'. base_url() .'item/item/delete_item/'. $rec->mboos_product_id .'">Delete</a></td>'; } 
 	?>
 </td>
 </table>

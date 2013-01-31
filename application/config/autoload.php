@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database','session', 'form_validation', 'sessionbrowser', 'sentinel', 'pagination');
+$autoload['libraries'] = array('database','session', 'paypalsettings', 'form_validation', 'sessionbrowser', 'sentinel', 'pagination');
 
 
 /*
@@ -64,7 +64,7 @@ $autoload['libraries'] = array('database','session', 'form_validation', 'session
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('codex','url', 'form', 'debug_me', 'mydate', 'guard', 'counter_message', 'age_calculator');
+$autoload['helper'] = array('codex','url', 'form', 'debug_me', 'guard', 'counter_message', 'age_calculator');
 
 
 /*
