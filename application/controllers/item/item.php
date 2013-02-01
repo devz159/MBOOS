@@ -13,9 +13,7 @@ class Item extends CI_Controller{
 		$this->mdldata->select($params);
 		
 		$data['records'] = $this->mdldata->_mRecords;
-		//call_debug($data);
-		/** foreach ($data['records'] as $rec) {
-			} **/
+		
 		$data['main_content'] = 'admin/item_view/item_view';
 		$this->load->view('includes/template', $data);
 		}
