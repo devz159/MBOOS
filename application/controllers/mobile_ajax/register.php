@@ -11,10 +11,10 @@ class Register extends CI_Controller {
 	/* get all product categories */
 	public function index() {
 		
-		$uName = $this->input->post("cname");
-		$uAddr = $this->input->post("address");
-		$uEmail = $this->input->post("email");
-		$ucpNumber = $this->input->post("cpnumber");
+		$uName = mysql_real_escape_string($this->input->post("cname"));
+		$uAddr = mysql_real_escape_string($this->input->post("address"));
+		$uEmail = mysql_real_escape_string($this->input->post("email"));
+		$ucpNumber = mysql_real_escape_string($this->input->post("cpnumber"));
 		$uPassword = md5($this->input->post("pword"));
 		
 		$this->register($uName, $uAddr, $uEmail, $ucpNumber, $uPassword);	
@@ -43,7 +43,7 @@ class Register extends CI_Controller {
 	
 	public function email_checker() {
 		
-		$email = $this->input->post("email");
+		$email = mysql_real_escape_string($this->input->post("email"));
 		
 		$params['table'] = array('name' => 'mboos_customers', 'criteria_phrase' => 'mboos_customer_email="'. $email . '"');
 		

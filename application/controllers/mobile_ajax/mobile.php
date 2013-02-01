@@ -44,7 +44,7 @@ class Mobile extends CI_Controller {
 	
 	public function get_info() {
 		
-		$id = $this->input->get('id');
+		$id = mysql_real_escape_string($this->input->get('id'));
 
 		$params['querystring'] = "SELECT * FROM `mboos_products` left join mboos_product_price on mboos_products.mboos_product_id=mboos_product_price.mboos_product_id where mboos_products.mboos_product_status='1' AND mboos_products.mboos_product_id='". $id . "'";
 		
@@ -63,7 +63,7 @@ class Mobile extends CI_Controller {
 	
 	public function getByCategory() {
 		
-		$id = $this->input->get('id');
+		$id = mysql_real_escape_string($this->input->get('id'));
 		
 		//$params['querystring'] = "SELECT * FROM `mboos_products` where mboos_product_category_id='". $id . "'";
 		$params['querystring'] = "SELECT * FROM `mboos_products` left join mboos_product_price on mboos_products.mboos_product_id=mboos_product_price.mboos_product_id where mboos_products.mboos_product_status='1' AND mboos_products.mboos_product_category_id='". $id . "'";

@@ -21,8 +21,8 @@ class Login extends CI_Controller {
 	
 	public function _isExists() {
 	
-		$email = $this->input->post('email');
-		$pword = md5($this->input->post('pword'));
+		$email = mysql_real_escape_string($this->input->post('email'));
+		$pword = mysql_real_escape_string(md5($this->input->post('pword')));
 	
 		$string = "mboos_customer_email='" . $email . "' and mboos_customer_pword='". $pword . "' and mboos_customer_status='1'";
 	
@@ -36,5 +36,10 @@ class Login extends CI_Controller {
 	
 		return TRUE;
 	}
+	
+	public function forgot_password() {
+		
+	}
+	
 }
 

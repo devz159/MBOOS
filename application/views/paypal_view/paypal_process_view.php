@@ -2,7 +2,6 @@
 
 <div data-role="header" data-position="fixed" data-theme="b">
 		<h1>Place Order to PayPal</h1>
-
 </div><!-- /header -->
 
 <div data-role="content">	
@@ -13,7 +12,7 @@
         <input type="hidden" name="cmd" value="_cart">
         <input type="hidden" name="upload" value="1">
         <input type="hidden" name="business" value="seller_1359486610_biz@gmail.com">
-      	<input type="hidden" name="email" value="iankio_1359486361_per@gmail.com" />
+      	<input type="hidden" name="email" value="<?php echo $paypal_email; ?>" />
       
 <?php foreach ($order as $key => $val) :?>
         <?php $key++; ?>

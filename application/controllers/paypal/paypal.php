@@ -6,6 +6,8 @@ class Paypal extends CI_Controller {
 	public $_tmpArray;
 	public $_cust_id;
 	public $_subtotal;
+	public $_paypal_email;
+	public $_readyToInsertQueryString;
 
 	public function __construct() {
 		parent::__construct();
@@ -15,6 +17,8 @@ class Paypal extends CI_Controller {
 		
 		$this->_cust_id = '';
 		$this->_subtotal = '';
+		$this->_paypal_email = '';
+		$this->_readyToInsertQueryString = array();
 		
 	}
 	
@@ -22,8 +26,9 @@ class Paypal extends CI_Controller {
 		
 		$strOrder = $this->input->get("stringOrder");
 		
-		$this->_subtotal = $this->input->get("subtotal");
-		$this->_cust_id = $this->input->get("cust_id");
+		$this->_subtotal = mysql_real_escape_string($this->input->get("subtotal"));
+		$this->_cust_id = mysql_real_escape_string($this->input->get("cust_id"));
+		$this->_paypal_email = mysql_real_escape_string($this->input->get("paypal_email"));
 		
 		$this->paypal_validate($strOrder);
 	}
@@ -72,12 +77,6 @@ class Paypal extends CI_Controller {
 		$this->_mItemList = $cleandArray;
 		
 		$data['order'] = $this->_mItemList;
-		
-		call_debug($data, false);
-		
-		call_debug($this->_subtotal, false);
-		
-		call_debug($this->_cust_id, false);
 		
 		
 		$params['fields'] = array(
@@ -128,24 +127,26 @@ class Paypal extends CI_Controller {
 			array_push($newArray, $strInsert);	
 			
 		}
-		call_debug($newArray, false);
-		$params['transact'] = $newArray;
 		
-		$this->mdldata->reset();
-        if($this->mdldata->executeTransact($params))
-                   echo 'success';
-        else
-                   echo 'failed';
+		$this->_readyToInsertQueryString = $newArray;
+
+			
+        $data['paypal_email'] = $this->_paypal_email;
 		
 		$data['main_content'] = 'paypal_view/paypal_process_view';
-		$this->load->view('includes/template', $data);
+		$this->load->view('mobile_template/includes/template', $data);
 		
 	}
 	
 	public function thankyou() {
 		
-		$data['main_content'] = 'admin/paypal_view/paypal_success_view';
-		$this->load->view('includes/template', $data);
+		$params['transact'] = $this->_readyToInsertQueryString;
+		
+		$this->mdldata->reset();
+		$this->mdldata->executeTransact($params);
+		
+		$data['main_content'] = 'paypal_view/paypal_success_view';
+		$this->load->view('mobile_template/includes/template', $data);
 	
 	}
 }

@@ -14,7 +14,7 @@ class Customer extends CI_Controller {
 	
 	public function customer_info() {
 		
-		$email = $this->input->get("email");
+		$email = mysql_real_escape_string($this->input->get("email"));
 		
 		$params['table'] = array('name' => ' mboos_customers', 'criteria_phrase' => 'mboos_customer_email="'. $email .'"');
 		
@@ -33,11 +33,11 @@ class Customer extends CI_Controller {
 	
 	public function customer_edit() {
 		
-		$id = $this->input->post("cust_id");
-		$name = $this->input->post("name");
-		$addr = $this->input->post("address");
-		$email = $this->input->post("email");
-		$number = $this->input->post("number");
+		$id = mysql_real_escape_string($this->input->post("cust_id"));
+		$name = mysql_real_escape_string($this->input->post("name"));
+		$addr = mysql_real_escape_string($this->input->post("address"));
+		$email = mysql_real_escape_string($this->input->post("email"));
+		$number = mysql_real_escape_string($this->input->post("number"));
 		
 		$params['fields'] = array(
 					
@@ -53,5 +53,30 @@ class Customer extends CI_Controller {
 			return true;
 		
 		return false;	
+	}
+	
+	public function customer_order_summary() {
+		
+		$email = mysql_real_escape_string($this->input->get('currEmail'));
+		
+		if(isset($email)) {
+		
+			$params['table'] = array('name' => ' mboos_customers', 'criteria_phrase' => 'mboos_customer_email="'. $email . '"');
+			$this->mdldata->select($params);
+			
+			$cust_info = $this->mdldata->_mRecords;
+			
+			$cust_id = $cust_info[0]->mboos_customer_id;
+			$this->mdldata->reset();
+			$params['table'] = array('name' => ' mboos_orders', 'criteria_phrase' => 'mboos_customer_id="'. $cust_id . '"');
+			
+			$this->mdldata->select($params);
+			
+			$cust_order_summary = $this->mdldata->_mRecords;
+			
+			echo '{"orders_summary":'. json_encode($cust_order_summary) .'}';
+			
+		}
+
 	}
 }
