@@ -24,6 +24,9 @@
 		<td><a href = "<?php echo base_url() . 'admin/item/edit_item/' . $list->mboos_product_id; ?> "> Edit </a><a href = "<?php echo base_url() . 'admin/item/delete_item/' . $list->mboos_product_id; ?> "> Delete </a> </td>
 	
 	</tr><?php endforeach;?>
+	<tr>
+		<td><?php echo $links;?></td>
+	</tr>
 </table>
 
 <div name="button_back">

@@ -8,16 +8,46 @@ class Item extends CI_Controller {
 	}
 	
 	public function index(){  
-
-$params['querystring'] = 'SELECT mboos_products.mboos_product_id, mboos_products.mboos_product_name, mboos_products.mboos_product_desc, mboos_products.mboos_product_supplier, mboos_products.mboos_product_image, mboos_products.mboos_product_status, mboos_products.mboos_product_category_id, mboos_product_category.mboos_product_category_name
-FROM mboos_products INNER JOIN mboos_product_category ON mboos_products.mboos_product_category_id = mboos_product_category.mboos_product_category_id WHERE mboos_products.mboos_product_status="1"';
-
-		$this->mdldata->select($params);
-		$data['products'] = $this->mdldata->_mRecords;	
+		$this->view_item();
+	}
+	
+	public function view_item(){
+		$config = array();
+		$config["base_url"] = base_url() . "admin/item/view_item/";
+		$config["total_rows"] = $this->_getcountproducts();
+		$config["per_page"] = 10;
+		$config['num_links'] = 6;
+		$config["uri_segment"] = 4;
 		
-		$data['main_content'] = 'admin/item_view/item_view';  
-		$this->load->view('includes/template', $data);	
+		$this->load->library("pagination");
+		$this->pagination->initialize($config);
 		
+		$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+		$data["links"] = $this->pagination->create_links();
+		
+		$data['products'] = $this->_getlistproducts($config["per_page"], $page);
+		$data['main_content'] = 'admin/item_view/item_view';
+		$this->load->view('includes/template', $data);
+	}
+	
+	private function _getlistproducts($limit, $start){
+		$params['querystring'] = 'SELECT mboos_products.mboos_product_id, mboos_products.mboos_product_name, mboos_products.mboos_product_desc, mboos_products.mboos_product_supplier, mboos_products.mboos_product_image, mboos_products.mboos_product_status, mboos_products.mboos_product_category_id, mboos_product_category.mboos_product_category_name
+		FROM mboos_products INNER JOIN mboos_product_category ON mboos_products.mboos_product_category_id = mboos_product_category.mboos_product_category_id WHERE mboos_products.mboos_product_status="1" LIMIT '.$start .',' . $limit;
+		
+		if(!$this->mdldata->select($params))
+			return false;
+		else 
+	 		return $this->mdldata->_mRecords;
+	}
+	
+	private function _getcountproducts(){
+		$params['querystring'] = 'SELECT mboos_products.mboos_product_id, mboos_products.mboos_product_name, mboos_products.mboos_product_desc, mboos_products.mboos_product_supplier, mboos_products.mboos_product_image, mboos_products.mboos_product_status, mboos_products.mboos_product_category_id, mboos_product_category.mboos_product_category_name
+		FROM mboos_products INNER JOIN mboos_product_category ON mboos_products.mboos_product_category_id = mboos_product_category.mboos_product_category_id WHERE mboos_products.mboos_product_status="1"';
+		
+		if(!$this->mdldata->select($params))
+			return false;
+		else
+			return $this->mdldata->_mRowCount;
 	}
 	
 	public function add_item(){
