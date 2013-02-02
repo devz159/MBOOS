@@ -12,6 +12,8 @@ class Item extends CI_Controller {
 	}
 	
 	public function view_item(){
+	
+		
 		$config = array();
 		$config["base_url"] = base_url() . "admin/item/view_item/";
 		$config["total_rows"] = $this->_getcountproducts();
@@ -26,21 +28,40 @@ class Item extends CI_Controller {
 		$data["links"] = $this->pagination->create_links();
 		
 		$data['products'] = $this->_getlistproducts($config["per_page"], $page);
+		//call_debug($data);
+		//$data['order_detail'] = $this->_getorderquantity();
 		$data['main_content'] = 'admin/item_view/item_view';
 		$this->load->view('includes/template', $data);
 	}
 	
 	private function _getlistproducts($limit, $start){
-		$params['querystring'] = 'SELECT mboos_products.mboos_product_id, mboos_products.mboos_product_name, mboos_products.mboos_product_desc, mboos_products.mboos_product_supplier, mboos_products.mboos_product_image, mboos_products.mboos_product_status, mboos_products.mboos_product_category_id, mboos_product_category.mboos_product_category_name
-		FROM mboos_products INNER JOIN mboos_product_category ON mboos_products.mboos_product_category_id = mboos_product_category.mboos_product_category_id WHERE mboos_products.mboos_product_status="1" LIMIT '.$start .',' . $limit;
+	
+		$params['querystring'] = 'SELECT mboos_products.mboos_product_id, mboos_products.mboos_product_name, mboos_products.mboos_product_desc, mboos_products.mboos_product_supplier, mboos_products.mboos_product_image, mboos_products.mboos_product_status, mboos_products.mboos_product_category_id, mboos_product_category.mboos_product_category_name, mboos_product_price.mboos_product_price, mboos_instocks.mboos_inStocks_quantity
+									FROM mboos_products
+									INNER JOIN mboos_product_category ON mboos_products.mboos_product_category_id = mboos_product_category.mboos_product_category_id
+									INNER JOIN mboos_product_price ON mboos_products.mboos_product_id = mboos_product_price.mboos_product_id
+									INNER JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mboos_product_id
+									WHERE mboos_products.mboos_product_status = "1"
+									ORDER BY mboos_product_category.mboos_product_category_name LIMIT '.$start .',' . $limit;
 		
 		if(!$this->mdldata->select($params))
 			return false;
 		else 
 	 		return $this->mdldata->_mRecords;
 	}
-	
+	/*
+	private function _getorderquantity(){
+		
+		$params['querystring'] = 'SELECT mboos_order_detail_quantity FROM mboos_order_details';
+		
+		if(!$this->mdldata->select($params))
+			return false;
+		else 
+	 		return $this->mdldata->_mRecords;
+	}
+	*/
 	private function _getcountproducts(){
+	
 		$params['querystring'] = 'SELECT mboos_products.mboos_product_id, mboos_products.mboos_product_name, mboos_products.mboos_product_desc, mboos_products.mboos_product_supplier, mboos_products.mboos_product_image, mboos_products.mboos_product_status, mboos_products.mboos_product_category_id, mboos_product_category.mboos_product_category_name
 		FROM mboos_products INNER JOIN mboos_product_category ON mboos_products.mboos_product_category_id = mboos_product_category.mboos_product_category_id WHERE mboos_products.mboos_product_status="1"';
 		
@@ -103,7 +124,7 @@ class Item extends CI_Controller {
 								
 								$QueryStringInsertproduct = $this->mdldata->buildQueryString();
 								//call_debug($QueryStringInsertproduct,false);
-								
+								//===================================================
 								$params = array(
 									'table'  => array('name' => 'mboos_product_price'),
 									'fields' => array(
@@ -118,14 +139,55 @@ class Item extends CI_Controller {
 								$this->mdldata->insert($params);
 								
 								$QueryStringInsertprice = $this->mdldata->buildQueryString();
+								//===================================================
+								$params = array(
+									'table'  => array('name' => 'mboos_order_details'),
+									'fields' => array(
+											'mboos_order_detail_quantity'	=> 0,
+											'mboos_product_id'				=> '+@last_id_in_table1+'
+												));
+								$get_the_last_id1 = "SET @last_id_in_table1 = LAST_INSERT_ID()";
+								
+								$this->mdldata->reset();
+								$this->mdldata->SQLText(true);
+								$this->mdldata->insert($params);
+								
+								$QueryStringInsertDetails = $this->mdldata->buildQueryString();
+								//===================================================
+								$params = array(
+									'table'  => array('name' => 'mboos_instocks'),
+									'fields' => array(
+											'mboos_inStocks_quantity'	=> 0,
+											'mboos_product_id'			=> '+@last_id_in_table1+'
+												));
+								$get_the_last_id2 = "SET @last_id_in_table1 = LAST_INSERT_ID()";
+								
+								$this->mdldata->reset();
+								$this->mdldata->SQLText(true);
+								$this->mdldata->insert($params);
+								
+								$QueryStringInsertStock = $this->mdldata->buildQueryString();
+								//===================================================
+								
 								$string = $QueryStringInsertprice;
+								$string1 = $QueryStringInsertDetails;
+								$string2 = $QueryStringInsertStock;
+								
 								$pattern =  "/(\'\+|\+\')+/";
 								$replacement = '';
+								
 								$cleanInsertQueryString =  preg_replace($pattern, $replacement, $string);
+								$cleanInsertQueryString1 =  preg_replace($pattern, $replacement, $string1);
+								$cleanInsertQueryString2 =  preg_replace($pattern, $replacement, $string2);
+								
 								$params['transact'] = array(
 														$QueryStringInsertproduct,
 														$get_the_last_id,
-														$cleanInsertQueryString
+														$get_the_last_id1,
+														$get_the_last_id2,
+														$cleanInsertQueryString,
+														$cleanInsertQueryString1,
+														$cleanInsertQueryString2
 													);
 								//call_debug($params);
 								$this->mdldata->reset();
@@ -148,24 +210,24 @@ class Item extends CI_Controller {
 	public function edit_item(){
 		
 		$edit_item_id = $this->uri->segment(4);
-
-$params['table'] = array(
-					'name' => 'mboos_product_category'
-					);
-					
-					$this->mdldata->select($params);
-					$data['all_category'] = $this->mdldata->_mRecords;
-					
-					$params['querystring'] = 'SELECT * FROM mboos_products
-LEFT JOIN mboos_product_category ON mboos_products.mboos_product_id = mboos_product_category.mboos_product_category_id
-LEFT JOIN mboos_product_price ON mboos_product_price.mboos_product_id = mboos_products.mboos_product_id
-LEFT JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mboos_product_id WHERE mboos_products.mboos_product_id="'. $edit_item_id .'"';
+		//call_debug($edit_item_id);
+		$params['table'] = array(
+							'name' => 'mboos_product_category'
+							);
+							
+							$this->mdldata->select($params);
+							$data['all_category'] = $this->mdldata->_mRecords;
+							
+							$params['querystring'] = 'SELECT * FROM mboos_products
+		LEFT JOIN mboos_product_category ON mboos_products.mboos_product_category_id = mboos_product_category.mboos_product_category_id
+		LEFT JOIN mboos_product_price ON mboos_product_price.mboos_product_id = mboos_products.mboos_product_id
+		LEFT JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mboos_product_id WHERE mboos_products.mboos_product_id="'. $edit_item_id .'"';
 
 //call_debug($params);
 		$this->mdldata->reset();
 		$this->mdldata->select($params);
 		$data['edit_items'] = $this->mdldata->_mRecords;
-		call_debug($data);
+		//call_debug($data);
 		$data['main_content'] = 'admin/item_view/edit_item_view';  
 		$this->load->view('includes/template', $data);	
 		
@@ -173,8 +235,8 @@ LEFT JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mbo
 	
 	public function edit_item_validate(){
 		
-		$edit_item_id = $this->uri->segment(4);
-		
+		$edit_item_id = $this->input->post('item_id');
+		//call_debug($edit_item_id);
 		$this->load->library('form_validation'); // loads form_validation from library
 		$validation = $this->form_validation;	// initializes form_validation
 		
@@ -184,7 +246,10 @@ LEFT JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mbo
 			if($this->form_validation->run() == FALSE) {
 				
 				
-				$params['querystring'] = 'SELECT mboos_products.mboos_product_id, mboos_products.mboos_product_name, mboos_products.mboos_product_desc, mboos_products.mboos_product_supplier, mboos_products.mboos_product_image, mboos_products.mboos_product_availability, mboos_products.mboos_product_status, mboos_products.mboos_product_category_id FROM mboos_products WHERE mboos_products.mboos_product_status="1" AND mboos_products.mboos_product_id="' . $edit_item_id . '"';
+				$params['querystring'] = 'SELECT * FROM mboos_products
+											LEFT JOIN mboos_product_category ON mboos_products.mboos_product_category_id = mboos_product_category.mboos_product_category_id
+											LEFT JOIN mboos_product_price ON mboos_product_price.mboos_product_id = mboos_products.mboos_product_id
+											LEFT JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mboos_product_id WHERE mboos_products.mboos_product_id="'. $edit_item_id .'"';
 				$this->mdldata->select($params);
 					
 				$data['edit_items'] = $this->mdldata->_mRecords;
@@ -207,16 +272,16 @@ LEFT JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mbo
 							echo "Error: " . $_FILES["item_image"]["error"] . "<br>";
 							}else{
 								move_uploaded_file($_FILES['item_image']['tmp_name'], $target);
+								
 								$params = array(
 							  		'table' => array('name' => 'mboos_products', 'criteria_phrase' => 'mboos_product_id= "' . $this->input->post('item_id') . '"'),
 							        'fields' => array(						                                     
 											'mboos_product_name' 		=> $this->input->post('item_name'),
 											'mboos_product_desc' 		=> $this->input->post('item_desc'),
-											'mboos_product_supplier' 	=> $this->input->post('item_supplier'),
-											'mboos_product_availability'=> $this->input->post('item_availability'),
-											'mboos_product_category_id' => $this->input->post('product_category'),
-											'mboos_product_image' 		=> $image));		
-					
+											'mboos_product_supplier' 	=> $this->input->post('item_supplier'),	
+											'mboos_product_image' 		=> $image,		
+											'mboos_product_category_id' => $this->input->post('product_category')));		
+					//call_debug($params);
 								$this->mdldata->reset();
 								$this->mdldata->update($params);
 												

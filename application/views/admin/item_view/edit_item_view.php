@@ -3,20 +3,20 @@
 <?php echo form_open_multipart('admin/item/edit_item_validate');?>
 <?php foreach ($edit_items as $rec):?>
 
-<input type="hidden" name="item_id" value="<?php echo $rec->mboos_product_id;?>"/>
-<input type="hidden" name="item_image" value="<?php echo $rec->mboos_product_image;?>"/>
+<?php $edit_item_id = $this->uri->segment(4); ?>
+<input type="hidden" name="item_id" value="<?php echo $edit_item_id;?>"/>
 
 <p><label>Item name: <input type="text" name="item_name" value="<?php echo $rec->mboos_product_name;?>" /></label></p>
 <p><label>Item Description</label><textarea name="item_desc" ><?php echo $rec->mboos_product_desc;?></textarea></p>
 <p><label>Item supplier: <input type="text" name="item_supplier" value="<?php echo $rec->mboos_product_supplier;?>" /></label></p>
 <p><label>Item Category</label><select name='product_category'>    
 									<?php foreach ($edit_items as $row):?>
-									<option selected="selected" value="<?php echo $row->mboos_product_category_id;?>"><?php echo $row->mboos_product_category_name;?></option>
+									<option selected="selected" value="<?php echo $row->mboos_product_category_id;?>">--<?php echo $row->mboos_product_category_name;?>--</option>
 									
 									<?php endforeach;?>
-                                    <?php foreach ($all_category as $cat):?>
-									<option selected="selected" value="<?php echo $cat->mboos_product_category_id;?>"><?php echo $cat->mboos_product_category_name;?></option>
 									
+                                    <?php foreach ($all_category as $cat):?>
+									<option value="<?php echo $cat->mboos_product_category_id;?>"><?php echo $cat->mboos_product_category_name;?></option>							
 									<?php endforeach;?>
                                     
 								</select>

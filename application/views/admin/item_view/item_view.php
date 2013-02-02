@@ -11,6 +11,8 @@
 		<th>Item Description</th>
 		<th>Item Supplier</th>		
 		<th>Item Category</th>
+		<th>Item Price</th>
+		<th>Item Availability</th>
 		<th>Action</th>
 	</tr>
 	<?php foreach ($products as $list):?>
@@ -21,7 +23,13 @@
 		<td><?php echo $list->mboos_product_desc;?></td>
 		<td><?php echo $list->mboos_product_supplier;?></td>
 		<td><?php echo $list->mboos_product_category_name;?></td>
-		<td><a href = "<?php echo base_url() . 'admin/item/edit_item/' . $list->mboos_product_id; ?> "> Edit </a><a href = "<?php echo base_url() . 'admin/item/delete_item/' . $list->mboos_product_id; ?> "> Delete </a> </td>
+		<td><?php echo $list->mboos_product_price;?></td>
+		<td><?php
+		
+				echo $list->mboos_inStocks_quantity; 
+			?>
+		</td>
+		<td><a href = "<?php echo base_url() . 'admin/stocks/add_stock/' . $list->mboos_product_id; ?> "> Edit Stock |</a><a href = "<?php echo base_url() . 'admin/item/edit_item/' . $list->mboos_product_id; ?> "> Edit |</a><a href = "<?php echo base_url() . 'admin/item/delete_item/' . $list->mboos_product_id; ?> "> Delete </a> </td>
 	
 	</tr><?php endforeach;?>
 	<tr>
