@@ -1,3 +1,3 @@
 
-	<p>The Category has been successfully added!</p>
+	<p>The Category has been successfully Updated!</p>
     <a href="<?php echo base_url();?>admin/item"><br />Back</a>
