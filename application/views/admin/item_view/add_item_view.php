@@ -10,10 +10,8 @@
 									<option value="<?php echo $row->mboos_product_category_id;?>"><?php echo $row->mboos_product_category_name;?></option>
 									<?php endforeach;?>
 								</select>
-<p><label>Item Availability</label><input name="item_availability" type="text" value="" /></p>
 <p><label>Item Price</label><input name="item_price" type="text" value="" /></p>
-<input name="price_date" type="text" value="" /></p>
-<input name="product_id" type="text" value="" /></p>
+<input name="price_date" type="hidden" value="<?php echo date("Y-m-d"); ?>" /></p>
 <p><label>Item Image: <input type="file" name="item_image" size="12" /> </label></p>
 <p><input name="submit" type="submit" value="Save Item" /></p>
 </form>

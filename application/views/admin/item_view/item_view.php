@@ -5,22 +5,21 @@
 <table>
 <thead>
 	<tr>
+    	<th>Item ID</th>
 		<th>Image</th>
 		<th>Item Name</th>
 		<th>Item Description</th>
-		<th>Item Supplier</th>
-		<th>Item Availability</th>
+		<th>Item Supplier</th>		
 		<th>Item Category</th>
 		<th>Action</th>
 	</tr>
 	<?php foreach ($products as $list):?>
 	<tr>
-		
+		<td><?php echo $list->mboos_product_id;?></td>
 		<td><img src="<?php echo site_url() . 'uploads/item_images/' . $list->mboos_product_image; ?>" width="50" height="50" /></td>
 		<td><?php echo $list->mboos_product_name;?></td>
 		<td><?php echo $list->mboos_product_desc;?></td>
 		<td><?php echo $list->mboos_product_supplier;?></td>
-		<td><?php echo $list->mboos_product_availability;?></td>
 		<td><?php echo $list->mboos_product_category_name;?></td>
 		<td><a href = "<?php echo base_url() . 'admin/item/edit_item/' . $list->mboos_product_id; ?> "> Edit </a><a href = "<?php echo base_url() . 'admin/item/delete_item/' . $list->mboos_product_id; ?> "> Delete </a> </td>
 	
