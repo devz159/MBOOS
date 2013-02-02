@@ -1,4 +1,3 @@
-/* Script for Registration Page*/
 $('#domainPage').live("pageshow", function(event){
 	
 	$('.saveDomainBtn').click(function() {
@@ -112,6 +111,18 @@ $('#loginPage').live("pageshow", function(event){
 	});
 	
 });
+
+/* Script for Home Page Page*/
+$('#forgotPasswordPage').live("pageshow", function(event){
+	
+	$('.ChangePassword').click(function() {
+		
+		
+	})
+	
+	
+});
+
 
 /* Script for Home Page Page*/
 $('#homePage').live("pageshow", function(event){
@@ -640,7 +651,7 @@ var item_lists = [];
 
 	for (var i=0; i<len; i++){
 		
-		order = ["||'item_id' => '" + results.rows.item(i).item_id + "'", "'name' => '"+ results.rows.item(i).item_name  +"'", "'price' => '"+ results.rows.item(i).item_price +"'", "'qty' => '" + results.rows.item(i).item_qty + "'"]
+		order = ["||'item_id'=> '" + results.rows.item(i).item_id + "'", "'name' => '"+ results.rows.item(i).item_name  +"'", "'price' => '"+ results.rows.item(i).item_price +"'", "'qty' => '" + results.rows.item(i).item_qty + "'"]
 		
 		item_lists.push(order);			
 	
@@ -911,3 +922,5 @@ function update_table(id, qty, ttl_price) {
 	
 	}, dbErrorHandler);
 }
+
+
