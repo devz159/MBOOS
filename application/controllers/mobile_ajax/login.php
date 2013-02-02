@@ -49,9 +49,12 @@ class Login extends CI_Controller {
 		
 		if($this->mdldata->_mRowCount == 1) {
 			
+				echo "1";
+			
 			
 		} else {
 			
+			    echo "0";
 		}
 		
 

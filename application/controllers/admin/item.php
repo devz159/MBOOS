@@ -125,7 +125,8 @@ $params['table'] = array(
 					
 					$this->mdldata->select($params);
 					$data['all_category'] = $this->mdldata->_mRecords;
-$params['querystring'] = 'SELECT * FROM mboos_products
+					
+					$params['querystring'] = 'SELECT * FROM mboos_products
 LEFT JOIN mboos_product_category ON mboos_products.mboos_product_id = mboos_product_category.mboos_product_category_id
 LEFT JOIN mboos_product_price ON mboos_product_price.mboos_product_id = mboos_products.mboos_product_id
 LEFT JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mboos_product_id WHERE mboos_products.mboos_product_id="'. $edit_item_id .'"';
@@ -142,6 +143,8 @@ LEFT JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mbo
 	
 	public function edit_item_validate(){
 		
+		$edit_item_id = $this->uri->segment(4);
+		
 		$this->load->library('form_validation'); // loads form_validation from library
 		$validation = $this->form_validation;	// initializes form_validation
 		
@@ -150,7 +153,6 @@ LEFT JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mbo
 		
 			if($this->form_validation->run() == FALSE) {
 				
-				$edit_item_id = $this->uri->segment(4);
 				
 				$params['querystring'] = 'SELECT mboos_products.mboos_product_id, mboos_products.mboos_product_name, mboos_products.mboos_product_desc, mboos_products.mboos_product_supplier, mboos_products.mboos_product_image, mboos_products.mboos_product_availability, mboos_products.mboos_product_status, mboos_products.mboos_product_category_id FROM mboos_products WHERE mboos_products.mboos_product_status="1" AND mboos_products.mboos_product_id="' . $edit_item_id . '"';
 				$this->mdldata->select($params);
