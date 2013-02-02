@@ -22,7 +22,7 @@ class Login extends CI_Controller {
 	public function _isExists() {
 	
 		$email = mysql_real_escape_string($this->input->post('email'));
-		$pword = mysql_real_escape_string(md5($this->input->post('pword')));
+		$pword = md5($this->input->post('pword'));
 	
 		$string = "mboos_customer_email='" . $email . "' and mboos_customer_pword='". $pword . "' and mboos_customer_status='1'";
 	
@@ -37,8 +37,24 @@ class Login extends CI_Controller {
 		return TRUE;
 	}
 	
+
+	
 	public function forgot_password() {
 		
+		$email = mysql_real_escape_string($this->input->post('email'));
+		
+		$params['table'] = array('name' => 'mboos_customers', 'criteria_phrase' => 'mboos_customer_email="'. $email . '"');
+		
+		$$this->mdldata->select($params);
+		
+		if($this->mdldata->_mRowCount == 1) {
+			
+			
+		} else {
+			
+		}
+		
+
 	}
 	
 }
