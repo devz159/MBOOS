@@ -25,7 +25,7 @@ class Login extends CI_Controller {
 		$pword = md5($this->input->post('pword'));
 	
 		$string = "mboos_customer_email='" . $email . "' and mboos_customer_pword='". $pword . "' and mboos_customer_status='1'";
-	
+		
 		$params['table'] = array('name' => 'mboos_customers', 'criteria_phrase' => $string );
 	
 		$this->mdldata->select($params);
@@ -67,7 +67,7 @@ class Login extends CI_Controller {
 		
 		$data['email'] = $receiver;
 		
-		$this->_setSession(); // set session for pass_track
+		
 		$session_id = $this->session->userdata('session_id'); //initialize session userdata
 		$params = array( // process to send email
 				'sender' => 'mboosCOM@gmail.com',
@@ -91,61 +91,16 @@ class Login extends CI_Controller {
 		}
 		
 	}
-	
-	private function _setSession() { //set session pass_track
-	
-		$params = array('pass_track' => 1); // set pass_track value to 1
-	
-		$this->sessionbrowser->setInfo($params); //send value of pass_track to 1 into sessionbrowser
-		return TRUE;
-	}
+
 	
 	public function set_new_password() { // function to reset password
-	
-		if($this->_checkSession()){ // check if session pass_track from dabase is = 1
-				
-			$this->_updateSession(); // update session pass_track from dabase to 0
-			$this->_setSession_reset_pass_track(); // set session for reset_pass_track value to 1
-	
+					
 			$data['main_content'] = 'mobile/forgot_new_password_view/forgot_new_password_view'; //load this page
-			$this->load->view('includes/template', $data); // load template
-	
-		}else{
-			
-			
-			$data['main_content'] = 'mobile/session_expired_view/session_expired_view'; // load this page
 			$this->load->view('mobile_template/includes/template', $data); // load template
-		}
+	
 	}
 	
-	private function _checkSession(){ //check session pass track
-		$params = array('pass_track');
-		$this->sessionbrowser->getInfo($params); // returns TRUE if successful, otherwise
 	
-		$arr = $this->sessionbrowser->mData; // returns array
-	
-		if($arr['pass_track'] == 1) //returns true if pass_track value is 1
-			return TRUE;
-	
-		return FALSE;
-
-	}
-	
-	private function _updateSession() {	//set session update pass_track
-	
-		$params = array('pass_track' => 0); // set pass_track value to 0
-	
-		$this->sessionbrowser->setInfo($params); //send value of pass_track to 0 into session browser
-		return TRUE;
-	}
-	
-	private function _setSession_reset_pass_track() { // set session reset_pass_track
-	
-		$params = array('reset_pass_track' => 1); //set reset_pass_track value to 1
-	
-		$this->sessionbrowser->setInfo($params);
-		return TRUE;
-	}
 	
 	public function reset_password_validate() { // validate reset password
 	
@@ -165,10 +120,7 @@ class Login extends CI_Controller {
 		} else {
 	
 			$email = $this->input->post('email'); //initialize post 'email' from reset_password_view
-			
-			if($this->_checkSession_reset_pass_track()){  //check session reset_pass_track
-					
-				$this->_updateSession_reset_pass_track(); //update reset_pass_track value to 0
+
 				$params = array(
 						'table' => array('name' => 'mboos_customers','criteria_phrase' => 'mboos_customer_email="' .  strdecode($email) . '"'),
 						'fields' => array('mboos_customer_pword' => md5($this->input->post('new_password'))));
@@ -178,37 +130,11 @@ class Login extends CI_Controller {
 	
 				$data['main_content'] = 'mobile/successfully_change_pword_view/successfully_change_pword_view';
 				$this->load->view('mobile_template/includes/template', $data);
-	
-			} else {
-	
-				$data['main_content'] = 'admin/forgot_password_view/session_expired_view'; //load this page
-				$this->load->view('mobile_template/includes/template', $data); //load template
-	
-			}
+				
 		}
 	
 	}
-	
-	private function _checkSession_reset_pass_track(){ //check session reset_pass_track
-		$params = array('reset_pass_track');
-		$this->sessionbrowser->getInfo($params); // returns TRUE if successful, otherwise
-	
-		$arr = $this->sessionbrowser->mData; // returns array
-	
-		if($arr['reset_pass_track'] == 1) //returns true if reset_pass_track = 1
-			return TRUE;
-	
-		return FALSE;
-		//call_debug($arr);
-	}
-	
-	private function _updateSession_reset_pass_track() { //update session reset_pass_track
-	
-		$params = array('reset_pass_track' => 0); //set reset_pass_track value to 0
-	
-		$this->sessionbrowser->setInfo($params); //send value to sessionbrowser
-		return TRUE;
-	}
+
 	
 }
 
