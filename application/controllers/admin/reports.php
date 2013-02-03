@@ -9,11 +9,6 @@ class Reports extends CI_Controller {
 	
 	public function index(){  
 	
-		//$params['querystring'] = 'SELECT mboos_orders.mboos_order_id, mboos_orders.mboos_order_year FROM mboos_orders WHERE mboos_orders.mboos_order_status="1" ORDER BY mboos_order_year';
-		//$this->mdldata->select($params);
-			
-		//$data['orders'] = $this->mdldata->_mRecords;
-		
 		$data['main_content'] = 'admin/report_view/report_view';  
 		$this->load->view('includes/template', $data);	
 	}

@@ -1,5 +1,5 @@
 <p>Add Items</p>
-
+<?php  echo validation_errors();  ?>
 <?php echo form_open_multipart('admin/item/add_item_validate');?>
 
 <p><label>Item Name</label><input name="item_name" type="text" value="" /></p>

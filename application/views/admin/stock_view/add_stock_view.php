@@ -1,5 +1,5 @@
 <p>Edit Stocks</p>
-
+<?php  echo validation_errors();  ?>
 <form action="<?php echo base_url(); ?>admin/stocks/add_stock_validate" method="POST">
 
 	<?php $product_id = $this->uri->segment(4); ?>

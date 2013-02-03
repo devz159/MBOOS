@@ -91,17 +91,7 @@ class Product_category extends CI_Controller {
 				$this->load->view('includes/template', $data);
 				
 			} else {
-				
-					
-								$params = array(
-										'table' => array('name' => 'mboos_product_category', 'criteria_phrase' => 'mboos_product_category_id= "' . $this->input->post('product_category_id') . '"'),
-										'fields' => array('mboos_product_category_name' => $this->input->post('product_category_name')));
-					
-								$this->mdldata->reset();
-								$this->mdldata->update($params);
-												
-								$data['main_content'] = 'admin/product_category_view/edit_product_category_success';
-								$this->load->view('includes/template', $data);
+					$this->edit_product_category();
 					}
 	}
 	public function delete_product_category_validate(){

@@ -26,18 +26,29 @@ class Stocks extends CI_Controller {
 	
 	public function add_stock_validate(){
 		
-		$params = array(
-						'table' => array('name' => 'mboos_instocks', 'criteria_phrase' => 'mboos_product_id= "' . $this->input->post('item_id') . '"'),
-						'fields' => array(						                                     
-										'mboos_inStocks_quantity' => $this->input->post('quantity_number'),
-										'mboos_inStocks_date' => $this->input->post('stock_date'),
-										'mboos_product_id' => $this->input->post('item_id'),
-										));		
-					//call_debug($params);
-		$this->mdldata->reset();
-		$this->mdldata->update($params);
-												
-		$data['main_content'] = 'admin/stock_view/add_stock_view_success';
-		$this->load->view('includes/template', $data);
+		$this->load->library('form_validation'); 
+		$validation = $this->form_validation;	
+		
+		$validation->set_rules('quantity_number', 'Stock quantity', 'required');
+		
+		if($this->form_validation->run() == FALSE) {
+				
+				$this->add_stock();
+					
+			} else {
+				$params = array(
+								'table' => array('name' => 'mboos_instocks', 'criteria_phrase' => 'mboos_product_id= "' . $this->input->post('item_id') . '"'),
+								'fields' => array(						                                     
+												'mboos_inStocks_quantity' => $this->input->post('quantity_number'),
+												'mboos_inStocks_date' => $this->input->post('stock_date'),
+												'mboos_product_id' => $this->input->post('item_id'),
+												));		
+							//call_debug($params);
+				$this->mdldata->reset();
+				$this->mdldata->update($params);
+														
+				$data['main_content'] = 'admin/stock_view/add_stock_view_success';
+				$this->load->view('includes/template', $data);
+		}
 	}
 }

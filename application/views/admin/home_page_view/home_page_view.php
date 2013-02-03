@@ -9,8 +9,7 @@ Welcome Admin, you are logged-in as,
 			echo '<br />User Level: Ordinary user';
 				}?>
 <a href="<?php echo base_url();?>admin/item"><br />View Items</a>
-<a href="<?php echo base_url();?>admin/product_category"><br />View Categories</a>    
-<a href="<?php echo base_url();?>admin/paypal"><br />Paypal Test</a>    
+<a href="<?php echo base_url();?>admin/product_category"><br />View Categories</a>     
 <a href="<?php echo base_url();?>admin/reports"><br />View Reports</a>          
 <a href="<?php echo base_url();?>admin/profile_mboos/edit_profile/<?php echo $sessVar['sadmin_uid'] ?>"><br />Edit Profile</a>
 <a href = "<?php echo base_url();?>admin/login/logout"><br />Sign Out</a>
