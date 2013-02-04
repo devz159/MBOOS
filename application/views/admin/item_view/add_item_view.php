@@ -12,7 +12,7 @@
 								</select>
 <p><label>Item Price</label><input name="item_price" type="text" value="" /></p>
 <input name="price_date" type="hidden" value="<?php echo date("Y-m-d"); ?>" /></p>
-<p><label>Item Image: <input type="file"name="asd" name="userfile" value="" size="12" /> </label></p>
+<p><label>Item Image: <input type="file" name="item_image" value="" size="12" /> </label></p>
 <p><input name="submit" type="submit" value="Save Item" /></p>
 </form>
 
