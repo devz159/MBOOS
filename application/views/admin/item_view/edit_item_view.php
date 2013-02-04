@@ -28,7 +28,6 @@
 <p>
 <a href="<?php echo base_url();?>admin/item/upload_image/<?php echo $rec->mboos_product_name;?>"><br />Change item image</a>
 </p>
-<p><input type="submit" value="submit"></p>
 
 <table>
 	<tr>
@@ -50,6 +49,8 @@
         </td>
     </tr><?php endforeach;?>
 </table>
+
+<p><input type="submit" value="submit"></p>
 
 <?php endforeach;?>
 </form>
