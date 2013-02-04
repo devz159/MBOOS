@@ -15,12 +15,14 @@ class Upload extends CI_Controller {
 
 	function do_upload()
 	{
+		$image = $this->input->post('userfile');
+		call_debug($image);
 		$config['upload_path'] = './uploads/product_images/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['max_size']	= '1000';
 		$config['max_width']  = '3024';
 		$config['max_height']  = '1768';
-		$config['file_name']  = 'product_name'; /* ang name ky dapat gikan sa form nga product name*/
+		$config['file_name']; // = 'product_name'; /* ang name ky dapat gikan sa form nga product name*/
 		
 
 		$this->load->library('upload', $config);
@@ -34,7 +36,7 @@ class Upload extends CI_Controller {
 		else
 		{
 			$data = array('upload_data' => $this->upload->data());
-
+		
 			$this->load->view('upload_success', $data);
 		}
 	}

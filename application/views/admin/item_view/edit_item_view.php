@@ -25,7 +25,9 @@
 <?php endforeach;?>
 <p><label>Item Image:</p>
 <p><img src="<?php echo site_url() . 'uploads/item_images/' . $rec->mboos_product_image; ?>" width="50" height="50" /></p>
-<p><input type="file" name="item_image" value="<?php echo $rec->mboos_product_image;?>" size="12" /> </label></p>
+<p>
+<a href="<?php echo base_url();?>admin/item/upload_image/<?php echo $rec->mboos_product_name;?>"><br />Change item image</a>
+</p>
 <p><input type="submit" value="submit"></p>
 
 <table>

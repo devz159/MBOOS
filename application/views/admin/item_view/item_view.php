@@ -18,7 +18,7 @@
 	<?php foreach ($products as $list):?>
 	<tr>
 		<td><?php echo $list->mboos_product_id;?></td>
-		<td><img src="<?php echo site_url() . 'uploads/item_images/' . $list->mboos_product_image; ?>" width="50" height="50" /></td>
+		<td><img src="<?php echo site_url() . 'uploads/product_images/' . $list->mboos_product_image; ?>" width="50" height="50" /></td>
 		<td><?php echo $list->mboos_product_name;?></td>
 		<td><?php echo $list->mboos_product_desc;?></td>
 		<td><?php echo $list->mboos_product_supplier;?></td>
