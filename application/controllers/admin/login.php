@@ -17,7 +17,7 @@ class Login extends CI_Controller {
 	public function index(){   //the login_view
 		
 		$data['main_content'] = 'admin/login_view/login_view';  //loads the login view
-		$this->load->view('includes/template', $data);	//inserts the default templates for the html
+		$this->load->view('log_in_template/includes/template', $data);	//inserts the default templates for the html
 	}
 	
 	
@@ -27,9 +27,8 @@ class Login extends CI_Controller {
 		$this->form_validation->set_rules('login_password', 'Password', 'required');    //set rules for password
 	
 		if($this->form_validation->run() == FALSE){     //if form in fields are incomplete, returns you to login_view
-	
-			$this->form_validation->set_message('is_email_exist', 'The %s does not exist in the database');
-			$this->index();    //the login_view
+			$data['main_content'] = 'admin/login_view/login_view';  //loads the login view
+			$this->load->view('log_in_template/includes/template', $data);	//inserts the default templates for the html
 	
 		} else {
 			
@@ -107,7 +106,7 @@ class Login extends CI_Controller {
 	public function forgot_password() { //function to redirect to enter_email_view
 
 		$data['main_content'] = 'admin/forgot_password_view/enter_email_view'; //redirect to this url: admin/forgot_password_view/enter_email_view
-		$this->load->view('includes/template', $data); // loads template for html
+		$this->load->view('log_in_template/includes/template', $data);	// loads template for html
 	}
 
 	public function forgotpass_email_validate() { 	//request for email address

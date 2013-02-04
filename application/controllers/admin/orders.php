@@ -2,12 +2,23 @@
 
 class Orders extends CI_Controller {
 
+	
+	private $_arr;
+	
 	public function __construct() {
 		parent::__construct();
 	
+		$params = array('sadmin_uname', 'sadmin_islogin', 'sadmin_ulvl', 'sadmin_uid');
+		$this->sessionbrowser->getInfo($params);
+		$this->_arr = $this->sessionbrowser->mData;
+		
 	}
 	
 	public function index(){  
+		
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
 		
 		$data['main_content'] = 'admin/order_view/order_view';
 		$this->load->view('includes/template', $data);
@@ -27,6 +38,11 @@ class Orders extends CI_Controller {
 	}
 	
 	public function manage_order(){
+		
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
+		
 	
 		$data['orders'] = $this->_QueryOrderRecord();	
 		
@@ -69,6 +85,10 @@ class Orders extends CI_Controller {
 	}
 	
 	public function completed_order(){
+		
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
 		
 		$params['querystring'] = 'SELECT * FROM mboos_orders 
 								WHERE mboos_orders.mboos_order_status="3"'; 

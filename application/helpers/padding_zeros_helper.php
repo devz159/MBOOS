@@ -8,7 +8,7 @@
 	
  	function formatedpadding($params){
  		
- 		$result = str_pad($params, 8, "0", STR_PAD_LEFT);
+ 		$result = str_pad($params, 5, "0", STR_PAD_LEFT);
  		
  		return $result;
 	}
