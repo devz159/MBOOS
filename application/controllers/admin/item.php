@@ -4,7 +4,7 @@ class Item extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-	
+		$this->load->helper(array('form'));
 	}
 	
 	public function index(){  
@@ -61,19 +61,20 @@ class Item extends CI_Controller {
 	}
 	
 	public function add_item(){
-
+	
 		$params['querystring'] = 'SELECT mboos_product_category.mboos_product_category_id, mboos_product_category.mboos_product_category_name, mboos_product_category.mboos_product_category_status FROM mboos_product_category WHERE mboos_product_category.mboos_product_category_status="1"';	
 		
 		$this->mdldata->select($params);
 		$data['category'] = $this->mdldata->_mRecords;	
-
+		
 		$data['main_content'] = 'admin/item_view/add_item_view';
 		$this->load->view('includes/template', $data);
 		
 	}
 	
 	public function add_item_validate(){
-		
+	
+		//call_debug($this->input->post('userfile'));
 		$this->load->library('form_validation'); // loads form_validation from library
 		$validation = $this->form_validation;	// initializes form_validation
 		
@@ -87,7 +88,7 @@ class Item extends CI_Controller {
 					
 			} else {
 					
-		 			$target = "uploads/item_images/";
+					$target = "uploads/product_images/";
 					$target = $target . basename( $_FILES['item_image']['name']);
 					$image = basename( $_FILES['item_image']['name']);
 					//call_debug($image);
@@ -108,8 +109,7 @@ class Item extends CI_Controller {
 											'mboos_product_supplier' 	=> $this->input->post('item_supplier'),
 											'mboos_product_category_id' => $this->input->post('product_category'),
 											'mboos_product_image' => $image));
-											//'mboos_product_image' 		=> $image));								
-										
+						
 								$this->mdldata->reset();
 								$this->mdldata->SQLText(true);
 								$this->mdldata->insert($params);
@@ -163,23 +163,57 @@ class Item extends CI_Controller {
 														$cleanInsertQueryString,
 														$cleanInsertQueryString2
 													);
-								//call_debug($params);
+								call_debug($params);
 								$this->mdldata->reset();
 								$this->mdldata->executeTransact($params);
 								//call_debug($QueryStringInsertprice);
-								
-								
+																
 								$data['main_content'] = 'admin/item_view/item_success_view';
-								$this->load->view('includes/template', $data);
+								$this->load->view('includes/template', $data);	
 							}
 					}else{
-
-						$this->add_item();
-						
+						$data['main_content'] = 'admin/item_view/add_item_view';
+						$this->load->view('includes/template', $data);
 					}
 			}
 	}
 	
+	public function upload_image(){
+			
+			$image_name = $this->uri->segment(4);
+			//call_debug($image_name);
+			$data['main_content'] = 'admin/item_view/upload_image_view';
+			$this->load->view('includes/template', $data);
+			
+	}
+	
+	public function upload_image_validate(){
+					
+					$image_name = $this->input->post('item_name');
+					$config['upload_path'] = './uploads/product_images/';
+					$config['allowed_types'] = 'gif|jpg|png';
+					$config['max_size']	= '1000';
+					$config['max_width']  = '3024';
+					$config['max_height']  = '1768';
+					$config['file_name']  = $image_name; 
+					//call_debug($image_name);
+					
+					$this->load->library('upload', $config);
+					
+					if ( ! $this->upload->do_upload())
+					{
+						//$error = array('error' => $this->upload->display_errors());
+						//$this->add_item();
+						echo "upload failed";
+					}
+					else
+					{			
+						$data = array('upload_data' => $this->upload->data());
+								
+						$this->index();
+								
+					}
+	}
 	public function edit_item(){
 		
 		$edit_item_id = $this->uri->segment(4);

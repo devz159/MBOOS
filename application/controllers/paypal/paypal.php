@@ -138,6 +138,8 @@ class Paypal extends CI_Controller {
 		}
 		
 		$this->_readyToInsertQueryString = $newArray;
+		
+		call_debug($this->_readyToInsertQueryString);
 		$params['transact'] = $this->_readyToInsertQueryString;
 		
 		$this->mdldata->reset();
