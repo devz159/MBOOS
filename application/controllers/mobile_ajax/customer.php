@@ -79,4 +79,17 @@ class Customer extends CI_Controller {
 		}
 
 	}
+	
+	public function order_summary_details() {
+		
+		$order_id = $this->input->get('order_id');
+		
+		$params['querystring'] = "SELECT mboos_orders.mboos_order_id,mboos_orders.mboos_order_date, mboos_orders.mboos_orders_total_price, mboos_orders.mboos_order_pick_schedule, mboos_order_details.mboos_order_detail_quantity, mboos_order_details.mboos_order_detail_price, mboos_products.mboos_product_id, mboos_products.mboos_product_name FROM `mboos_orders` left join mboos_order_details on mboos_orders.mboos_order_id=mboos_order_details.mboos_order_id left join mboos_products on mboos_products.mboos_product_id=mboos_order_details.mboos_product_id where mboos_orders.mboos_order_id='". $order_id . "'";
+		
+		$this->mdldata->select($params);
+		
+		$summary_details = $this->mdldata->_mRecords;
+		
+		echo '{"summary_details":'. json_encode($summary_details) .'}';
+	}
 }

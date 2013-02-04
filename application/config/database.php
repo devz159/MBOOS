@@ -57,11 +57,11 @@ $db['default']['dbdriver'] = 'mysql';
 $db['default']['port'] = 3306; */
 
 
-$db['default']['hostname'] = 'localhost';
+ $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
 $db['default']['database'] = 'mboos_db';
-$db['default']['dbdriver'] = 'mysql'; 
+$db['default']['dbdriver'] = 'mysql';  
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;

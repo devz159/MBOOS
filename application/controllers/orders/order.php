@@ -21,7 +21,7 @@ class Order extends CI_Controller {
 		
 		print '<pre>'. print_r($times, true).'</pre>';
 		
-		echo date('l', get_next_workday());
+		echo date('l', $this->get_next_workday());
 				
 	}
 	
@@ -135,4 +135,89 @@ class Order extends CI_Controller {
 		}
 	}
 	
+	public function date_checker() {
+		
+		$timezone = "Asia/Manila";
+		date_default_timezone_set($timezone);
+		
+		$params['querystring'] = "SELECT mboos_order_pick_schedule FROM mboos_orders ORDER BY mboos_order_date DESC LIMIT 1";
+		
+		$this->mdldata->select($params);
+		
+		$last_pick_scheduled = $this->mdldata->_mRecords;
+		
+		
+		if($this->mdldata->_mRowCount == 0) {
+			
+			$start_date = date("Y-m-d");
+			
+			$start_time = $start_date . " 03:50 AM" ;
+			
+			
+			$timestamp = strtotime(date("Y-m-d h:i A", strtotime($start_time)) . " + 15 minutes");
+			$new_generate_datetime = date('Y-m-d h:i A', $timestamp);
+
+			$currDate = date('Y-m-d');
+				
+			$start_currDate = $currDate . " 8:00:00 AM";
+			$end_currDate = $currDate . " 5:00:00 PM";
+			
+			
+			$format = $start_currDate . " to " . $end_currDate;
+			
+			if($this->check_date_is_within_range($start_currDate, $end_currDate, $new_generate_datetime)){
+				
+				call_debug($new_generate_datetime);
+				
+			} else {
+				
+ 				$new_generate_datetime = date('Y-m-d h:i A' , strtotime('+ 1 day 8:00 AM', strtotime($start_time)));
+				
+ 				call_debug($new_generate_datetime);
+								
+				
+			}
+		
+		} else {
+			
+			$start_time = $last_pick_scheduled[0]->mboos_order_pick_schedule;
+			
+			call_debug($start_time ,false);
+			$splitComplateDate = preg_split('/ /', $start_time);
+			
+			call_debug($splitComplateDate, false);
+			
+			$splitDate = preg_split('/-/', $splitComplateDate[0]);
+			
+			list($year, $month, $day)= $splitDate;
+			
+			$plitTime = preg_split('/:/', $splitComplateDate[1]);
+			
+			
+			list($hr, $min, $sec)= $plitTime;
+			
+			
+			$clearDateTime = date("Y-m-d H:i:s A", mktime($hr, $min, $sec, $month, $day, $year));
+			
+			call_debug($clearDateTime, false);
+			$timestamp = strtotime(date("Y-m-d h:i", strtotime($start_time)) . " + 15 minutes");
+			$new_generate_datetime = date('Y-m-d H:i:s A', $timestamp);
+			
+			call_debug($new_generate_datetime);
+			
+		}
+		
+		
+	}
+	
+	function check_date_is_within_range($start_date, $end_date, $todays_date)
+	{
+	
+		$start_timestamp = strtotime($start_date);
+		$end_timestamp = strtotime($end_date);
+		$today_timestamp = strtotime($todays_date);
+	
+		return (($today_timestamp >= $start_timestamp) && ($today_timestamp <= $end_timestamp));
+	
+	}
 }

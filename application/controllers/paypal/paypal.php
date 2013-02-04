@@ -35,6 +35,10 @@ class Paypal extends CI_Controller {
 	
 	public function paypal_validate($order) {
 		
+		$timezone = "Asia/Manila";
+		
+		date_default_timezone_set($timezone);
+		
 		$pattern = '/,\|/';
 		$replacement = '|';
 		
@@ -78,16 +82,21 @@ class Paypal extends CI_Controller {
 		
 		$data['order'] = $this->_mItemList;
 		
+		$currDate = date('Y-m-d h:i:s A');
+		
+		$generated_date = $this->process_date();
+		
 		
 		$params['fields'] = array(
-				'mboos_order_date' => '2013-01-31 00:00:00' ,
-				'mboos_order_pick_schedule' => '2013-01-31 01:30:00',
+				'mboos_order_date' => $currDate ,
+				'mboos_order_pick_schedule' => $generated_date, 
 				'mboos_orders_total_price' => $this->_subtotal,
 				'mboos_customer_id' => $this->_cust_id
 		);
 		
+		
 		$params['table'] = array('name' => 'mboos_orders');
-			
+		
 		$this->mdldata->SQLText(true);
 		$this->mdldata->insert($params);
 			
@@ -129,7 +138,10 @@ class Paypal extends CI_Controller {
 		}
 		
 		$this->_readyToInsertQueryString = $newArray;
-
+		$params['transact'] = $this->_readyToInsertQueryString;
+		
+		$this->mdldata->reset();
+		$this->mdldata->executeTransact($params);
 			
         $data['paypal_email'] = $this->_paypal_email;
 		
@@ -140,13 +152,93 @@ class Paypal extends CI_Controller {
 	
 	public function thankyou() {
 		
-		$params['transact'] = $this->_readyToInsertQueryString;
-		
-		$this->mdldata->reset();
-		$this->mdldata->executeTransact($params);
-		
 		$data['main_content'] = 'paypal_view/paypal_success_view';
 		$this->load->view('mobile_template/includes/template', $data);
+	
+	}
+	
+	private function process_date() {
+	
+		$timezone = "Asia/Manila";
+		
+		date_default_timezone_set($timezone);
+		
+		$params['querystring'] = "SELECT mboos_order_pick_schedule FROM mboos_orders ORDER BY mboos_order_date DESC LIMIT 1";
+		
+		$this->mdldata->select($params);
+		
+		$last_pick_scheduled = $this->mdldata->_mRecords;
+		
+		if($this->mdldata->_mRowCount == 0) {
+			
+			$start_date = date("Y-m-d");
+			
+			$start_time = $start_date . " 08:00:00 AM" ;
+			
+			$timestamp = strtotime(date("Y-m-d h:i", strtotime($start_time)) . " + 15 minutes");
+			$new_generate_datetime = date('Y-m-d h:i:s A', $timestamp);
+
+			$currDate = date('Y-m-d');
+				
+			$start_currDate = $currDate . " 8:00:00 AM";
+			$end_currDate = $currDate . " 5:00:00 PM";
+			
+			
+			$format = $start_currDate . " to " . $end_currDate;
+			
+			if($this->check_date_is_within_range($start_currDate, $end_currDate, $new_generate_datetime)){
+				
+				//call_debug($new_generate_datetime);
+				return $new_generate_datetime;
+				
+			} else {
+				
+ 				$new_generate_datetime = date('Y-m-d h:i A' , strtotime('+ 1 day 8:00 AM', strtotime($start_time)));
+				
+ 				//call_debug($new_generate_datetime);
+ 				return $new_generate_datetime;
+				
+			}
+		
+		} else {
+			
+			$start_time = $last_pick_scheduled[0]->mboos_order_pick_schedule;
+			
+			
+			$splitComplateDate = preg_split('/ /', $start_time);
+			
+			
+			
+			$splitDate = preg_split('/-/', $splitComplateDate[0]);
+			
+			list($year, $month, $day)= $splitDate;
+			
+			$plitTime = preg_split('/:/', $splitComplateDate[1]);
+			
+			
+			list($hr, $min, $sec)= $plitTime;
+			
+			
+			$clearDateTime = date("Y-m-d H:i:s A", mktime($hr, $min, $sec, $month, $day, $year));
+			
+			
+			$timestamp = strtotime(date("Y-m-d h:i", strtotime($start_time)) . " + 15 minutes");
+			$new_generate_datetime = date('Y-m-d H:i:s A', $timestamp);
+			
+			return $new_generate_datetime;
+			
+		}
+		
+		
+	}
+	
+	function check_date_is_within_range($start_date, $end_date, $todays_date) {
+	
+		$start_timestamp = strtotime($start_date);
+		$end_timestamp = strtotime($end_date);
+		$today_timestamp = strtotime($todays_date);
+	
+		return (($today_timestamp >= $start_timestamp) && ($today_timestamp <= $end_timestamp));
 	
 	}
 }
