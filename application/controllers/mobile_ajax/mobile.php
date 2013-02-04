@@ -45,15 +45,34 @@ class Mobile extends CI_Controller {
 	public function get_info() {
 		
 		$id = mysql_real_escape_string($this->input->get('id'));
-
+		
+		$params['querystring'] = "SELECT SUM(mboos_inStocks_quantity) AS total_inStocks FROM `mboos_instocks` WHERE mboos_product_id='". $id ."'";
+		
+		$this->mdldata->select($params);
+		
+		$stock = $this->mdldata->_mRecords;
+		
+		$this->mdldata->reset();
+		
+		$params['querystring'] = "SELECT SUM(mboos_order_detail_quantity) AS total_qty_order FROM `mboos_order_details` WHERE mboos_product_id='". $id ."'";
+		
+		$this->mdldata->select($params);
+		
+		$total_qty_orders = $this->mdldata->_mRecords;
+		
+		
+		$availability = $total_qty_orders[0]->total_qty_order - $stock[0]->total_inStocks;
+		$this->mdldata->reset();
+		
 		$params['querystring'] = "SELECT * FROM `mboos_products` left join mboos_product_price on mboos_products.mboos_product_id=mboos_product_price.mboos_product_id where mboos_products.mboos_product_status='1' AND mboos_products.mboos_product_id='". $id . "'";
 		
 		if($this->mdldata->select($params)) {
 		
 			$product_info = $this->mdldata->_mRecords;
-						
-			echo '{"item_info":'. json_encode($product_info) .'}';
 
+			
+			echo '{"item_info":'. json_encode($product_info) .', "availability":[{"availability":"'. $availability . '"}]}';
+			
 		
 		} else {
 		
@@ -66,6 +85,7 @@ class Mobile extends CI_Controller {
 		$id = mysql_real_escape_string($this->input->get('id'));
 		
 		//$params['querystring'] = "SELECT * FROM `mboos_products` where mboos_product_category_id='". $id . "'";
+		
 		$params['querystring'] = "SELECT * FROM `mboos_products` left join mboos_product_price on mboos_products.mboos_product_id=mboos_product_price.mboos_product_id where mboos_products.mboos_product_status='1' AND mboos_products.mboos_product_category_id='". $id . "'";
 		
 		if($this->mdldata->select($params)) {

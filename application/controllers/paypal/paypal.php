@@ -171,11 +171,14 @@ class Paypal extends CI_Controller {
 		
 		if($this->mdldata->_mRowCount == 0) {
 			
-			$start_date = date("Y-m-d");
+			$start_date = date("Y-m-d h:i:s");
 			
-			$start_time = $start_date . " 08:00:00 AM" ;
+			$splitComplateDate = preg_split('/ /', $start_date);
+				
 			
-			$timestamp = strtotime(date("Y-m-d h:i", strtotime($start_time)) . " + 15 minutes");
+			
+			
+			$timestamp = strtotime(date("Y-m-d h:i:s A", strtotime($splitComplateDate[0])));
 			$new_generate_datetime = date('Y-m-d h:i:s A', $timestamp);
 
 			$currDate = date('Y-m-d');
@@ -188,15 +191,14 @@ class Paypal extends CI_Controller {
 			
 			if($this->check_date_is_within_range($start_currDate, $end_currDate, $new_generate_datetime)){
 				
-				//call_debug($new_generate_datetime);
 				return $new_generate_datetime;
 				
 			} else {
 				
- 				$new_generate_datetime = date('Y-m-d h:i A' , strtotime('+ 1 day 8:00 AM', strtotime($start_time)));
+ 				$new_generate_datetime = date('Y-m-d h:i:s A' , strtotime('+ 1 day 8:00 AM', strtotime($splitComplateDate[0])));
 				
- 				//call_debug($new_generate_datetime);
  				return $new_generate_datetime;
+								
 				
 			}
 		

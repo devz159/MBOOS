@@ -149,12 +149,16 @@ class Order extends CI_Controller {
 		
 		if($this->mdldata->_mRowCount == 0) {
 			
-			$start_date = date("Y-m-d");
+			$start_date = date("Y-m-d h:i:s");
 			
-			$start_time = $start_date . " 03:50 AM" ;
+			call_debug($start_date, false);
+			
+			$splitComplateDate = preg_split('/ /', $start_date);
+				
+			//$start_time = $start_date . " 03:50 AM" ;
 			
 			
-			$timestamp = strtotime(date("Y-m-d h:i A", strtotime($start_time)) . " + 15 minutes");
+			$timestamp = strtotime(date("Y-m-d h:i A", strtotime($splitComplateDate[0])));
 			$new_generate_datetime = date('Y-m-d h:i A', $timestamp);
 
 			$currDate = date('Y-m-d');
@@ -171,7 +175,7 @@ class Order extends CI_Controller {
 				
 			} else {
 				
- 				$new_generate_datetime = date('Y-m-d h:i A' , strtotime('+ 1 day 8:00 AM', strtotime($start_time)));
+ 				$new_generate_datetime = date('Y-m-d h:i A' , strtotime('+ 1 day 8:00 AM', strtotime($splitComplateDate[0])));
 				
  				call_debug($new_generate_datetime);
 								
