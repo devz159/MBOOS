@@ -52,6 +52,10 @@ class Orders extends CI_Controller {
 	
 	public function pending(){
 		
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
+		
 		$order_id = $this->uri->segment(4);
 		//call_debug($order_id);
 		$params = array(
@@ -68,6 +72,10 @@ class Orders extends CI_Controller {
 	}
 	
 		public function processing(){
+			
+			authUser();
+			
+			$data['sessVar'] = $this->_arr;
 		
 		$order_id = $this->uri->segment(4);
 		//call_debug($order_id);

@@ -10,7 +10,10 @@
 	</div>
 </div>
 <div class="login-container">
-<?php echo validation_errors(); ?>
+    <div class="alert alert-error fade in">
+    <?php echo validation_errors(); ?>
+    </div>
+
 <form id="admin_login" action="<?php echo base_url(); ?>admin/login/login_validate" method="POST">
 	<div class="well-login">
 	

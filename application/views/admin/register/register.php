@@ -9,7 +9,7 @@
 		</div>
 	</div>
 </div>
-<div id="main-content">
+<div id="reg_main-content">
 <div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span7">

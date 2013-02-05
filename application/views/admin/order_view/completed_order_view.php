@@ -50,14 +50,14 @@
     <ul class="breadcrumb">
       <li><a href="#">Home</a><span class="divider">&raquo;</span></li>
       <li>Orders<span class="divider">&raquo;</span></li>
-       <li class="active">Manage orders</li>
+       <li class="active">Summary</li>
     </ul>
 		
 		<div class="row-fluid">
 			<div class="span12">
 				<div class="nonboxy-widget">
 					<div class="widget-head">
-						<h5>Manage Orders</h5>
+						<h5>Summary</h5>
 					</div>
 					<table class="data-tbl-simple table table-bordered">
 					<thead>

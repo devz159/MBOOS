@@ -20,7 +20,7 @@
 <link href="<?php echo base_url(); ?>template/css/icons-sprite.css" rel="stylesheet">
 <link id="themes" href="<?php echo base_url(); ?>template/css/themes.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>template/css/theme-blue.css" rel="stylesheet">
-
+<link href="<?php echo base_url(); ?>css/style.css" rel="stylesheet">
 <!--[if IE 7]>
 <link rel="stylesheet" type="text/css" href="css/ie/ie7.css" />
 <![endif]-->

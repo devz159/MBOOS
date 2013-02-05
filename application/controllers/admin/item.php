@@ -5,6 +5,10 @@ class Item extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->helper(array('form'));
+		
+		$params = array('sadmin_uname', 'sadmin_islogin', 'sadmin_ulvl', 'sadmin_uid');
+		$this->sessionbrowser->getInfo($params);
+		$this->_arr = $this->sessionbrowser->mData;
 	}
 	
 	public function index(){  
@@ -13,6 +17,9 @@ class Item extends CI_Controller {
 	
 	public function view_item(){
 	
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
 		
 		$config = array();
 		$config["base_url"] = base_url() . "admin/item/view_item/";
@@ -61,6 +68,9 @@ class Item extends CI_Controller {
 	}
 	
 	public function add_item(){
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
 	
 		$params['querystring'] = 'SELECT mboos_product_category.mboos_product_category_id, mboos_product_category.mboos_product_category_name, mboos_product_category.mboos_product_category_status FROM mboos_product_category WHERE mboos_product_category.mboos_product_category_status="1"';	
 		
@@ -74,7 +84,7 @@ class Item extends CI_Controller {
 	
 	public function add_item_validate(){
 	
-		//call_debug($this->input->post('userfile'));
+		call_debug($this->input->post('userfile'));
 		$this->load->library('form_validation'); // loads form_validation from library
 		$validation = $this->form_validation;	// initializes form_validation
 		
@@ -84,7 +94,11 @@ class Item extends CI_Controller {
 		
 		if($this->form_validation->run() == FALSE) {
 				
-				$this->add_item();
+						authUser();
+			
+						$data['sessVar'] = $this->_arr;
+						$data['main_content'] = 'admin/item_view/add_item_view';
+						$this->load->view('includes/template', $data);
 					
 			} else {
 					
@@ -215,6 +229,10 @@ class Item extends CI_Controller {
 					}
 	}
 	public function edit_item(){
+		
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
 		
 		$edit_item_id = $this->uri->segment(4);
 		

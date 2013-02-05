@@ -53,7 +53,7 @@
        <li class="active">Manage orders</li>
     </ul>
 		
-		<div class="row-fluid">
+<div class="row-fluid">
 			<div class="span12">
 				<div class="nonboxy-widget">
 					<div class="widget-head">

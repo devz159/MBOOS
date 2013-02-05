@@ -2,9 +2,13 @@
 
 /* Error Message @ Registration */
 #register_msg_error { margin-left:15em; padding: 1em 0 0 0; color:red; }
-#main-content {  padding: 0 0 0 15em;  }
+#reg_main-content {  padding: 0 0 0 15em;  }
 #reg_button { float:right; width:280px; margin-right:4.3em; }
 #reg_required_msg { float:right; margin: 0 5em 1em 0; color:red; }
-#registration_fieldset .control-group { clear:both; }
+#add_required_msg { float: right; color:red;  margin: 0 13em 1em 0; }
+#add_item_fieldset .control-group { clear:both; }
+
+/*CSS for Add Item*/
+#add_button {width:280px; margin-right:12em;  float:right; }
 
 
