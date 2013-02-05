@@ -70,7 +70,7 @@
 							<?php  echo validation_errors();  ?>
 						</div>
 						
-							<form class="form-horizontal well white-box" id="admin_login_validation" action="<?php echo base_url(); ?>admin/item/add_item_validate" method="POST">
+							<form class="form-horizontal well white-box" action="<?php echo base_url(); ?>admin/item/add_item_validate" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 								<fieldset id="add_item_fieldset">
 									<p id="add_required_msg">* Required </p>
 									<div class="control-group">

@@ -21,9 +21,9 @@ class Item extends CI_Controller {
 		
 		$data['sessVar'] = $this->_arr;
 		
-		$config = array();
+/*  		$config = array();
 		$config["base_url"] = base_url() . "admin/item/view_item/";
-		$config["total_rows"] = $this->_getcountproducts();
+		$config["total_rows"] = ;
 		$config["per_page"] = 10;
 		$config['num_links'] = 6;
 		$config["uri_segment"] = 4;
@@ -32,23 +32,40 @@ class Item extends CI_Controller {
 		$this->pagination->initialize($config);
 		
 		$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-		$data["links"] = $this->pagination->create_links();
+		$data["links"] = $this->pagination->create_links(); */ 
 		
-		$data['products'] = $this->_getlistproducts($config["per_page"], $page);
-		//call_debug($data);
+		$data['total_rows'] = $this->_getcountproducts();
+		
+		$data['products'] = $this->_getlistproducts();
+		
 		$data['main_content'] = 'admin/item_view/item_view';
 		$this->load->view('includes/template', $data);
 	}
 	
-	private function _getlistproducts($limit, $start){
+	public function search_item() {
+		
+		$item_name = $this->input->post('item_name');
+		
+		$params['table'] = array('name' => 'mboos_products', 'criteria_phrase' => 'mboos_product_name="'. $item_name . '"');
+		
+		$this->mdldata->select($params);
+		
+		$item_info = $this->mdldata->_mRecords;
+		
+		$item = $this->input->get('callback') . "(" . json_encode($item_info) . ")";
+		echo $item;
+		
+	}
+	
+	private function _getlistproducts(){
 	
 		$params['querystring'] = 'SELECT mboos_products.mboos_product_id, mboos_products.mboos_product_name, mboos_products.mboos_product_desc, mboos_products.mboos_product_supplier, mboos_products.mboos_product_image, mboos_products.mboos_product_status, mboos_products.mboos_product_category_id, mboos_product_category.mboos_product_category_name, mboos_product_price.mboos_product_price, mboos_instocks.mboos_inStocks_quantity
 									FROM mboos_products
 									INNER JOIN mboos_product_category ON mboos_products.mboos_product_category_id = mboos_product_category.mboos_product_category_id
 									INNER JOIN mboos_product_price ON mboos_products.mboos_product_id = mboos_product_price.mboos_product_id
 									INNER JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mboos_product_id
-									WHERE mboos_products.mboos_product_status = "1"
-									ORDER BY mboos_product_category.mboos_product_category_name LIMIT '.$start .',' . $limit;
+									WHERE mboos_products.mboos_product_status = "1"';
+									
 		
 		if(!$this->mdldata->select($params))
 			return false;
@@ -84,7 +101,7 @@ class Item extends CI_Controller {
 	
 	public function add_item_validate(){
 	
-		call_debug($this->input->post('userfile'));
+		//call_debug($this->input->post('userfile'));
 		$this->load->library('form_validation'); // loads form_validation from library
 		$validation = $this->form_validation;	// initializes form_validation
 		
@@ -177,7 +194,7 @@ class Item extends CI_Controller {
 														$cleanInsertQueryString,
 														$cleanInsertQueryString2
 													);
-								call_debug($params);
+								
 								$this->mdldata->reset();
 								$this->mdldata->executeTransact($params);
 								//call_debug($QueryStringInsertprice);
@@ -186,6 +203,8 @@ class Item extends CI_Controller {
 								$this->load->view('includes/template', $data);	
 							}
 					}else{
+						
+						
 						$data['main_content'] = 'admin/item_view/add_item_view';
 						$this->load->view('includes/template', $data);
 					}
