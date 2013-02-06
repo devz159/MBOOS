@@ -90,6 +90,9 @@ class Customer extends CI_Controller {
 		
 		$summary_details = $this->mdldata->_mRecords;
 		
-		echo '{"summary_details":'. json_encode($summary_details) .'}';
+		$dateToBePickUp = $summary_details[0]->mboos_order_pick_schedule;
+		$dateOrdered = $summary_details[0]->mboos_order_date;
+		
+		echo '{"summary_details":'. json_encode($summary_details) .', "dateToBePickUp":[{"datePickUpFormmated":"'. getDateArr($dateToBePickUp) . '", "dateOrderd":"'.  getDateArr($dateOrdered) . '"}]}';
 	}
 }

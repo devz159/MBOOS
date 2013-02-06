@@ -10,14 +10,12 @@
 	</div>
 </div>
 <div class="login-container">
-    <div class="alert alert-error fade in">
-    <?php echo validation_errors(); ?>
-    </div>
-
-<form id="admin_login" action="<?php echo base_url(); ?>admin/login/login_validate" method="POST">
 	<div class="well-login">
-	
 		<div class="control-group">
+		<form id="admin_login" action="<?php echo base_url(); ?>admin/login/login_validate" method="POST">
+		 <div class="alert alert-error fade in">
+   			 <?php echo validation_errors(); ?>
+    	</div>
 			<div class="controls">
 				<div>
 					<input id="admin_email" type="text" placeholder="Email" name="login_username" class="login-input user-name">
@@ -27,7 +25,6 @@
 		<div class="control-group">
 			<div class="controls">
 				<div>
-				
 					<input id="admin_password" type="password" placeholder="Password" name="login_password" class="login-input user-pass">
 				</div>
 			</div>
@@ -37,10 +34,10 @@
 		<div class="clearfix">
 			<button  id="admin_signin_button" class="btn btn-primary login-btn" title="theme-blue" type="submit">Login</button>
 		</div>
+		</form>
 		<div class="remember-me">
-		 	<a class="rem_me" href = "<?php echo base_url(); ?>admin/login/forgot_password">Forgot Password?</a> 
+			<a class="rem_me" href = "<?php echo base_url(); ?>admin/login/forgot_password">Forgot Password </a> |
  			<a class="rem_me" href="<?php echo base_url(); ?>admin/register/register">Sign up</a>
 		</div>
 	</div>
-</form>
 </div>

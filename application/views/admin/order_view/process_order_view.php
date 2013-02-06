@@ -35,16 +35,15 @@
     <ul class="breadcrumb">
       <li><a href="#">Home</a><span class="divider">&raquo;</span></li>
       <li>Orders<span class="divider">&raquo;</span></li>
-       <li class="active">Ready Order</li>
+       <li class="active">Processing orders</li>
     </ul>
-		
-		<div class="row-fluid">
+<div class="row-fluid">
 			<div class="span12">
 				<div class="nonboxy-widget">
 					<div class="widget-head">
-						<h5>Summary</h5>
+						<h5>Manage Orders</h5>
 					</div>
-					<table class="data-tbl-simple table table-bordered">
+					<table class="data-tbl-simple table table-bordered order_table">
 					<thead>
 					<tr>
 						<th>Order ID</th>
@@ -56,15 +55,28 @@
 					</tr>
 					</thead>
 					<tbody>
-							<?php foreach ($completed as $list):?>
-						<tr>
-							<td><?php echo formatedpadding($list->mboos_order_id);?></td>
-							<td><?php echo $list->mboos_order_date;?></td>
-							<td><?php echo $list->mboos_order_pick_schedule;?></td>
-							<td><?php echo $list->mboos_orders_total_price;?></td>
-							<td><?php echo $list->mboos_customer_id;?></td>
-							<td><span class="label label-success">Ready</span></td>
-						</tr><?php endforeach;?>
+						<?php foreach ($orders as $list):?>
+								<tr>
+									<td><?php echo formatedpadding($list->mboos_order_id);?></td>
+									<td><?php echo getDateArr($list->mboos_order_date);?></td>
+									<td><?php echo getDateArr($list->mboos_order_pick_schedule);?></td>
+									<td><?php echo $list->mboos_orders_total_price; ?></td>
+									<td><?php echo $list->mboos_customer_complete_name;?></td>
+									<td>
+											
+										<?php
+										
+										?>	
+										
+										<?php	
+										if($list->mboos_order_status == "2"){
+										?>	
+											<a href = "<?php echo base_url() . 'admin/orders/process_validate/' . $list->mboos_order_id; ?>"> <span class="label label-info">Processing</span> </a>
+										<?php } ?>	
+										
+									</td>
+								</tr>
+						<?php endforeach;?>
 					</tbody>
 					</table>
 				</div>
@@ -73,3 +85,4 @@
 		
 </div>
 </div>
+

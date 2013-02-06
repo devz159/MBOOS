@@ -139,7 +139,7 @@ class Paypal extends CI_Controller {
 		
 		$this->_readyToInsertQueryString = $newArray;
 		
-		call_debug($this->_readyToInsertQueryString);
+		//call_debug($this->_readyToInsertQueryString);
 		$params['transact'] = $this->_readyToInsertQueryString;
 		
 		$this->mdldata->reset();
@@ -172,17 +172,18 @@ class Paypal extends CI_Controller {
 		$last_pick_scheduled = $this->mdldata->_mRecords;
 		
 		if($this->mdldata->_mRowCount == 0) {
+		
+			$currDate = date('Y-m-d');
 			
-			$start_date = date("Y-m-d h:i:s");
+			$currDate = $currDate . " 8:00:00 AM";
 			
-			$splitComplateDate = preg_split('/ /', $start_date);
-				
-			
+			$splitComplateDate = preg_split('/ /', $currDate);
 			
 			
-			$timestamp = strtotime(date("Y-m-d h:i:s A", strtotime($splitComplateDate[0])));
-			$new_generate_datetime = date('Y-m-d h:i:s A', $timestamp);
+			$timestamp = strtotime(date("Y-m-d h:i:s A", strtotime($splitComplateDate[1])));
+			$new_generate_datetime = date('Y-m-d H:i:s A', $timestamp);
 
+		
 			$currDate = date('Y-m-d');
 				
 			$start_currDate = $currDate . " 8:00:00 AM";
@@ -197,7 +198,7 @@ class Paypal extends CI_Controller {
 				
 			} else {
 				
- 				$new_generate_datetime = date('Y-m-d h:i:s A' , strtotime('+ 1 day 8:00 AM', strtotime($splitComplateDate[0])));
+ 				$new_generate_datetime = date('Y-m-d H:i:s A' , strtotime('+ 1 day 8:00 AM', strtotime($splitComplateDate[0])));
 				
  				return $new_generate_datetime;
 								
@@ -208,10 +209,7 @@ class Paypal extends CI_Controller {
 			
 			$start_time = $last_pick_scheduled[0]->mboos_order_pick_schedule;
 			
-			
 			$splitComplateDate = preg_split('/ /', $start_time);
-			
-			
 			
 			$splitDate = preg_split('/-/', $splitComplateDate[0]);
 			
@@ -223,13 +221,28 @@ class Paypal extends CI_Controller {
 			list($hr, $min, $sec)= $plitTime;
 			
 			
-			$clearDateTime = date("Y-m-d H:i:s A", mktime($hr, $min, $sec, $month, $day, $year));
+			$clearDateTime = date("Y-m-d h:i:s A", mktime($hr, $min, $sec, $month, $day, $year)); 
+			
+			$start_currDate = $splitComplateDate[0] . " 8:00:00 AM";
+			$end_currDate = $splitComplateDate[0] . " 5:00:00 PM";
+
+			if($this->check_date_is_within_range($start_currDate, $end_currDate, $clearDateTime)){
+			
+				$timestamp = date('Y-m-d H:i:s A', strtotime($start_time.' + 15 minutes') );
+				$new_generate_datetime = $timestamp;
+				return $new_generate_datetime; 
+				
+			
+			} else {
+			
+ 				$new_generate_datetime = date('Y-m-d H:i:s A' , strtotime('+ 1 day 8:00 AM', strtotime($splitComplateDate[0])));
+			
+				return $new_generate_datetime; 
 			
 			
-			$timestamp = strtotime(date("Y-m-d h:i", strtotime($start_time)) . " + 15 minutes");
-			$new_generate_datetime = date('Y-m-d H:i:s A', $timestamp);
+			}
 			
-			return $new_generate_datetime;
+
 			
 		}
 		

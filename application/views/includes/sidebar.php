@@ -3,8 +3,9 @@
     <li><a href="<?php echo base_url(); ?>admin/dashboard"><span class="white-icons computer_imac"></span> Dashboard</a></li>
     <li><a href="#"><span class="white-icons list"></span>Orders</a>
       <ul class="acitem">
-        <li class="selected_nav"><a href="<?php echo base_url();?>admin/orders/manage_order"><span class="sidenav-icon"><span class="sidenav-link-color"></span></span>Manage Orders</a></li>
-        <li><a href="<?php echo base_url();?>admin/orders/completed_order"><span class="sidenav-icon"><span class="sidenav-link-color"></span></span>Summary</a></li>
+        <li><a href="<?php echo base_url();?>admin/orders/manage_order"><span class="sidenav-icon"><span class="sidenav-link-color"></span></span>Manage Orders</a></li>
+        <li><a href="<?php echo base_url();?>admin/orders/process_order"><span class="sidenav-icon"><span class="sidenav-link-color"></span></span>Process Order</a></li>
+        <li><a href="<?php echo base_url();?>admin/orders/completed_order"><span class="sidenav-icon"><span class="sidenav-link-color"></span></span>Ready Order</a></li>
       </ul>
     </li>
     <li><a href="#"><span class="white-icons file_cabinet"></span> Inventory</a>

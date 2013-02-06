@@ -13,7 +13,7 @@
 <div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span7">
-				<div class="widget-block">
+				<div id="reg_div" class="widget-block">
 					<div class="widget-head">
 						<h5> Registration </h5>
 					</div>
@@ -24,8 +24,9 @@
 						</div>
 						
 							<form class="form-horizontal well white-box" id="admin_login_validation" action="<?php echo base_url(); ?>admin/register" method="POST">
+								<p id="reg_required_msg">* Required </p>
 								<fieldset id="registration_fieldset">
-									<p id="reg_required_msg">* Required </p>
+									
 									<div class="control-group">
 										<label class="control-label" for="register_username">Username *</label>
 										<div class="controls">
@@ -69,8 +70,9 @@
 										</div>
 									</div>
 									<div class="clearfix">
-										<button  id="reg_button" class="btn btn-primary login-btn" title="theme-blue" type="submit">Login</button>
-									</div>
+										<button  id="reg_button" class="btn btn-primary login-btn" title="theme-blue" type="submit" name="reg_submit">Register</button>
+										<button id="reg_back_btn" type="button" class="btn btn-warning" name="reg_back">Cancel</button>
+									</div> 
 								</fieldset>
 							</form>
 						</div>

@@ -1,18 +1,3 @@
-<div id="actionsBox" class="actionsBox">
-	<div id="actionsBoxMenu" class="menu">
-		<span id="cntBoxMenu">0</span>
-		<a class="button box_action">Archive</a>
-		<a class="button box_action">Delete</a>
-		<a id="toggleBoxMenu" class="open"></a>
-		<a id="closeBoxMenu" class="button t_close">X</a>
-	</div>
-	<div class="submenu">
-		<a class="first box_action">Move...</a>
-		<a class="box_action">Mark as read</a>
-		<a class="box_action">Mark as unread</a>
-		<a class="last box_action">Spam</a>
-	</div>
-</div>
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner top-nav">
     <div class="container-fluid">
@@ -52,20 +37,19 @@
       <li>Orders<span class="divider">&raquo;</span></li>
        <li class="active">Manage orders</li>
     </ul>
-		
 <div class="row-fluid">
 			<div class="span12">
 				<div class="nonboxy-widget">
 					<div class="widget-head">
 						<h5>Manage Orders</h5>
 					</div>
-					<table class="data-tbl-simple table table-bordered">
+					<table class="data-tbl-simple table table-bordered order_table">
 					<thead>
 					<tr>
 						<th>Order ID</th>
 						<th>Order date</th>
 						<th>Pick-up sched</th>
-						<th>Price</th>
+						<th>Total Price</th>
 						<th>Customer ID</th>		
 						<th>Action</th>
 					</tr>
@@ -74,20 +58,19 @@
 						<?php foreach ($orders as $list):?>
 								<tr>
 									<td><?php echo formatedpadding($list->mboos_order_id);?></td>
-									<td><?php echo $list->mboos_order_date;?></td>
-									<td><?php echo $list->mboos_order_pick_schedule;?></td>
-									<td><?php echo $list->mboos_orders_total_price;?></td>
-									<td><?php echo $list->mboos_customer_id;?></td>
+									<td><?php echo getDateArr($list->mboos_order_date);?></td>
+									<td><?php echo getDateArr($list->mboos_order_pick_schedule);?></td>
+									<td><?php echo $list->mboos_orders_total_price; ?></td>
+									<td><?php echo $list->mboos_customer_complete_name;?></td>
 									<td><?php
-											if($list->mboos_order_status == "1"){
-											?>	
-												<a href = "<?php echo base_url() . 'admin/orders/pending/' . $list->mboos_order_id; ?>"> Pending </a>
-											<?php	
-											}elseif($list->mboos_order_status == "2"){
-											?>	
-												<a href = "<?php echo base_url() . 'admin/orders/processing/' . $list->mboos_order_id; ?>"> Processing </a>
-											<?php } ?>
+										if($list->mboos_order_status == "1"){
+										?>	
+											<a href = "<?php echo base_url() . 'admin/orders/check_validate/' . $list->mboos_order_id; ?>"> <span class="label label-important">Pending</span> </a>
+										<?php	
 										
+										?>	
+											
+										<?php } ?>
 									</td>
 								</tr>
 						<?php endforeach;?>

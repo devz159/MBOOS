@@ -49,16 +49,20 @@ if ( ! function_exists('getDateArr'))
 {
 	function getDateArr($arrDate)
 	{
-					
-		$arrDate = preg_split('/ /', $arrDate);
-		$arrDate = $arrDate[0];
-		
+			$splitComplateDate = preg_split('/ /', $arrDate);
+			
+			
+			
+			$splitDate = preg_split('/-/', $splitComplateDate[0]);
+			
+			list($year, $month, $day)= $splitDate;
+			
+			$plitTime = preg_split('/:/', $splitComplateDate[1]);
+			
+			
+			list($hr, $min, $sec)= $plitTime;
 
-		$arrDate = preg_split('/-/', $arrDate);
-		list($year, $month, $day)= $arrDate;
-		
-		
-		$arrDate = date("l, F d, Y ",mktime(0,0,0,$month, $day, $year));
+		$arrDate = date("D, M d, Y h:i:s A",mktime($hr,$min,$sec,$month, $day, $year));
 
 		return $arrDate;
 	}

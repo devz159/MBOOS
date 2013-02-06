@@ -2,13 +2,18 @@
 
 /* Error Message @ Registration */
 #register_msg_error { margin-left:15em; padding: 1em 0 0 0; color:red; }
-#reg_main-content {  padding: 0 0 0 15em;  }
-#reg_button { float:right; width:280px; margin-right:4.3em; }
-#reg_required_msg { float:right; margin: 0 5em 1em 0; color:red; }
+#reg_main-content {  padding: 0 0 0 15em; clear:both;  }
+#reg_main-content  .clearfix { float:right; margin-right:10em; }
+#reg_required_msg { float:right; margin: 0 10em 1em 0; color:red; }
 #add_required_msg { float: right; color:red;  margin: 0 13em 1em 0; }
 #add_item_fieldset .control-group { clear:both; }
+#registration_fieldset { clear:both;}
+#reg_div { margin:4em 0 0  15em; width: 600px;}
 
 /*CSS for Add Item*/
 #add_button {width:280px; margin-right:12em;  float:right; }
+
+/* Order Style */
+.order_table a { text-decoration:none; }
 
 
