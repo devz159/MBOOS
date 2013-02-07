@@ -1,18 +1,3 @@
-<div id="actionsBox" class="actionsBox">
-	<div id="actionsBoxMenu" class="menu">
-		<span id="cntBoxMenu">0</span>
-		<a class="button box_action">Archive</a>
-		<a class="button box_action">Delete</a>
-		<a id="toggleBoxMenu" class="open"></a>
-		<a id="closeBoxMenu" class="button t_close">X</a>
-	</div>
-	<div class="submenu">
-		<a class="first box_action">Move...</a>
-		<a class="box_action">Mark as read</a>
-		<a class="box_action">Mark as unread</a>
-		<a class="last box_action">Spam</a>
-	</div>
-</div>
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner top-nav">
     <div class="container-fluid">

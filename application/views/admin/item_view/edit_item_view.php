@@ -44,7 +44,7 @@
 							<?php  echo validation_errors();  ?>
 						</div>
 						
-							<form class="form-horizontal well white-box" id="admin_login_validation" action="<?php echo base_url(); ?>admin/register" method="POST">
+							<form class="form-horizontal well white-box" id="admin_login_validation" action="<?php echo base_url(); ?>admin/item/edit_item_validate" method="POST">
 								<fieldset id="registration_fieldset">
 								<?php foreach ($edit_items as $rec):?>
 									<p id="reg_required_msg">* Required </p>

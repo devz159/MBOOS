@@ -4,11 +4,19 @@ class Product_category extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-	
+		
+		$this->load->helper(array('form'));
+		$params = array('sadmin_uname', 'sadmin_islogin', 'sadmin_ulvl', 'sadmin_uid');
+		$this->sessionbrowser->getInfo($params);
+		$this->_arr = $this->sessionbrowser->mData;
 	}
 	
 	public function index(){  
-	
+		
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
+		
 		$params['querystring'] = 'SELECT mboos_product_category.mboos_product_category_id, mboos_product_category.mboos_product_category_name FROM mboos_product_category WHERE mboos_product_category.mboos_product_category_status="1" ORDER BY mboos_product_category_name';
 		
 		$this->mdldata->select($params);

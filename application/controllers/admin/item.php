@@ -68,6 +68,10 @@ WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product
 	
 	public function add_item(){
 	
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
+		
 		$params['querystring'] = 'SELECT mboos_product_category.mboos_product_category_id, mboos_product_category.mboos_product_category_name, mboos_product_category.mboos_product_category_status FROM mboos_product_category WHERE mboos_product_category.mboos_product_category_status="1"';	
 		
 		$this->mdldata->select($params);
@@ -79,7 +83,12 @@ WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product
 	}
 	
 	public function add_item_validate(){
+		
+		$datestring = "Y-m-d g:i:s";
+		$time = time();
 	
+		$item_date = mdate($datestring, $time);
+		
 		//call_debug($this->input->post('userfile'));
 		$this->load->library('form_validation'); // loads form_validation from library
 		$validation = $this->form_validation;	// initializes form_validation
@@ -127,7 +136,7 @@ WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product
 									'table'  => array('name' => 'mboos_product_price'),
 									'fields' => array(
 											'mboos_product_price'		=> $this->input->post('item_price'),
-											'mboos_product_price_date'	=> $this->input->post('price_date'),
+											'mboos_product_price_date'	=> $item_date,
 											'mboos_product_id'			=> '+@last_id_in_table1+'
 												));
 								$get_the_last_id = "SET @last_id_in_table1 = LAST_INSERT_ID()";
@@ -174,12 +183,11 @@ WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product
 								$this->mdldata->executeTransact($params);
 								//call_debug($QueryStringInsertprice);
 																
-								$data['main_content'] = 'admin/item_view/item_success_view';
-								$this->load->view('includes/template', $data);	
+								redirect('admin/item');
 							}
 					}else{
-						$data['main_content'] = 'admin/item_view/add_item_view';
-						$this->load->view('includes/template', $data);
+						
+						redirect('admin/item/add_item');
 					}
 			}
 	}
@@ -293,8 +301,7 @@ WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product
 								//$this->mdldata->SQLText(true);
 								$this->mdldata->update($params);
 								
-								$data['main_content'] = 'admin/item_view/item_success_view';
-								$this->load->view('includes/template', $data);
+								redirect('admin/item');
 							
 			}
 	}
@@ -310,11 +317,11 @@ WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product
 	public function add_price_validate(){
 		
 		$edit_item_id = $this->input->post('item_id');
-
+		
 		$this->load->library('form_validation'); // loads form_validation from library
 		$validation = $this->form_validation;	// initializes form_validation
 		
-		$validation->set_rules('item_price', 'Item name', 'required'); // setting validation rules
+		$validation->set_rules('item_price_new', 'Item name', 'required'); // setting validation rules
 		
 		if($this->form_validation->run() == FALSE) {
 							
@@ -322,12 +329,16 @@ WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product
 				
 		} else {
 			
-			$item_price = $this->input->post('item_price');
-			$item_date = $this->input->post('stock_date');
+			// get the date
+			$datestring = "Y-m-d g:i:s";
+			$time = time();
+			
+			$item_price = $this->input->post('item_price_new');
+			$item_date = mdate($datestring, $time);
 			$item_id = $this->input->post('item_id');
-		
+			
 			$params['querystring'] = 'INSERT INTO mboos_product_price (mboos_product_price, mboos_product_price_date, mboos_product_id) VALUES ("'. $item_price .'", "'. $item_date .'", "'. $item_id .'")';
-									
+						
 			$this->mdldata->reset();
 			$this->mdldata->insert($params);
 			
