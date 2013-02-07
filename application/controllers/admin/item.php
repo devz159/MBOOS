@@ -194,6 +194,11 @@ WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product
 	
 	public function upload_image(){
 			
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
+		
+		
 			$data['main_content'] = 'admin/item_view/upload_image_view';
 			$this->load->view('includes/template', $data);
 			
