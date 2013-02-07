@@ -64,7 +64,7 @@ $autoload['libraries'] = array('database','session', 'paypalsettings', 'form_val
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('my_date','padding_zeros','section_site', 'codex','url', 'form', 'debug_me', 'guard', 'counter_message', 'age_calculator');
+$autoload['helper'] = array('my_date','padding_zeros','section_site', 'codex','url', 'form', 'debug_me', 'guard', 'counter_message', 'age_calculator', 'qty_counter');
 
 
 /*

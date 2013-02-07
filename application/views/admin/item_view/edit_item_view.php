@@ -1,18 +1,3 @@
-<div id="actionsBox" class="actionsBox">
-	<div id="actionsBoxMenu" class="menu">
-		<span id="cntBoxMenu">0</span>
-		<a class="button box_action">Archive</a>
-		<a class="button box_action">Delete</a>
-		<a id="toggleBoxMenu" class="open"></a>
-		<a id="closeBoxMenu" class="button t_close">X</a>
-	</div>
-	<div class="submenu">
-		<a class="first box_action">Move...</a>
-		<a class="box_action">Mark as read</a>
-		<a class="box_action">Mark as unread</a>
-		<a class="last box_action">Spam</a>
-	</div>
-</div>
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner top-nav">
     <div class="container-fluid">
@@ -45,18 +30,6 @@
     </div>
   </div>
 </div>
-<?php foreach ($edit_items as $rec):?>
-<div class="navbar navbar-fixed-top" class="theme-color theme-blue" title="theme-blue">
-	<div class="navbar-inner">
-		<div class="container-fluid">
-			<div class="branding">
-				<div class="logo">
-					<a href="<?php echo base_url(); ?>"><img src="<?php echo base_url(); ?>template/img/logo.png" width="168" height="40" alt="Logo"></a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 <div id="main-content">
 <div class="container-fluid">
 		<div class="row-fluid">
@@ -73,9 +46,10 @@
 						
 							<form class="form-horizontal well white-box" id="admin_login_validation" action="<?php echo base_url(); ?>admin/register" method="POST">
 								<fieldset id="registration_fieldset">
+								<?php foreach ($edit_items as $rec):?>
 									<p id="reg_required_msg">* Required </p>
 									<?php $edit_item_id = $this->uri->segment(4); ?>
-									<input type="hidden" name="item_id" value="<?php echo $edit_item_id;?>"/>
+									<input type="hidden" id="item_id" name="item_id" value="<?php echo $edit_item_id;?>"/>
 									<div class="control-group">
 										<label class="control-label" for="item_name">Item Name *</label>
 										<div class="controls">
@@ -116,12 +90,58 @@
 												<input type="text" name="item_price" value="<?php echo $price->mboos_product_price; ?>" class="input-xlarge"  id="item_price"/>
 						
 											<?php endforeach;?>
+											<p><a href="<?php echo base_url();?>admin/item/add_price/<?php echo $rec->mboos_product_id;?>"><br />Add new item price</a></p>
 										</div>
 									</div>
-									<p><label>Item Image:</p>
-									<p><img src="<?php echo site_url() . 'uploads/item_images/' . $rec->mboos_product_image; ?>" width="50" height="50" /></p>			
-									<p><a href="<?php echo base_url();?>admin/item/upload_image/<?php echo $rec->mboos_product_name;?>"><br />Change item image</a></p>
+									<div class="control-group">
+										<label class="control-label" for="register_answer"></label>
+										<div class="controls">
+											<a id="add_new_price_btn" class="btn btn-modal" data-toggle="modal" href="#myModal">Add new item Price</a>
+										</div>
+									</div>
 										
+											
+												
+									
+									<div class="modal hide fade" id="myModal">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">×</button>
+											<h3>Add New Price</h3>
+										</div>
+										<div class="modal-body">
+											
+											<div class="control-group">
+											
+												<label class="control-label" for="register_answer">Item Price *</label>
+												<div class="controls">
+							
+												<input type="text" name="item_price_new" value="" class="input-xlarge"  id="item_price_new"/>
+											
+											</div>
+									</div>
+											
+										</div>
+										<div class="modal-footer">
+											<a href="#" class="btn" data-dismiss="modal">Close</a><a href="#" data-dismiss="modal" id="addNewPrice_btn" class="btn btn-primary">Add Price</a>
+										</div>
+										
+									</div>
+												
+											
+										
+									
+									
+									<div class="control-group">
+										<label class="control-label" for="register_answer">Item Image*</label>
+										<div class="controls">
+					
+									<p><img src="<?php echo site_url() . 'images/item_images/' . $rec->mboos_product_image; ?>" width="50" height="50" /></p>			
+									<p><a href="<?php echo base_url();?>admin/item/upload_image/<?php echo $rec->mboos_product_name;?>"><br />Change item image</a></p>
+										</div>
+									</div>
+									
+
+									
 									<div class="row-fluid">
 										<div class="span12">
 											<div class="nonboxy-widget">
@@ -137,20 +157,13 @@
 												</tr>
 												</thead>
 												<tbody>
-												<?php foreach ($item_price as $price):?>
+												<?php foreach ($all_price as $price):?>
 												    <tr>
-												    	<td><?php echo $price->mboos_product_price;?></td>
-												        <td><?php echo $price->mboos_product_price_date;?></td>
-												        <td><?php if($price->mboos_product_price_status == "1"){
-																		print '<input type="radio" name="price_status" value="Active" checked="checked">';
-																		
-												                        }else{
-																			print '<input type="radio" name="price_status" value="Active">';
-																		 } ?>
-														
-															
-												        </td>
+												    	 <td><?php echo $price->mboos_product_price;?></td>
+												         <td><?php echo $price->mboos_product_price_date;?></td>
+												      	 <td> <input checked="checked" id="price_radio_btn" type="radio" value="<?php echo $price->mboos_product_price;?>" name="price_status"/></td>
 												    </tr><?php endforeach;?>
+												    <?php endforeach;?>	
 												</tbody>
 												</table>
 											</div>
@@ -160,6 +173,7 @@
 									<div class="clearfix">
 										<button  id="saveEdit_button" class="btn btn-primary login-btn" title="theme-blue" type="submit">Update</button>
 									</div>
+									
 								</fieldset>
 							</form>
 						</div>
@@ -169,4 +183,3 @@
 		</div>
 	</div>
 </div>
-<?php endforeach;?>

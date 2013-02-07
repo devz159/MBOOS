@@ -27,15 +27,27 @@ class Reports extends CI_Controller {
 		//call_debug($month_order_end);
 		if ($order_year == $this->input->post('year_ordered') && $month_order_start == $this->input->post('month_ordered_start') && $month_order_end == "00"){
 			
+			
+			$params['querystring'] = 'SELECT mboos_orders.mboos_order_id, mboos_orders.mboos_order_date, mboos_orders.mboos_order_pick_schedule, mboos_orders.mboos_orders_total_price, mboos_orders.mboos_order_status, mboos_orders.mboos_customer_id, mboos_customers.mboos_customer_complete_name 
+									FROM mboos_orders
+									LEFT JOIN mboos_customers ON mboos_customers.mboos_customer_id = mboos_orders.mboos_customer_id 
+									WHERE mboos_orders.mboos_order_status="3" AND mboos_orders.mboos_order_date BETWEEN "' . $order_year . '-' . $month_order_start . '-01" AND "' . $order_year . '-' . $month_order_start . '-31" ORDER BY mboos_orders.mboos_order_date';
 			//call_debug($params);
+			$this->mdldata->reset();
+			$this->mdldata->select($params);		
+			$data['monthly_order_list'] = $this->mdldata->_mRecords;
 			
 			$data['main_content'] = 'admin/report_view/monthly_report_view';  
 			$this->load->view('includes/template', $data);	
 			
 		}elseif($order_year == $this->input->post('year_ordered') && $month_order_start == $this->input->post('month_ordered_start') && $month_order_end == $this->input->post('month_ordered_end')){
 		
-			$params['querystring'] = 'SELECT mboos_orders.mboos_order_id, mboos_orders.mboos_order_date, mboos_orders.mboos_order_pick_schedule, mboos_orders.mboos_orders_total_price, mboos_orders.mboos_order_status, mboos_orders.mboos_customer_id FROM mboos_orders WHERE mboos_orders.mboos_order_status="1" AND mboos_orders.mboos_order_date BETWEEN "' . $order_year . '-' . $month_order_start . '-01" AND "' . $order_year . '-' . $month_order_end . '-31" ORDER BY mboos_orders.mboos_order_date';
+			$params['querystring'] = 'SELECT mboos_orders.mboos_order_id, mboos_orders.mboos_order_date, mboos_orders.mboos_order_pick_schedule, mboos_orders.mboos_orders_total_price, mboos_orders.mboos_order_status, mboos_orders.mboos_customer_id, mboos_customer_complete_name
+									FROM mboos_orders 
+									LEFT JOIN mboos_customers ON mboos_customers.mboos_customer_id = mboos_orders.mboos_customer_id 
+									WHERE mboos_orders.mboos_order_status="3" AND mboos_orders.mboos_order_date BETWEEN "' . $order_year . '-' . $month_order_start . '-01" AND "' . $order_year . '-' . $month_order_end . '-31" ORDER BY mboos_orders.mboos_order_date';
 			//call_debug($params);
+			$this->mdldata->reset();
 			$this->mdldata->select($params);
 			
 			$data['monthly_order_list'] = $this->mdldata->_mRecords;
@@ -44,16 +56,6 @@ class Reports extends CI_Controller {
 			$this->load->view('includes/template', $data);	
 			
 		}
-	}
-	
-	private function _singlemonthquery($limit, $start){
-		
-		$params['querystring'] = 'SELECT mboos_orders.mboos_order_id, mboos_orders.mboos_order_date, mboos_orders.mboos_order_pick_schedule, mboos_orders.mboos_orders_total_price, mboos_orders.mboos_order_status, mboos_orders.mboos_customer_id FROM mboos_orders WHERE mboos_orders.mboos_order_status="1" AND mboos_orders.mboos_order_date BETWEEN "' . $order_year . '-' . $month_order_start . '-01" AND "' . $order_year . '-' . $month_order_start . '-31" ORDER BY mboos_orders.mboos_order_date LIMIT '.$start .',' . $limit;
-		
-		if(!$this->mdldata->select($params))
-			return false;
-		else 
-	 		return $this->mdldata->_mRecords;
 	}
 	
 	public function yearly_report(){
@@ -72,7 +74,10 @@ class Reports extends CI_Controller {
 		if ($order_year_start == $this->input->post('year_ordered_start') && $order_year_end == "0000"){
 			
 			//call_debug($order_year_start);
-			$params['querystring'] = 'SELECT mboos_orders.mboos_order_id, mboos_orders.mboos_order_date, mboos_orders.mboos_order_pick_schedule, mboos_orders.mboos_orders_total_price, mboos_orders.mboos_order_status, mboos_orders.mboos_customer_id FROM mboos_orders WHERE mboos_orders.mboos_order_status="1" AND mboos_orders.mboos_order_date BETWEEN "' . $order_year_start . '-01-01" AND "' . $order_year_start . '-12-31" ORDER BY mboos_orders.mboos_order_date';
+			$params['querystring'] = 'SELECT mboos_orders.mboos_order_id, mboos_orders.mboos_order_date, mboos_orders.mboos_order_pick_schedule, mboos_orders.mboos_orders_total_price, mboos_orders.mboos_order_status, mboos_orders.mboos_customer_id, mboos_customer_complete_name 
+									FROM mboos_orders 
+									LEFT JOIN mboos_customers ON mboos_customers.mboos_customer_id = mboos_orders.mboos_customer_id 
+									WHERE mboos_orders.mboos_order_status="3" AND mboos_orders.mboos_order_date BETWEEN "' . $order_year_start . '-01-01" AND "' . $order_year_start . '-12-31" ORDER BY mboos_orders.mboos_order_date';
 			//call_debug($params);
 			$this->mdldata->select($params);
 			
@@ -83,7 +88,10 @@ class Reports extends CI_Controller {
 			
 		}elseif($order_year_start == $this->input->post('year_ordered_start') && $order_year_end == $this->input->post('year_ordered_end')){
 			
-			$params['querystring'] = 'SELECT mboos_orders.mboos_order_id, mboos_orders.mboos_order_date, mboos_orders.mboos_order_pick_schedule, mboos_orders.mboos_orders_total_price, mboos_orders.mboos_order_status, mboos_orders.mboos_customer_id FROM mboos_orders WHERE mboos_orders.mboos_order_status="1" AND mboos_orders.mboos_order_date BETWEEN "' . $order_year_start . '-01-01" AND "' . $order_year_end . '-12-31" ORDER BY mboos_orders.mboos_order_date';
+			$params['querystring'] = 'SELECT mboos_orders.mboos_order_id, mboos_orders.mboos_order_date, mboos_orders.mboos_order_pick_schedule, mboos_orders.mboos_orders_total_price, mboos_orders.mboos_order_status, mboos_orders.mboos_customer_id, mboos_customer_complete_name 
+									FROM mboos_orders 
+									LEFT JOIN mboos_customers ON mboos_customers.mboos_customer_id = mboos_orders.mboos_customer_id 
+									WHERE mboos_orders.mboos_order_status="3" AND mboos_orders.mboos_order_date BETWEEN "' . $order_year_start . '-01-01" AND "' . $order_year_end . '-12-31" ORDER BY mboos_orders.mboos_order_date';
 			//call_debug($params);
 			$this->mdldata->select($params);
 			

@@ -41,16 +41,16 @@ class Product_category extends CI_Controller {
 				$this->load->view('includes/template', $data);
 					
 			} else {
-								$params = array(
-							  		'table' => array('name' => 'mboos_product_category'),
+					$params = array(
+									'table' => array('name' => 'mboos_product_category'),
 							        'fields' => array(						                                     
 											'mboos_product_category_name' => $this->input->post('product_category_name')));
 					
-								$this->mdldata->reset();
-								$this->mdldata->insert($params);
+					$this->mdldata->reset();
+					$this->mdldata->insert($params);
 												
-								$data['main_content'] = 'admin/product_category_view/add_product_category_success_view';
-								$this->load->view('includes/template', $data);
+					$data['main_content'] = 'admin/product_category_view/add_product_category_success_view';
+					$this->load->view('includes/template', $data);
 							}
 	}
 	
@@ -60,6 +60,7 @@ class Product_category extends CI_Controller {
 		
 		$params['querystring'] = 'SELECT mboos_product_category.mboos_product_category_id, mboos_product_category.mboos_product_category_name FROM mboos_product_category WHERE mboos_product_category.mboos_product_category_status="1" AND mboos_product_category.mboos_product_category_id="' . $edit_category_id  . '"';
 		
+		$this->mdldata->reset();
 		$this->mdldata->select($params);
 			
 		$data['edit_category'] = $this->mdldata->_mRecords;
@@ -71,28 +72,28 @@ class Product_category extends CI_Controller {
 	
 	public function edit_product_category_validate(){
 		
-		$edit_category_id = $this->uri->segment(4);
-		
+		$edit_category_id = $this->input->post('item_id');
+
 		$this->load->library('form_validation'); // loads form_validation from library
 		$validation = $this->form_validation;	// initializes form_validation
 		
 		$validation->set_rules('product_category_name', 'Category name', 'required'); 
+		
 			if($this->form_validation->run() == FALSE) {
 				
-				$edit_category_id = $this->uri->segment(4);
-				
-				$params['querystring'] = 'SELECT mboos_product_category.mboos_product_category_id, mboos_product_category.mboos_product_category_name FROM mboos_product_category WHERE mboos_product_category.mboos_product_category_status="1" AND mboos_product_category.mboos_product_category_id="' . $edit_category_id  . '" ORDER BY mboos_product_category_name';
-				
-				$this->mdldata->select($params);
+				redirect('admin/product_category/edit_product_category/'. $edit_category_id .'');
+			
+			}else{
 					
-				$data['edit_category'] = $this->mdldata->_mRecords;
-				
-				$data['main_content'] = 'admin/product_category_view/edit_product_category_view';
-				$this->load->view('includes/template', $data);
-				
-			} else {
-					$this->edit_product_category();
-					}
+					$params = array(
+					'table' => array('name' => 'mboos_product_category', 'criteria_phrase' => 'mboos_product_category_id= "' . $edit_category_id . '"'),
+					'fields' => array('mboos_product_category_name' => $this->input->post('product_category_name') ));
+					
+					$this->mdldata->reset();
+					$this->mdldata->update($params);
+					
+					redirect('admin/product_category');
+				}
 	}
 	public function delete_product_category_validate(){
 		
@@ -113,6 +114,7 @@ class Product_category extends CI_Controller {
 		
 		$params['querystring'] = 'SELECT mboos_product_category.mboos_product_category_id, mboos_product_category.mboos_product_category_name FROM mboos_product_category WHERE mboos_product_category.mboos_product_category_status="1" ORDER BY mboos_product_category_name';
 		
+		$this->mdldata->reset();
 		$this->mdldata->select($params);
 			
 		$data['product_category_list'] = $this->mdldata->_mRecords;
@@ -122,4 +124,3 @@ class Product_category extends CI_Controller {
 	}
 	
 }
-

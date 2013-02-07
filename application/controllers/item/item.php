@@ -148,5 +148,3 @@ class Item extends CI_Controller{
 		}
 	
 } 
-
-?>

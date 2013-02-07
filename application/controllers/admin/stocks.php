@@ -26,6 +26,7 @@ class Stocks extends CI_Controller {
 	
 	public function add_stock_validate(){
 		
+		$item_id = $this->input->post('item_id');
 		$this->load->library('form_validation'); 
 		$validation = $this->form_validation;	
 		
@@ -33,7 +34,7 @@ class Stocks extends CI_Controller {
 		
 		if($this->form_validation->run() == FALSE) {
 				
-				$this->add_stock();
+				redirect('admin/stocks/add_stock/'. $item_id .'');
 					
 			} else {
 				$params = array(

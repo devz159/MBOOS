@@ -11,11 +11,11 @@ class Register extends CI_Controller {
 	/* get all product categories */
 	public function index() {
 		
-		$uName = mysql_real_escape_string($this->input->post("cname"));
-		$uAddr = mysql_real_escape_string($this->input->post("address"));
-		$uEmail = mysql_real_escape_string($this->input->post("email"));
-		$ucpNumber = mysql_real_escape_string($this->input->post("cpnumber"));
-		$uPassword = md5($this->input->post("pword"));
+		$uName =  mysql_real_escape_string($this->input->post("cname"));
+		$uAddr =  mysql_real_escape_string($this->input->post("address"));
+		$uEmail =  mysql_real_escape_string($this->input->post("email"));
+		$ucpNumber =  mysql_real_escape_string($this->input->post("cpnumber"));
+		$uPassword =  mysql_real_escape_string(md5($this->input->post("pword")));
 		
 		$this->register($uName, $uAddr, $uEmail, $ucpNumber, $uPassword);	
 			
