@@ -98,7 +98,7 @@ WHERE mboos_products.mboos_product_status =  "1" AND mboos_product_price.mboos_p
 					
 			} else {
 					
-					$target = "uploads/product_images/";
+					$target = "images/item_images/";
 					$target = $target . basename( $_FILES['item_image']['name']);
 					$image = basename( $_FILES['item_image']['name']);
 					//call_debug($image);
