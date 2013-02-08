@@ -134,7 +134,7 @@
 										<label class="control-label" for="register_answer">Item Image*</label>
 										<div class="controls">
 					
-									<p><img src="<?php echo base_url(); ?>uploads/product_images/<?php echo $rec->mboos_product_image; ?>" width="50" height="50" /></p>			
+									<p><img src="<?php echo base_url(); ?>images/item_images/<?php echo $rec->mboos_product_image; ?>" width="50" height="50" /></p>			
 									<p><a href="<?php echo base_url();?>admin/item/upload_image/<?php echo $rec->mboos_product_id;?>"><br />Change item image</a></p>
 										</div>
 									</div>
