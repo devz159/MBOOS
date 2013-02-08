@@ -64,6 +64,7 @@
 									<div class="control-group">
 										<label class="control-label" for="item_name">Quantity *</label>
 										<div class="controls">
+											<input type="hidden" name="admin_user_id" value="<?php echo $sessVar['sadmin_uid'] ?>" />
 											<input type="text" class="input-xlarge text-tip" title="Quantity" name="quantity_number" value="<?php echo set_value('quantity_number'); ?>" />		
 										</div>
 									</div>									

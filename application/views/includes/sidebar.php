@@ -25,7 +25,7 @@
     <li><a href="#"><span class="white-icons documents"></span> Reports</a>
       <ul class="acitem">
         <li><a href="<?php echo base_url();?>admin/inventory_report"><span class="sidenav-icon"><span class="sidenav-link-color"></span></span>Inventory Report</a></li>
-        <li><a href="content.html"><span class="sidenav-icon"><span class="sidenav-link-color"></span></span>Order Report</a></li>
+        <li><a href="<?php echo base_url();?>admin/order_report"><span class="sidenav-icon"><span class="sidenav-link-color"></span></span>Order Report</a></li>
         <li><a href="login.html"><span class="sidenav-icon"><span class="sidenav-link-color"></span></span>Sales Report</a></li>
       </ul>
     </li>

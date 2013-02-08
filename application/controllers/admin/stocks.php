@@ -108,8 +108,9 @@ class Stocks extends CI_Controller {
 								'table' => array('name' => 'mboos_instocks', 'criteria_phrase' => 'mboos_product_id= "' . $this->input->post('item_id') . '"'),
 								'fields' => array(						                                     
 												'mboos_inStocks_quantity' => $this->input->post('quantity_number'),
-												'mboos_inStocks_date' => $item_date,
-												'mboos_product_id' => $this->input->post('item_id'),
+												'mboos_inStocks_date' 	  => $item_date,
+												'mboos_user_id'			  => $this->input->post('admin_user_id'),
+												'mboos_product_id' 	      => $this->input->post('item_id'),
 												));		
 							//call_debug($params);
 				$this->mdldata->reset();
