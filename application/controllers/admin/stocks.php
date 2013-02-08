@@ -13,10 +13,10 @@ class Stocks extends CI_Controller {
 	
 	public function index(){  
 	
-			$this->add_stock();
+			$this->manage_stock_view();
 	}
 	
-	public function add_stock(){
+	public function manage_stock_view(){
 		
 		authUser();
 		
@@ -24,19 +24,40 @@ class Stocks extends CI_Controller {
 		
 		$product_id = $this->uri->segment(4);
 		
-		/* $params['querystring'] = 'SELECT mboos_products.mboos_product_id, mboos_products.mboos_product_name, sum(mboos_instocks.mboos_inStocks_quantity) as mboos_inStocks_quality FROM mboos_products
-		INNER JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mboos_product_id
-		WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product_id="'. $product_id .'"';
-		
-		$this->mdldata->select($params);
-		$data['stock_number'] = $this->mdldata->_mRecords; */
+		$data['stock_number'] = $this->_getStocks();
 		
 		$config["total_rows"] = $this->_getcountproducts();
 		
 		$data['products'] = $this->_getlistproducts();
 		
+		$data['main_content'] = 'admin/stock_view/stocks_view';
+		$this->load->view('includes/template', $data);
+	}
+	
+	public function add_stock(){
+		
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;		
+		
+		$data['stock_number'] = $this->_getStocks();
+		
 		$data['main_content'] = 'admin/stock_view/add_stock_view';
 		$this->load->view('includes/template', $data);
+	}
+	
+	private function _getStocks(){
+	
+		$product_id = $this->uri->segment(4);
+		
+		$params['querystring'] = 'SELECT mboos_products.mboos_product_id, mboos_products.mboos_product_name, sum(mboos_instocks.mboos_inStocks_quantity) as mboos_inStocks_quality FROM mboos_products
+		INNER JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mboos_product_id
+		WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product_id="'. $product_id .'"';
+		
+		if(!$this->mdldata->select($params))
+			return false;
+		else
+			return $this->mdldata->_mRecords;
 	}
 	
 	private function _getcountproducts(){
