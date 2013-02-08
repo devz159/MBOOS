@@ -1,7 +1,7 @@
 <div id="homePage" data-role="page">
 
 <div data-role="header" data-position="fixed" data-theme="b">
-		<h1>Place Order to PayPal</h1>
+		<p>Place Order to PayPal</p>
 </div><!-- /header -->
 
 <div data-role="content">	

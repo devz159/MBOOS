@@ -61,7 +61,7 @@
 						<td><?php echo $list->mboos_product_name;?></td>
 						<td><?php echo $list->mboos_product_category_name;?></td>
 						<td><?php echo $list->mboos_inStocks_quantity;?></td>
-						<td><?php echo $list->mboos_inStocks_date;?></td>
+						<td><?php echo getDateArr($list->mboos_inStocks_date);?></td>
 						<td><?php echo $list->mboos_user_username;?></td>
 					</tr><?php endforeach;?>
 					</tbody>

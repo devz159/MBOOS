@@ -59,7 +59,7 @@
 						<td><?php echo formatedpadding($list->mboos_product_id);?></td>
 						<td><?php echo $list->mboos_product_name;?></td>
 						<td><?php echo $list->mboos_product_category_name;?></td>
-						<td><?php echo $list->mboos_order_date;?></td>
+						<td><?php echo getDateArr($list->mboos_order_date);?></td>
 						<td><?php echo $list->mboos_orders_total_price;?></td>
 					</tr><?php endforeach;?>
 					</tbody>

@@ -58,8 +58,8 @@
 							<?php foreach ($completed as $list):?>
 						<tr>
 							<td><?php echo formatedpadding($list->mboos_order_id);?></td>
-							<td><?php echo $list->mboos_order_date;?></td>
-							<td><?php echo $list->mboos_order_pick_schedule;?></td>
+							<td><?php echo getDateArr($list->mboos_order_date);?></td>
+							<td><?php echo getDateArr($list->mboos_order_pick_schedule);?></td>
 							<td><?php echo $list->mboos_orders_total_price;?></td>
 							<td><?php echo $list->mboos_customer_complete_name;?></td>
 						</tr><?php endforeach;?>
