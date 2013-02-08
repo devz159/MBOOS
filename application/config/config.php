@@ -15,7 +15,7 @@
 |
 */
 /* $config['base_url']	= 'http://mboos.ipklab.dx.am/MBOOS/';   */
-$config['base_url']	= 'http://localhost/MBOOS/';   
+$config['base_url']	= 'http://localhost/MBOOS/';    
 /*
 |--------------------------------------------------------------------------
 | Index File

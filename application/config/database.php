@@ -54,8 +54,8 @@ $db['default']['username'] = '577539_mboosdb';
 $db['default']['password'] = 'paul1989';
 $db['default']['database'] = '577539_mboosdb';
 $db['default']['dbdriver'] = 'mysql'; 
-$db['default']['port'] = 3306;   */
-
+$db['default']['port'] = 3306;   
+ */
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
