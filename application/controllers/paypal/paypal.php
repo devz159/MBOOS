@@ -172,42 +172,20 @@ class Paypal extends CI_Controller {
 		$last_pick_scheduled = $this->mdldata->_mRecords;
 		
 		if($this->mdldata->_mRowCount == 0) {
+			
+			
 		
-			$currDate = date('Y-m-d');
-			
-			$currDate = $currDate . " 8:00:00 AM";
-			
-			$splitComplateDate = preg_split('/ /', $currDate);
-			
-			
-			$timestamp = strtotime(date("Y-m-d h:i:s A", strtotime($splitComplateDate[1])));
-			$new_generate_datetime = date('Y-m-d H:i:s A', $timestamp);
-
+			 $currDate = date('Y-m-d');
+			$starting_date =  date('Y-m-d H:i:s A' , strtotime('+ 1 day 8:00 AM', strtotime($currDate)));
 		
-			$currDate = date('Y-m-d');
-				
-			$start_currDate = $currDate . " 8:00:00 AM";
-			$end_currDate = $currDate . " 5:00:00 PM";
 			
+			return $starting_date;
 			
-			$format = $start_currDate . " to " . $end_currDate;
-			
-			if($this->check_date_is_within_range($start_currDate, $end_currDate, $new_generate_datetime)){
-				
-				return $new_generate_datetime;
-				
-			} else {
-				
- 				$new_generate_datetime = date('Y-m-d H:i:s A' , strtotime('+ 1 day 8:00 AM', strtotime($splitComplateDate[0])));
-				
- 				return $new_generate_datetime;
-								
-				
-			}
 		
 		} else {
 			
 			$start_time = $last_pick_scheduled[0]->mboos_order_pick_schedule;
+			
 			
 			$splitComplateDate = preg_split('/ /', $start_time);
 			
@@ -223,8 +201,10 @@ class Paypal extends CI_Controller {
 			
 			$clearDateTime = date("Y-m-d h:i:s A", mktime($hr, $min, $sec, $month, $day, $year)); 
 			
-			$start_currDate = $splitComplateDate[0] . " 8:00:00 AM";
-			$end_currDate = $splitComplateDate[0] . " 17:00:00 PM";
+			
+			
+			$start_currDate = $splitComplateDate[0] . " 08:00:00 AM";
+			$end_currDate = $splitComplateDate[0] . " 05:00:00 PM";
 
 			if($this->check_date_is_within_range($start_currDate, $end_currDate, $clearDateTime)){
 			
@@ -255,7 +235,7 @@ class Paypal extends CI_Controller {
 		$end_timestamp = strtotime($end_date);
 		$today_timestamp = strtotime($todays_date);
 	
-		return (($today_timestamp >= $start_timestamp) && ($today_timestamp <= $end_timestamp));
+		return (($today_timestamp >= $start_timestamp) && ($today_timestamp < $end_timestamp));
 	
 	}
 }
