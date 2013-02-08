@@ -34,6 +34,10 @@ if ( ! function_exists('mdate'))
 {
 	function mdate($datestr = '', $time = '')
 	{
+		
+		$timezone = "Asia/Manila";
+		date_default_timezone_set($timezone);
+		
 		if ($datestr == '')
 			return '';
 

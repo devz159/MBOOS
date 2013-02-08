@@ -2,6 +2,10 @@
 class Profile_mboos extends CI_Controller{
 	public function __construct() {
 		parent::__construct();
+		
+		$params = array('sadmin_uname', 'sadmin_islogin', 'sadmin_ulvl', 'sadmin_uid');
+		$this->sessionbrowser->getInfo($params);
+		$this->_arr = $this->sessionbrowser->mData;
 	
 	}
 	
@@ -16,6 +20,8 @@ class Profile_mboos extends CI_Controller{
 						
 		$this->sessionbrowser->getInfo($params);
 		$data['currUser'] = $this->sessionbrowser->mData;
+		
+		$data['sessVar'] = $this->_arr;
 		
 		authUser(); //check if user is logged in
 		

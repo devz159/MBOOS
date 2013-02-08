@@ -25,7 +25,7 @@ class Paypal extends CI_Controller {
 	public function index() {
 		
 		$strOrder = $this->input->get("stringOrder");
-		
+	
 		$this->_subtotal = mysql_real_escape_string($this->input->get("subtotal"));
 		$this->_cust_id = mysql_real_escape_string($this->input->get("cust_id"));
 		$this->_paypal_email = mysql_real_escape_string($this->input->get("paypal_email"));
@@ -224,7 +224,7 @@ class Paypal extends CI_Controller {
 			$clearDateTime = date("Y-m-d h:i:s A", mktime($hr, $min, $sec, $month, $day, $year)); 
 			
 			$start_currDate = $splitComplateDate[0] . " 8:00:00 AM";
-			$end_currDate = $splitComplateDate[0] . " 5:00:00 PM";
+			$end_currDate = $splitComplateDate[0] . " 17:00:00 PM";
 
 			if($this->check_date_is_within_range($start_currDate, $end_currDate, $clearDateTime)){
 			

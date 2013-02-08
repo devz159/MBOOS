@@ -17,6 +17,20 @@
 	}
 }
 
+if ( ! function_exists('order_counter')) {
+	function order_counter($date) {
+		$CI =& get_instance();
+
+		$params['querystring'] = "SELECT * FROM mboos_orders where DATE_FORMAT(mboos_order_date, '%Y %m') = DATE_FORMAT('2013-02-08', '%Y %m')";
+
+		$CI->mdldata->select($params);
+
+		$serps = $CI->mdldata->_mRowCount;
+
+		return $serps;
+	}
+}
+
 
 
 

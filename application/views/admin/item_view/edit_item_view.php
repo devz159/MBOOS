@@ -16,7 +16,7 @@
             </li>
           </ul>
         </li>
-        <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $sessVar['sadmin_uname'];?> <span class="alert-noty">25</span><i class="white-icons admin_user"></i><b class="caret"></b></a>
+        <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $sessVar['sadmin_uname'];?> <i class="white-icons admin_user"></i><b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="<?php echo base_url();?>admin/profile_mboos/edit_profile/<?php echo $sessVar['sadmin_uid'] ?>"><i class="icon-pencil"></i> Edit Profile</a></li>
             <li><a href="#"><i class="icon-cog"></i> Account Settings</a></li>
@@ -87,10 +87,9 @@
 										<label class="control-label" for="register_answer">Item Price *</label>
 										<div class="controls">
 											<?php foreach ($item_price as $price):?>
-												<input type="text" name="item_price" value="<?php echo $price->mboos_product_price; ?>" class="input-xlarge"  id="item_price"/>
-						
+												<span class="input-xlarge uneditable-input"><?php echo $price->mboos_product_price; ?></span>
 											<?php endforeach;?>
-											<p><a href="<?php echo base_url();?>admin/item/add_price/<?php echo $rec->mboos_product_id;?>"><br />Add new item price</a></p>
+											
 										</div>
 									</div>
 									<div class="control-group">
@@ -135,8 +134,8 @@
 										<label class="control-label" for="register_answer">Item Image*</label>
 										<div class="controls">
 					
-									<p><img src="<?php echo site_url() . 'images/item_images/' . $rec->mboos_product_image; ?>" width="50" height="50" /></p>			
-									<p><a href="<?php echo base_url();?>admin/item/upload_image/<?php echo $rec->mboos_product_name;?>"><br />Change item image</a></p>
+									<p><img src="<?php echo base_url(); ?>uploads/product_images/<?php echo $rec->mboos_product_image; ?>" width="50" height="50" /></p>			
+									<p><a href="<?php echo base_url();?>admin/item/upload_image/<?php echo $rec->mboos_product_id;?>"><br />Change item image</a></p>
 										</div>
 									</div>
 									

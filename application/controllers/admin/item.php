@@ -44,16 +44,6 @@ WHERE mboos_products.mboos_product_status =  "1" AND mboos_product_price.mboos_p
 	 		return $this->mdldata->_mRecords;
 	}
 	
-	private function _getStocks(){
-		//=========================
-	$params['querystring'] = 'SELECT sum(mboos_instocks.mboos_inStocks_quantity) as mboos_inStocks_quality FROM mboos_products 
-INNER JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mboos_product_id
-WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product_id="103"';
-	if(!$this->mdldata->select($params))
-			return false;
-		else 
-	 		return $this->mdldata->_mRecords;
-	}
 	
 	private function _getcountproducts(){
 	
@@ -83,6 +73,11 @@ WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product
 	}
 	
 	public function add_item_validate(){
+		
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
+		
 		
 		$datestring = "Y-m-d g:i:s";
 		$time = time();
@@ -135,6 +130,7 @@ WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product
 								$params = array(
 									'table'  => array('name' => 'mboos_product_price'),
 									'fields' => array(
+										
 											'mboos_product_price'		=> $this->input->post('item_price'),
 											'mboos_product_price_date'	=> $item_date,
 											'mboos_product_id'			=> '+@last_id_in_table1+'
@@ -150,6 +146,9 @@ WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product
 								$params = array(
 									'table'  => array('name' => 'mboos_instocks'),
 									'fields' => array(
+											'mboos_user_id'             => $data['sessVar']['sadmin_uid'],
+											'mboos_inStocks_quantity'   => 0,
+											'mboos_inStocks_date'       => $item_date,
 											'mboos_inStocks_quantity'	=> $this->input->post('item_quantity'),
 											'mboos_product_id'			=> '+@last_id_in_table1+'
 												));
@@ -198,9 +197,16 @@ WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product
 		
 		$data['sessVar'] = $this->_arr;
 		
+		$id = $this->uri->segment(4);
 		
-			$data['main_content'] = 'admin/item_view/upload_image_view';
-			$this->load->view('includes/template', $data);
+		$params['table'] = array('name' => ' mboos_products' , 'criteria_phrase' => ' mboos_product_id="'. $id . '"');
+		$this->mdldata->select($params);
+		
+		$data['item_info'] = $this->mdldata->_mRecords;
+		
+		
+		$data['main_content'] = 'admin/item_view/upload_image_view';
+		$this->load->view('includes/template', $data);
 			
 	}
 	
@@ -232,8 +238,13 @@ WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product
 								redirect('admin/item/edit_item/'. $edit_image_id .'');
 							}	
 						}else{
-							$data['main_content'] = 'admin/item_view/upload_image_view';
-							$this->load->view('includes/template', $data);
+							
+							authUser();
+							
+							$data['sessVar'] = $this->_arr;
+							
+							redirect('admin/item/upload_image/'. $edit_image_id .'');
+							
 						}
 	}
 	public function edit_item(){

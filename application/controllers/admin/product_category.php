@@ -30,7 +30,10 @@ class Product_category extends CI_Controller {
 	
 	public function add_product_category(){
 		
+		authUser();
 		
+		$data['sessVar'] = $this->_arr;
+
 		$data['main_content'] = 'admin/product_category_view/add_product_category_view';
 		$this->load->view('includes/template', $data);
 		
@@ -45,8 +48,7 @@ class Product_category extends CI_Controller {
 		//$validation->set_rules('product_category_image', 'Category image', 'required');
 		if($this->form_validation->run() == FALSE) {
 					
-				$data['main_content'] = 'admin/product_category_view/add_product_category_view';
-				$this->load->view('includes/template', $data);
+				$this->index();
 					
 			} else {
 					$params = array(
@@ -57,12 +59,16 @@ class Product_category extends CI_Controller {
 					$this->mdldata->reset();
 					$this->mdldata->insert($params);
 												
-					$data['main_content'] = 'admin/product_category_view/add_product_category_success_view';
-					$this->load->view('includes/template', $data);
+					$this->index();
+					
 							}
 	}
 	
 	public function edit_product_category(){
+		
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
 		
 		$edit_category_id = $this->uri->segment(4);
 		
@@ -103,6 +109,8 @@ class Product_category extends CI_Controller {
 					redirect('admin/product_category');
 				}
 	}
+	
+	
 	public function delete_product_category_validate(){
 		
 		$delete_category_id = $this->uri->segment(4);

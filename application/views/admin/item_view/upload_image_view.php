@@ -17,7 +17,7 @@
             </li>
           </ul>
         </li>
-        <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $sessVar['sadmin_uname'];?> <span class="alert-noty">25</span><i class="white-icons admin_user"></i><b class="caret"></b></a>
+        <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $sessVar['sadmin_uname'];?> <i class="white-icons admin_user"></i><b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="<?php echo base_url();?>admin/profile_mboos/edit_profile/<?php echo $sessVar['sadmin_uid'] ?>"><i class="icon-pencil"></i> Edit Profile</a></li>
             <li><a href="#"><i class="icon-cog"></i> Account Settings</a></li>
@@ -42,17 +42,20 @@
 					<div class="widget-content">
 						<div class="widget-box">
 						
-							<form class="form-horizontal well white-box" action="<?php echo base_url(); ?>admin/item/add_item_validate" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+							<form class="form-horizontal well white-box" action="<?php echo base_url(); ?>admin/item/upload_image_validate" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 								<fieldset id="add_item_fieldset">
 									<p id="add_required_msg">* Required </p>
 									<div class="control-group">
-										<label class="control-label" for="item_name">Item Name *</label>
+										<label class="control-label" for="item_name">Item Name </label>
 										<div class="controls">
-											<input type="text" class="input-xlarge text-tip" title="Item Name" name="item_name" value="<?php echo set_value('item_name'); ?>" />				
+											<?php foreach($item_info as $info):?>
+												<span class="input-xlarge uneditable-input"><?php echo $info->mboos_product_name;  ?></span>
+												<input type="hidden" name="item_id" value="<?php echo $info->mboos_product_id; ?>" />		
+											<?php endforeach;?>
 										</div>
 									</div>
 									<div class="control-group">
-										<label class="control-label">File input</label>
+										<label class="control-label">File input *</label>
 										<div class="controls">
 											<input name="item_image" class="input-file" type="file">
 										</div>

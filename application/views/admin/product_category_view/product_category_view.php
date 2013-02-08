@@ -17,7 +17,7 @@
             </li>
           </ul>
         </li>
-        <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $sessVar['sadmin_uname'];?> <span class="alert-noty">25</span><i class="white-icons admin_user"></i><b class="caret"></b></a>
+        <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $sessVar['sadmin_uname'];?> <i class="white-icons admin_user"></i><b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="<?php echo base_url();?>admin/profile_mboos/edit_profile/<?php echo $sessVar['sadmin_uid'] ?>"><i class="icon-pencil"></i> Edit Profile</a></li>
             <li><a href="#"><i class="icon-cog"></i> Account Settings</a></li>
@@ -35,14 +35,16 @@
 <div class="container-fluid">
     <ul class="breadcrumb">
       <li><a href="#">Home</a><span class="divider">&raquo;</span></li>
-       <li class="active">Manage Items</li>
+       <li class="active">Manage Product Categories</li>
     </ul>
 		
 		<div class="row-fluid">
 			<div class="span12">
 				<div class="nonboxy-widget">
+				<a href = "<?php echo base_url() ?>admin/product_category/add_product_category"> <span class="label label-info">Add Category</span> </a>
 					<div class="widget-head">
 						<h5>Category List</h5>
+						
 					</div>
 					<table class="data-tbl-simple table table-bordered">
 					<thead>
