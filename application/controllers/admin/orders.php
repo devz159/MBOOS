@@ -152,7 +152,9 @@ class Orders extends CI_Controller {
 		
 		$data['sessVar'] = $this->_arr;
 		
-		$params['querystring'] = 'SELECT * FROM mboos_orders 
+		$params['querystring'] = 'SELECT mboos_orders.mboos_order_id, mboos_orders.mboos_order_date, mboos_orders.mboos_order_pick_schedule, mboos_orders.mboos_orders_total_price, mboos_customers.mboos_customer_complete_name
+								FROM mboos_orders 
+								LEFT JOIN mboos_customers ON mboos_customers.mboos_customer_id = mboos_orders.mboos_customer_id
 								WHERE mboos_orders.mboos_order_status="3"'; 
 			
 		$this->mdldata->reset();

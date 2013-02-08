@@ -35,7 +35,7 @@
     <ul class="breadcrumb">
       <li><a href="<?php echo base_url(); ?>/admin/dashboard">Home</a><span class="divider">&raquo;</span></li>
       <li>Orders<span class="divider">&raquo;</span></li>
-       <li class="active">Order Report</li>
+       <li class="active">Customer Order Info</li>
     </ul>
 		
 		<div class="row-fluid">
@@ -47,21 +47,21 @@
 					<table class="data-tbl-simple table table-bordered">
 					<thead>
 					<tr>
-						<th>Order ID</th>
-						<th>Order date</th>
-						<th>Pick-up sched</th>
-						<th>Total Price</th>
-						<th>Customer Name</th>		
+						<th>Customer ID</th>
+						<th>Customer Name</th>
+						<th>Address</th>
+						<th>Order Number</th>
+						<th>Order Date</th>		
 					</tr>
 					</thead>
 					<tbody>
-							<?php foreach ($completed as $list):?>
+							<?php foreach ($customer_orders as $list):?>
 						<tr>
-							<td><?php echo formatedpadding($list->mboos_order_id);?></td>
-							<td><?php echo $list->mboos_order_date;?></td>
-							<td><?php echo $list->mboos_order_pick_schedule;?></td>
-							<td><?php echo $list->mboos_orders_total_price;?></td>
+							<td><?php echo formatedpadding($list->mboos_customer_id);?></td>
 							<td><?php echo $list->mboos_customer_complete_name;?></td>
+							<td><?php echo $list->mboos_customer_addr;?></td>
+							<td><?php echo $list->mboos_order_id;?></td>
+							<td><?php echo $list->mboos_order_date;?></td>
 						</tr><?php endforeach;?>
 					</tbody>
 					</table>

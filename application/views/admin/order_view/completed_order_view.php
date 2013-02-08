@@ -51,7 +51,7 @@
 						<th>Order date</th>
 						<th>Pick-up sched</th>
 						<th>Total Price</th>
-						<th>Customer ID</th>		
+						<th>Customer Name</th>		
 						<th>Action</th>
 					</tr>
 					</thead>
@@ -62,7 +62,7 @@
 							<td><?php echo $list->mboos_order_date;?></td>
 							<td><?php echo $list->mboos_order_pick_schedule;?></td>
 							<td><?php echo $list->mboos_orders_total_price;?></td>
-							<td><?php echo $list->mboos_customer_id;?></td>
+							<td><?php echo $list->mboos_customer_complete_name;?></td>
 							<td><span class="label label-success">Ready</span></td>
 						</tr><?php endforeach;?>
 					</tbody>
