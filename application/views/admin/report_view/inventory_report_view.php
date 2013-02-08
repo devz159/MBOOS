@@ -16,7 +16,7 @@
             </li>
           </ul>
         </li>
-        <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $sessVar['sadmin_uname'];?> <i class="white-icons admin_user"></i><b class="caret"></b></a>
+        <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $sessVar['sadmin_uname'];?><i class="white-icons admin_user"></i><b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="<?php echo base_url();?>admin/profile_mboos/edit_profile/<?php echo $sessVar['sadmin_uid'] ?>"><i class="icon-pencil"></i> Edit Profile</a></li>
             <li><a href="#"><i class="icon-cog"></i> Account Settings</a></li>
@@ -34,48 +34,42 @@
 <div class="container-fluid">
     <ul class="breadcrumb">
       <li><a href="<?php echo base_url(); ?>/admin/dashboard">Home</a><span class="divider">&raquo;</span></li>
-       <li class="active">Add Stocks</li>
+       <li class="active">Inventory Report</li>
     </ul>
+		
 		<div class="row-fluid">
-			<div class="span7">
-				<div class="widget-block">
+			<div class="span12">
+				<div class="nonboxy-widget">
 					<div class="widget-head">
-						<h5> Add Stocks </h5>
+						<h5>Inventory Report</h5>
 					</div>
-					<div class="widget-content">
-						<div class="widget-box">
-						<div id="register_msg_error">
-							<?php  echo validation_errors();  ?>
-						</div>
-						
-							<form class="form-horizontal well white-box" action="<?php echo base_url(); ?>admin/stocks/add_stock_validate" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-								<fieldset id="add_item_fieldset">
-									<p id="add_required_msg">* Required </p>
-									<div class="control-group">
-										<label class="control-label" for="item_name">Item Name *</label>
-										<div class="controls">
-										<?php $item_id = $this->uri->segment(4);?>
-											<input type="hidden" name="item_id" value="<?php echo $item_id ?>" />
-											<?php foreach($stock_number as $info):?>																
-												<span class="input-xlarge uneditable-input"><?php echo $info->mboos_product_name; ?></span>
-											<?php endforeach;?>		
-										</div>
-									</div>	
-									<div class="control-group">
-										<label class="control-label" for="item_name">Quantity *</label>
-										<div class="controls">
-											<input type="text" class="input-xlarge text-tip" title="Quantity" name="quantity_number" value="<?php echo set_value('quantity_number'); ?>" />		
-										</div>
-									</div>									
-									<div class="clearfix">
-										<button  id="add_button" class="btn btn-primary login-btn" title="theme-blue" type="submit">Add</button>
-									</div>
-								</fieldset>
-							</form>
-						</div>
-					</div>
+					<table class="data-tbl-simple table table-bordered">
+					<thead>
+					<tr>
+				    	<th>Item ID</th>
+						<th>Item Name</th>	
+						<th>Item Category</th>
+						<th>Stocks</th>
+						<th>Date Added</th>
+						<th title="Added By:">Admin Username</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($inventory_report as $list):?>
+					<tr>
+						<td><?php echo formatedpadding($list->mboos_product_id);?></td>
+						<td><?php echo $list->mboos_product_name;?></td>
+						<td><?php echo $list->mboos_product_category_name;?></td>
+						<td><?php echo $list->mboos_inStocks_quantity;?></td>
+						<td><?php echo $list->mboos_inStocks_date;?></td>
+						<td><?php echo $list->mboos_user_username;?></td>
+					</tr><?php endforeach;?>
+					</tbody>
+					</table>
 				</div>
+			
 			</div>
-		</div>
-	</div>
+</div>	
+		
+</div>
 </div>
