@@ -27,7 +27,8 @@ class Inventory_report extends CI_Controller {
 								LEFT JOIN mboos_product_category ON mboos_product_category.mboos_product_category_id = mboos_products.mboos_product_category_id
 								LEFT JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mboos_product_id
 								LEFT JOIN mboos_users ON mboos_users.mboos_user_id = mboos_instocks.mboos_user_id
-								WHERE mboos_products.mboos_product_status =  "1"';
+								WHERE mboos_products.mboos_product_status =  "1"
+								AND mboos_instocks.mboos_inStocks_quantity > "0"';
 		
 		$this->mdldata->select($params);
 		$data['inventory_report'] = $this->mdldata->_mRecords;	
