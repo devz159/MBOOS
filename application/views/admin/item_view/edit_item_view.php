@@ -145,7 +145,7 @@
 										<div class="span12">
 											<div class="nonboxy-widget">
 												<div class="widget-head">
-													<h5>Manage Orders</h5>
+													<h5>Item Price</h5>
 												</div>
 												<table class="data-tbl-simple table table-bordered">
 												<thead>

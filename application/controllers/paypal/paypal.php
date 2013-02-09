@@ -35,117 +35,10 @@ class Paypal extends CI_Controller {
 	
 	public function paypal_validate($order) {
 		
-		$timezone = "Asia/Manila";
 		
-		date_default_timezone_set($timezone);
+		$this->_processOrder($order);
 		
-		$pattern = '/,\|/';
-		$replacement = '|';
-		
-		$strOrder = preg_replace($pattern, $replacement, $order);
-	
-		
-		$orderItem = explode("||", $strOrder);
-	
-		
-		foreach($orderItem as $v) {
-			
-			if($v != "" && preg_match('/=>/',$v)):
-			
-				$this->_tmpArray[] = $v;
-			
-			endif;
-			
-		}
-		
-		$array = $this->_tmpArray;
-
-		foreach($array as $k => $v):
-		
-		$tmpArray = preg_split("/,/", $v);
-
-		// remove single qoute
-		$pattern1 = "/'/";
-		$array = preg_replace($pattern1, "", $tmpArray);
-
-		foreach($array as $val) {
-			
-			$keyVal = preg_split('/=>/',$val);
-				
-			$cleandArray[$k][trim($keyVal[0])] = trim($keyVal[1]);
-			
-		}
-			
-		endforeach;
-		
-		$this->_mItemList = $cleandArray;
-		
-		$data['order'] = $this->_mItemList;
-		
-		$currDate = date('Y-m-d h:i:s A');
-		
-		$generated_date = $this->process_date();
-		
-		
-		$params['fields'] = array(
-				'mboos_order_date' => $currDate ,
-				'mboos_order_pick_schedule' => $generated_date, 
-				'mboos_orders_total_price' => $this->_subtotal,
-				'mboos_customer_id' => $this->_cust_id
-		);
-		
-		
-		$params['table'] = array('name' => 'mboos_orders');
-		
-		$this->mdldata->SQLText(true);
-		$this->mdldata->insert($params);
-			
-		$queryStringOrder = $this->mdldata->buildQueryString();
-		
-		$get_the_last_id = "SET @last_id_in_table1 = LAST_INSERT_ID()";
-		
-		$newArray = array($queryStringOrder, $get_the_last_id );
-		$strInsert = '';
-		
-		for($k=0; $k<count($data['order']); $k++) {
-			
-			
-			$params['fields'] = array(
-					'mboos_order_detail_quantity' => $data['order'][$k]['qty'] ,
-					'mboos_order_detail_price' => $data['order'][$k]['price'],
-					'mboos_order_id' => '+@last_id_in_table1+',
-					'mboos_product_id' => $data['order'][$k]['item_id']
-					);
-			
-			$params['table'] = array('name' => 'mboos_order_details');
-			
-			$this->mdldata->SQLText(true);
-			$this->mdldata->insert($params);
-			
-			$string = $this->mdldata->buildQueryString();
-			$pattern =  "/('\+)/";
-			$replacement = '';
-			$tempInsertQueryString =  preg_replace($pattern, $replacement, $string);
-			
-			$string = $tempInsertQueryString;
-			$pattern =  "/(\+')/";
-			$replacement = '';
-			$cleanInsertQueryString =  preg_replace($pattern, $replacement, $string);
-			
-			$strInsert = $cleanInsertQueryString;
-			array_push($newArray, $strInsert);	
-			
-		}
-		
-		$this->_readyToInsertQueryString = $newArray;
-		
-		//call_debug($this->_readyToInsertQueryString);
-		$params['transact'] = $this->_readyToInsertQueryString;
-		
-		$this->mdldata->reset();
-		$this->mdldata->executeTransact($params);
-			
-        $data['paypal_email'] = $this->_paypal_email;
+		$data['paypal_email'] = $this->_paypal_email;
 		
 		$data['main_content'] = 'paypal_view/paypal_process_view';
 		$this->load->view('mobile_template/includes/template', $data);
@@ -156,6 +49,130 @@ class Paypal extends CI_Controller {
 		
 		$data['main_content'] = 'paypal_view/paypal_success_view';
 		$this->load->view('mobile_template/includes/template', $data);
+	
+	}
+	
+	private function _processOrder($order) {
+	
+		$timezone = "Asia/Manila";
+	
+		date_default_timezone_set($timezone);
+	
+		$pattern = '/,\|/';
+		$replacement = '|';
+	
+		$strOrder = preg_replace($pattern, $replacement, $order);
+	
+	
+		$orderItem = explode("||", $strOrder);
+	
+	
+		foreach($orderItem as $v) {
+	
+			if($v != "" && preg_match('/=>/',$v)):
+	
+			$this->_tmpArray[] = $v;
+	
+			endif;
+	
+		}
+	
+		$array = $this->_tmpArray;
+	
+		foreach($array as $k => $v):
+	
+		$tmpArray = preg_split("/,/", $v);
+	
+		// remove single qoute
+		$pattern1 = "/'/";
+		$array = preg_replace($pattern1, "", $tmpArray);
+	
+		foreach($array as $val) {
+	
+			$keyVal = preg_split('/=>/',$val);
+	
+			$cleandArray[$k][trim($keyVal[0])] = trim($keyVal[1]);
+	
+		}
+			
+		endforeach;
+	
+		$this->_mItemList = $cleandArray;
+	
+		$data['order'] = $this->_mItemList;
+	
+		
+		$currDate = date('Y-m-d H:i:s A');
+	
+		$generated_date = $this->process_date();
+	
+	
+		$params['fields'] = array(
+				'mboos_order_date' => $currDate ,
+				'mboos_order_pick_schedule' => $generated_date,
+				'mboos_orders_total_price' => $this->_subtotal,
+				'mboos_customer_id' => $this->_cust_id
+		);
+	
+	
+		$params['table'] = array('name' => 'mboos_orders');
+	
+		$this->mdldata->SQLText(true);
+		$this->mdldata->insert($params);
+			
+		$queryStringOrder = $this->mdldata->buildQueryString();
+	
+		$get_the_last_id = "SET @last_id_in_table1 = LAST_INSERT_ID()";
+	
+		$newArray = array($queryStringOrder, $get_the_last_id );
+		$strInsert = '';
+		
+		for($j=0; $j<count($data['order']); $j++) {
+			
+			$qty = qty_checker($data['order'][$j]['qty'] , count_qty($data['order'][$j]['item_id']));
+			call_debug($qty, false);
+			$this->_qty_checker($qty);
+			
+		}
+	
+		for($k=0; $k<count($data['order']); $k++) {
+	
+			$params['fields'] = array(
+					'mboos_order_detail_quantity' => $data['order'][$k]['qty'] ,
+					'mboos_order_detail_price' => $data['order'][$k]['price'],
+					'mboos_order_id' => '+@last_id_in_table1+',
+					'mboos_product_id' => $data['order'][$k]['item_id']
+			);
+	
+			$params['table'] = array('name' => 'mboos_order_details');
+	
+			$this->mdldata->SQLText(true);
+			$this->mdldata->insert($params);
+	
+			$string = $this->mdldata->buildQueryString();
+			$pattern =  "/('\+)/";
+			$replacement = '';
+			$tempInsertQueryString =  preg_replace($pattern, $replacement, $string);
+	
+			$string = $tempInsertQueryString;
+			$pattern =  "/(\+')/";
+			$replacement = '';
+			$cleanInsertQueryString =  preg_replace($pattern, $replacement, $string);
+	
+			$strInsert = $cleanInsertQueryString;
+			array_push($newArray, $strInsert);
+	
+		}
+	
+		$this->_readyToInsertQueryString = $newArray;
+	
+		call_debug($this->_readyToInsertQueryString);
+		$params['transact'] = $this->_readyToInsertQueryString;
+	
+		$this->mdldata->reset();
+		$this->mdldata->executeTransact($params);
+			
+	
 	
 	}
 	
@@ -238,6 +255,17 @@ class Paypal extends CI_Controller {
 		return (($today_timestamp >= $start_timestamp) && ($today_timestamp < $end_timestamp));
 	
 	}
+	
+	private function _qty_checker($param) {
+		
+		if($param == 1)
+			return true;
+		
+		return false;
+		
+	}
+	
+	
 }
 
 

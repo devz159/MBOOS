@@ -41,12 +41,12 @@
       <div class="row-fluid">
         <div class="span2">
           <div class="dashboard-wid-wrap">
-            <div class="dashboard-wid-content"> <a href="#"> <i class="dashboard-icons computer_imac_blk"></i> <span class="dasboard-icon-title">Dashboard</span> </a> </div>
+            <div class="dashboard-wid-content"> <a href="<?php echo base_url();?>admin/orders/manage_order"> <i class="dashboard-icons-colors archives_sl"></i> <span class="dasboard-icon-title">Manage Order</span> </a> </div>
           </div>
         </div>
         <div class="span2">
           <div class="dashboard-wid-wrap">
-            <div class="dashboard-wid-content"> <a href="#"> <i class="dashboard-icons cog_2_blk"></i> <span class="dasboard-icon-title">Settings</span> </a> </div>
+            <div class="dashboard-wid-content"> <a href="<?php echo base_url();?>admin/item"> <i class="dashboard-icons-colors order_1_sl"></i> <span class="dasboard-icon-title">Inventory</span> </a> </div>
           </div>
         </div>
       </div>
@@ -56,17 +56,17 @@
    
         <div class="span2">
           <div class="dashboard-wid-wrap">
-            <div class="dashboard-wid-content"> <a href="#"> <i class="dashboard-icons-colors customers_sl"></i> <span class="dasboard-icon-title">Users Lits</span> </a> </div>
+            <div class="dashboard-wid-content"> <a href="<?php echo base_url();?>admin/customer_order_info"> <i class="dashboard-icons-colors customers_sl"></i> <span class="dasboard-icon-title">Customer Information</span> </a> </div>
           </div>
         </div>
      
         <div class="span2">
           <div class="dashboard-wid-wrap">
-            <div class="dashboard-wid-content"> <a href="#"> <i class="dashboard-icons-colors lightbulb_sl"></i> <span class="dasboard-icon-title">Suport</span> </a> </div>
+            <div class="dashboard-wid-content"> <a href="#"> <i class="dashboard-icons-colors settings_sl"></i> <span class="dasboard-icon-title">Settings</span> </a> </div>
           </div>
         </div>
       </div>
     </div>
-
+</div>
 </div>
 </div>

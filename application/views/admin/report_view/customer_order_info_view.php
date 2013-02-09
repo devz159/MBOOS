@@ -50,8 +50,7 @@
 						<th>Customer ID</th>
 						<th>Customer Name</th>
 						<th>Address</th>
-						<th>Order Number</th>
-						<th>Order Date</th>		
+						<th>Order Number</th>	
 					</tr>
 					</thead>
 					<tbody>
@@ -60,8 +59,7 @@
 							<td><?php echo formatedpadding($list->mboos_customer_id);?></td>
 							<td><?php echo $list->mboos_customer_complete_name;?></td>
 							<td><?php echo $list->mboos_customer_addr;?></td>
-							<td><?php echo $list->mboos_order_id;?></td>
-							<td><?php echo $list->mboos_order_date;?></td>
+							<td><?php echo counter_ordered($list->mboos_customer_id);?></td>
 						</tr><?php endforeach;?>
 					</tbody>
 					</table>

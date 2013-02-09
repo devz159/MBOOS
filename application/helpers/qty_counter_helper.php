@@ -11,9 +11,20 @@
 		$params['querystring'] = "SELECT SUM(mboos_inStocks_quantity) as mboos_inStocks_quantity FROM mboos_instocks WHERE mboos_product_id='". $id . "'";
 		$CI->mdldata->select($params);
 		
-		$serps = $CI->mdldata->_mRecords;
+		$serpsInstock = $CI->mdldata->_mRecords;
+		//call_debug($serpsInstock, false);
+		$CI->mdldata->reset();
+		$params['querystring'] = 'SELECT sum(mboos_order_detail_quantity) as totalQtySolved FROM `mboos_order_details` where mboos_product_id="'. $id . '"';
+		$CI->mdldata->select($params);
+		$serpsOrderDetails = $CI->mdldata->_mRecords;
+		//call_debug($serpsOrderDetails, false);
+
+		$currQty = $serpsInstock[0]->mboos_inStocks_quantity - $serpsOrderDetails[0]->totalQtySolved;
+		//call_debug($currQty);
+		if($currQty <= 0)
+			return "Out of Stock";
 		
-		return $serps[0]->mboos_inStocks_quantity;
+		return $currQty;
 	}
 }
 
@@ -28,6 +39,17 @@ if ( ! function_exists('order_counter')) {
 		$serps = $CI->mdldata->_mRowCount;
 
 		return $serps;
+	}
+}
+
+if ( ! function_exists('qty_checker')) {
+	function qty_checker($qty, $curr_qty) {
+		$CI =& get_instance();
+
+		if($qty <= $curr_qty )
+			return 1;
+
+		return 0;
 	}
 }
 

@@ -51,7 +51,7 @@ class Stocks extends CI_Controller {
 		$product_id = $this->uri->segment(4);
 		
 		$params['querystring'] = 'SELECT mboos_products.mboos_product_id, mboos_products.mboos_product_name, sum(mboos_instocks.mboos_inStocks_quantity) as mboos_inStocks_quality FROM mboos_products
-		INNER JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mboos_product_id
+		LEFT JOIN mboos_instocks ON mboos_instocks.mboos_product_id = mboos_products.mboos_product_id
 		WHERE mboos_products.mboos_product_status = "1" AND mboos_products.mboos_product_id="'. $product_id .'"';
 		
 		if(!$this->mdldata->select($params))
