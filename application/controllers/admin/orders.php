@@ -76,10 +76,6 @@ class Orders extends CI_Controller {
 		$this->mdldata->update($params);
 		
 		redirect('admin/orders/manage_order');
-/* 		$data['orders'] = $this->_QueryOrderRecord();	
-		
-		$data['main_content'] = 'admin/order_view/manage_order_view';
-		$this->load->view('includes/template', $data); */
 	}
 	
 	public function process_order(){
@@ -114,36 +110,13 @@ class Orders extends CI_Controller {
 		//call_debug($order_id);
 		$params = array(
 				'table' => array('name' => 'mboos_orders', 'criteria_phrase' => 'mboos_order_id= "' . $order_id . '"'),
-				'fields' => array('mboos_order_status' => 2 ));
+				'fields' => array('mboos_order_status' => 3 ));
 	
 		$this->mdldata->reset();
 		$this->mdldata->update($params);
 	
 		redirect('admin/orders/process_order');
 
-	}
-	
-		
-	
-		public function processing(){
-			
-			authUser();
-			
-			$data['sessVar'] = $this->_arr;
-		
-		$order_id = $this->uri->segment(4);
-		//call_debug($order_id);
-		$params = array(
-				'table' => array('name' => 'mboos_orders', 'criteria_phrase' => 'mboos_order_id= "' . $order_id . '"'),
-				'fields' => array('mboos_order_status' => 3 ));
-		
-		$this->mdldata->reset();
-		$this->mdldata->update($params);
-		
-		$data['orders'] = $this->_QueryOrderRecord();	
-		
-		$data['main_content'] = 'admin/order_view/manage_order_view';
-		$this->load->view('includes/template', $data);
 	}
 	
 	public function completed_order(){
