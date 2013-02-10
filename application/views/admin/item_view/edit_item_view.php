@@ -158,7 +158,7 @@
 												<tbody>
 												<?php foreach ($all_price as $currPrice):?>
 												    <tr>
-												    	 
+												    	 <td><input class="product_id" type="hidden" value="<?php echo $currPrice->mboos_product_id; ?>"/></td>
 												    	 <td><?php echo $currPrice->mboos_product_price;?></td>
 												         <td><?php echo $currPrice->mboos_product_price_date;?></td>
 												      	 <td><?php if($currPrice->mboos_product_price_status == "1"){

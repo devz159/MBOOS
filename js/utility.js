@@ -66,6 +66,7 @@ $(document).ready(function(){
 		
 		//alert($("input[name='price_status']:checked").val());
 		
+		var product_id = $('.product_id').val();
 		var price_id = $("input[name='price_status']:checked").val(); 
 		
 		var request = $.ajax({
@@ -77,11 +78,11 @@ $(document).ready(function(){
 		
 			url			: base_url + "admin/item/update_price/",
 			type		: "POST",
-			data		: { price_id : price_id },
+			data		: { price_id : price_id, product_id : product_id },
 			dataType	: "html",
 			success		: 	function(data) {
-										
-							alert(data);
+									alert(data);	
+				location.reload();
 								
 							}
 				
@@ -89,7 +90,7 @@ $(document).ready(function(){
 	
 	request.done(function(msg) {
 		
-		alert("success");
+		
 			
 	});
 		

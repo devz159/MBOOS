@@ -177,9 +177,12 @@ WHERE mboos_products.mboos_product_status =  "1" AND mboos_product_price.mboos_p
 														$cleanInsertQueryString,
 														$cleanInsertQueryString2
 													);
+								
+								$this->db->query("CALL sp_add_item ( '".$this->input->post('item_name')."', '". $this->input->post('item_desc')."', '". $this->input->post('item_supplier') ."', '". $this->input->post('product_category') . "', '". $image . "', '". $this->input->post('item_price') . "', '". $item_date ."', '". $data['sessVar']['sadmin_uid'] ."', '". $item_date ."');");
+								
 								//call_debug($params);
-								$this->mdldata->reset();
-								$this->mdldata->executeTransact($params);
+								//$this->mdldata->reset();
+								//$this->mdldata->executeTransact($params);
 								//call_debug($QueryStringInsertprice);
 																
 								redirect('admin/item');
@@ -384,11 +387,23 @@ WHERE mboos_products.mboos_product_status =  "1" AND mboos_product_price.mboos_p
 	
 	public function update_price() {
 		
+		// get the date
+		$datestring = "Y-m-d g:i:s";
+		$time = time();
+			
+		$item_date = mdate($datestring, $time);
+
+		$product_id = $this->input->post('product_id');
 		$price_id = $this->input->post('price_id');
 		
-		$params['fields'] = array(
-						''
-				); 
+		$params['querystring'] ='UPDATE mboos_product_price SET mboos_product_price_status="0" WHERE mboos_product_id="'. $product_id .'"';
+		
+		$this->mdldata->reset();
+		$this->mdldata->update($params);
+		
+		$params['querystring'] ='UPDATE mboos_product_price SET mboos_product_price_status="1" WHERE mboos_product_price_id="'. $price_id .'"';
+		$this->mdldata->reset();
+		$this->mdldata->update($params);
 	}
 	
 }

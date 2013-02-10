@@ -17,19 +17,13 @@ class Register extends CI_Controller {
 		$ucpNumber =  mysql_real_escape_string($this->input->post("cpnumber"));
 		$uPassword =  md5($this->input->post("pword")); 
 		
-		
-		//$query=$this->db->query("call sp_select_customer(1,@insertorderstatus)");
-		//$data  = $query->result();
-		//$query=$this->db->query("call sp_insert_customer('name of tongbens', 'address', 'email', 'pword', 'phone', 'ian', @insertorderstatus)");
-		//$data = $query->result();
-		//call_debug($data);
 		$this->register($uName, $uAddr, $uEmail, $ucpNumber, $uPassword);	
 			
 	}
 	
 	private function register($name, $addr, $email, $number, $pword) {
 		
-/* 		$params['fields'] = array(
+/*  		$params['fields'] = array(
 					
 				'mboos_customer_complete_name' => $name,
 				'mboos_customer_addr' => $addr,
@@ -37,7 +31,7 @@ class Register extends CI_Controller {
 				'mboos_customer_phone' => $number,
 				'mboos_customer_pword' => $pword
 				
-				); */
+				);  */
 		$params = array(
 					
 				'mboos_customer_complete_name' => $name,
@@ -47,11 +41,15 @@ class Register extends CI_Controller {
 				'mboos_customer_phone' => $number
 				
 		
-		);
+		); 
 		$this->db->query("CALL sp_insert_customer(?,?,?,?,?,1)", $params);
 		//$params['table'] = array('name' => 'mboos_customers');
 		
-		//if($this->mdldata->insert($params)) 
+ 		//$this->mdldata->SQLText(true);
+ 		//$this->mdldata->insert($params);
+ 		//$string = $this->mdldata->buildQueryString();
+ 		//call_debug($string);
+		///if($this->mdldata->insert($params)) 
 		//	return true;
 
 		return true;
