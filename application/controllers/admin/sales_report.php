@@ -84,11 +84,19 @@ class Sales_report extends CI_Controller {
 	
 	public function yearly_report(){
 	
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
+		
 		$data['main_content'] = 'admin/report_view/yearly_set_report';  
 		$this->load->view('includes/template', $data);	
 	}
 	
 	public function yearly_report_query(){
+		
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
 		
 		$order_year_start = $this->input->post('year_ordered_start');
 		$order_year_end = $this->input->post('year_ordered_end');
@@ -98,31 +106,39 @@ class Sales_report extends CI_Controller {
 		if ($order_year_start == $this->input->post('year_ordered_start') && $order_year_end == "0000"){
 			
 			//call_debug($order_year_start);
-			$params['querystring'] = 'SELECT mboos_orders.mboos_order_id, mboos_orders.mboos_order_date, mboos_orders.mboos_order_pick_schedule, mboos_orders.mboos_orders_total_price, mboos_orders.mboos_order_status, mboos_orders.mboos_customer_id, mboos_customer_complete_name 
-									FROM mboos_orders 
-									LEFT JOIN mboos_customers ON mboos_customers.mboos_customer_id = mboos_orders.mboos_customer_id 
-									WHERE mboos_orders.mboos_order_status="3" AND mboos_orders.mboos_order_date BETWEEN "' . $order_year_start . '-01-01" AND "' . $order_year_start . '-12-31" ORDER BY mboos_orders.mboos_order_date';
-
-			//call_debug($params);
+			$params['querystring'] = 'SELECT mboos_products.mboos_product_id, mboos_products.mboos_product_name, mboos_product_category.mboos_product_category_name, mboos_orders.mboos_order_date, mboos_orders.mboos_orders_total_price
+								FROM mboos_products
+								LEFT JOIN mboos_product_category ON mboos_product_category.mboos_product_category_id = mboos_products.mboos_product_category_id
+								LEFT JOIN mboos_order_details ON mboos_order_details.mboos_product_id = mboos_products.mboos_product_id
+								LEFT JOIN mboos_orders ON mboos_orders.mboos_order_id = mboos_order_details.mboos_order_id
+								WHERE mboos_products.mboos_product_status =  "1"
+								AND mboos_orders.mboos_orders_total_price > "0"
+								AND mboos_orders.mboos_order_date BETWEEN "' . $order_year_start . '-01-01" AND "' . $order_year_start . '-12-31" ORDER BY mboos_orders.mboos_order_date';
+		
+			
 			$this->mdldata->select($params);
 			
-			$data['yearly_order_list'] = $this->mdldata->_mRecords;
+			$data['sales'] = $this->mdldata->_mRecords;
 			
-			$data['main_content'] = 'admin/report_view/yearly_report_view';  
+			$data['main_content'] = 'admin/report_view/sales_report_view';  
 			$this->load->view('includes/template', $data);	
 			
 		}elseif($order_year_start == $this->input->post('year_ordered_start') && $order_year_end == $this->input->post('year_ordered_end')){
 			
-			$params['querystring'] = 'SELECT mboos_orders.mboos_order_id, mboos_orders.mboos_order_date, mboos_orders.mboos_order_pick_schedule, mboos_orders.mboos_orders_total_price, mboos_orders.mboos_order_status, mboos_orders.mboos_customer_id, mboos_customer_complete_name 
-									FROM mboos_orders 
-									LEFT JOIN mboos_customers ON mboos_customers.mboos_customer_id = mboos_orders.mboos_customer_id 
-									WHERE mboos_orders.mboos_order_status="3" AND mboos_orders.mboos_order_date BETWEEN "' . $order_year_start . '-01-01" AND "' . $order_year_end . '-12-31" ORDER BY mboos_orders.mboos_order_date';
+			$params['querystring'] = 'SELECT mboos_products.mboos_product_id, mboos_products.mboos_product_name, mboos_product_category.mboos_product_category_name, mboos_orders.mboos_order_date, mboos_orders.mboos_orders_total_price
+								FROM mboos_products
+								LEFT JOIN mboos_product_category ON mboos_product_category.mboos_product_category_id = mboos_products.mboos_product_category_id
+								LEFT JOIN mboos_order_details ON mboos_order_details.mboos_product_id = mboos_products.mboos_product_id
+								LEFT JOIN mboos_orders ON mboos_orders.mboos_order_id = mboos_order_details.mboos_order_id
+								WHERE mboos_products.mboos_product_status =  "1"
+								AND mboos_orders.mboos_orders_total_price > "0"
+								AND mboos_orders.mboos_order_date BETWEEN "' . $order_year_start . '-01-01" AND "' . $order_year_end . '-12-31" ORDER BY mboos_orders.mboos_order_date';
 			//call_debug($params);
 			$this->mdldata->select($params);
 			
-			$data['yearly_order_list'] = $this->mdldata->_mRecords;
+			$data['sales'] = $this->mdldata->_mRecords;
 			
-			$data['main_content'] = 'admin/report_view/yearly_report_view';  
+			$data['main_content'] = 'admin/report_view/sales_report_view';  
 			$this->load->view('includes/template', $data);	
 		}
 	}
