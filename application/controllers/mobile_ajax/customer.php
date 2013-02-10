@@ -89,7 +89,7 @@ class Customer extends CI_Controller {
 		$this->mdldata->select($params);
 		
 		$summary_details = $this->mdldata->_mRecords;
-		
+		//call_debug($summary_details);
 		$dateToBePickUp = $summary_details[0]->mboos_order_pick_schedule;
 		$dateOrdered = $summary_details[0]->mboos_order_date;
 		

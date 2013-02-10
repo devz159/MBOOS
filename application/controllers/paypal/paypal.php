@@ -25,12 +25,85 @@ class Paypal extends CI_Controller {
 	public function index() {
 		
 		$strOrder = $this->input->get("stringOrder");
-	
+		
 		$this->_subtotal = mysql_real_escape_string($this->input->get("subtotal"));
 		$this->_cust_id = mysql_real_escape_string($this->input->get("cust_id"));
 		$this->_paypal_email = mysql_real_escape_string($this->input->get("paypal_email"));
 		
-		$this->paypal_validate($strOrder);
+		$pattern = '/0/';
+		if(preg_match($pattern, $this->_validate_item($strOrder))) {
+			echo "<h3>Transaction Failed, Please Order Again</h3>";
+		} else {
+			
+			$this->paypal_validate($strOrder);
+		}
+	} 
+	
+	private function _validate_item($order) {
+		
+		$pattern = '/,\|/';
+		$replacement = '|';
+		
+		$strOrder = preg_replace($pattern, $replacement, $order);
+		
+		$orderArr = explode('||', $strOrder);
+		
+		$tmpArray = array();
+		
+		foreach($orderArr as $v) {
+			if($v != "" && preg_match('/=>/',$v)):
+			$tmpArray[] = $v;
+			endif;
+		}
+		
+		$array = $tmpArray;
+		
+		foreach($array as $k => $v):
+		
+		$tmpArray = preg_split("/,/", $v);
+		
+		// remove single qoute
+		$pattern1 = "/'/";
+		$array = preg_replace($pattern1, "", $tmpArray);
+		
+		foreach($array as $val) {
+			$keyVal = preg_split('/=>/',$val);
+				
+			$cleandArray[$k][trim($keyVal[0])] = trim($keyVal[1]);
+		}
+			
+		endforeach;
+		
+		$this->_mItemList = $cleandArray;
+		
+		$data['order'] = $this->_mItemList;
+		$status = "";
+		
+		for($j=0; $j<count($data['order']); $j++) {
+				
+			$currQty = count_qty($data['order'][$j]['item_id']);
+			
+			if($currQty == "Out of Stock") 
+				$currQty = 0;
+			
+			$checker = qty_checker($data['order'][$j]['qty'], $currQty);
+			
+			//call_debug($checker, false);
+			if($checker == 1) {
+				
+				$status .= "1";
+			
+			} else {
+				
+				$status .= "0";
+			
+			} 
+			//call_debug($this->_qty_checker($checker));
+						
+		}
+		
+		return $status;
+		
 	}
 	
 	public function paypal_validate($order) {
@@ -47,21 +120,17 @@ class Paypal extends CI_Controller {
 		
 		$strOrder = preg_replace($pattern, $replacement, $order);
 		
+		$orderArr = explode('||', $strOrder);
 		
-		$orderItem = explode("||", $strOrder);
+		$tmpArray = array();
 		
-		
-		foreach($orderItem as $v) {
-		
+		foreach($orderArr as $v) {
 			if($v != "" && preg_match('/=>/',$v)):
-		
-			$this->_tmpArray[] = $v;
-		
+			$tmpArray[] = $v;
 			endif;
-		
 		}
 		
-		$array = $this->_tmpArray;
+		$array = $tmpArray;
 		
 		foreach($array as $k => $v):
 		
@@ -72,11 +141,9 @@ class Paypal extends CI_Controller {
 		$array = preg_replace($pattern1, "", $tmpArray);
 		
 		foreach($array as $val) {
-		
 			$keyVal = preg_split('/=>/',$val);
-		
+				
 			$cleandArray[$k][trim($keyVal[0])] = trim($keyVal[1]);
-		
 		}
 			
 		endforeach;
@@ -84,7 +151,6 @@ class Paypal extends CI_Controller {
 		$this->_mItemList = $cleandArray;
 		
 		$data['order'] = $this->_mItemList;
-		
 		
 		$currDate = date('Y-m-d H:i:s A');
 		
