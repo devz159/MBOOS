@@ -4,17 +4,28 @@ class Reports extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-	
+		
+		$params = array('sadmin_uname', 'sadmin_islogin', 'sadmin_ulvl', 'sadmin_uid');
+		$this->sessionbrowser->getInfo($params);
+		$this->_arr = $this->sessionbrowser->mData;
 	}
 	
 	public function index(){  
 	
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
+		
 		$data['main_content'] = 'admin/report_view/report_view';  
 		$this->load->view('includes/template', $data);	
 	}
 	
 	public function monthly_report(){
-	
+
+		authUser();
+		
+		$data['sessVar'] = $this->_arr;
+			
 		$data['main_content'] = 'admin/report_view/monthly_set_report';  
 		$this->load->view('includes/template', $data);	
 	}

@@ -33,56 +33,46 @@
 <div id="main-content">
 <div class="container-fluid">
     <ul class="breadcrumb">
-      <li><a href="<?php echo base_url(); ?>/admin/dashboard">Home</a><span class="divider">&raquo;</span></li>
-      <li>Orders<span class="divider">&raquo;</span></li>
-       <li class="active">Processing orders</li>
+      <li><a href="#">Home</a><span class="divider">&raquo;</span></li>
+       <li class="active">Manage Stocks</li>
     </ul>
-<div class="row-fluid">
+		
+		<div class="row-fluid">
 			<div class="span12">
 				<div class="nonboxy-widget">
-					<div class="widget-head">
-						<h5>Manage Orders</h5>
-					</div>
-					<table class="data-tbl-simple table table-bordered order_table">
+                <?php foreach ($order_detail as $list):?>
+                    <p>Order Number: <?php echo $list->mboos_order_id; ?></p>
+                    <p>Customer Name: <?php echo $list->mboos_customer_complete_name; ?></p>
+                    <p>Ordered Date: <?php echo $list->mboos_order_date; ?></p>
+                    <p>Pick up Date: <?php echo $list->mboos_order_pick_schedule; ?></p>
+                <?php endforeach;?>
+					<table class="data-tbl-simple table table-bordered">
 					<thead>
 					<tr>
-						<th>Order ID</th>
-						<th>Order date</th>
-						<th>Pick-up sched</th>
-						<th>Total Price</th>
-						<th>Customer ID</th>		
-						<th>Action</th>
+				    	<th>Item ID</th>
+						<th>Item Name</th>	
+						<th>Item Category</th>
+						<th>Item Quantity</th>
+                        <th>Item Price</th>
+                        <th>Amount</th>
 					</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($orders as $list):?>
-								<tr>
-									<td><a href = "<?php echo base_url() . 'admin/invoice/view_invoice/' . $list->mboos_order_id; ?>" ><?php echo formatedpadding($list->mboos_order_id);?></a></td>
-									<td><?php echo getDateArr($list->mboos_order_date);?></td>
-									<td><?php echo getDateArr($list->mboos_order_pick_schedule);?></td>
-									<td><?php echo $list->mboos_orders_total_price; ?></td>
-									<td><?php echo $list->mboos_customer_complete_name;?></td>
-									<td>
-											
-										<?php
-										
-										?>	
-										
-										<?php	
-										if($list->mboos_order_status == "2"){
-										?>	
-											<a href = "<?php echo base_url() . 'admin/orders/process_validate/' . $list->mboos_order_id; ?>"> <span class="label label-info">Processing</span> </a>
-										<?php } ?>	
-										
-									</td>
-								</tr>
-						<?php endforeach;?>
+						<?php foreach ($order_product_detail as $list):?>
+					<tr>
+						<td><?php echo $list->mboos_product_id;?></td>
+						<td><?php echo $list->mboos_product_name;?></td>
+						<td><?php echo $list->mboos_product_category_name;?></td>
+						<td><?php echo $list->mboos_order_detail_quantity;?></td>
+						<td><?php echo $list->mboos_order_detail_price;?></td>
+						<td><?php echo $list->mboos_orders_total_price;?></td>
+					</tr><?php endforeach;?>
 					</tbody>
 					</table>
 				</div>
+			
 			</div>
 </div>	
 		
 </div>
 </div>
-
