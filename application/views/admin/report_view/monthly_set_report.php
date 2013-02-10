@@ -1,10 +1,3 @@
-<h3>Monthly Report</h3>
-
-<form action="<?php echo base_url();?>admin/reports/monthly_report_query" method="POST">
-
-<input type="submit" value="Search" name="monthly_report_submit"/>
-</form>
-
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner top-nav">
     <div class="container-fluid">
