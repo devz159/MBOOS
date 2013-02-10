@@ -51,15 +51,53 @@ $(document).ready(function(){
 	});
 	
 	//    $("input[name=radio-choice-1]:checked").val(); 
-	$('input#price_radio_btn').click(function() {
+	$('.priceRadioBtn').click(function() {
 		
-
 		$(this).each(function(){
-			$(this).removeAttr("checked");
+			$(this).removeAttr('checked');  
 		});
 		
+	
 		$(this).attr("checked", true);
 		
+	});
+	
+	$('#saveEdit_button').click(function() {
+		
+		//alert($("input[name='price_status']:checked").val());
+		
+		var price_id = $("input[name='price_status']:checked").val(); 
+		
+		var request = $.ajax({
+			error		: function (req, status, error) {
+						if(status == "timeout")
+
+								alert("error");
+						},
+		
+			url			: base_url + "admin/item/update_price/",
+			type		: "POST",
+			data		: { price_id : price_id },
+			dataType	: "html",
+			success		: 	function(data) {
+										
+							alert(data);
+								
+							}
+				
+	});
+	
+	request.done(function(msg) {
+		
+		alert("success");
+			
+	});
+		
+	request.fail(function(jqXHR, textStatus) {
+		
+		alert("fail");
+			
+	});
 		
 	});
 

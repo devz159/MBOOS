@@ -382,5 +382,14 @@ WHERE mboos_products.mboos_product_status =  "1" AND mboos_product_price.mboos_p
 		
 	}
 	
+	public function update_price() {
+		
+		$price_id = $this->input->post('price_id');
+		
+		$params['fields'] = array(
+						''
+				); 
+	}
+	
 }
 

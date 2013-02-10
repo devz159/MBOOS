@@ -156,13 +156,22 @@
 												</tr>
 												</thead>
 												<tbody>
-												<?php foreach ($all_price as $price):?>
+												<?php foreach ($all_price as $currPrice):?>
 												    <tr>
-												    	 <td><?php echo $price->mboos_product_price;?></td>
-												         <td><?php echo $price->mboos_product_price_date;?></td>
-												      	 <td> <input checked="checked" id="price_radio_btn" type="radio" value="<?php echo $price->mboos_product_price;?>" name="price_status"/></td>
-												    </tr><?php endforeach;?>
-												    <?php endforeach;?>	
+												    	 
+												    	 <td><?php echo $currPrice->mboos_product_price;?></td>
+												         <td><?php echo $currPrice->mboos_product_price_date;?></td>
+												      	 <td><?php if($currPrice->mboos_product_price_status == "1"){
+																	echo '<input class="priceRadioBtn" type="radio" name="price_status" value="'. $currPrice->mboos_product_price_id .'" checked="checked" >';
+																	
+											                        }else{
+																		echo '<input class="priceRadioBtn" type="radio" name="price_status" value="'. $currPrice->mboos_product_price_id .'">';
+																	 } ?>
+											        </td>
+												   <?php endforeach;?>
+												    
+												</tr>
+									<?php endforeach;?>	
 												</tbody>
 												</table>
 											</div>
@@ -170,7 +179,7 @@
 									</div>		
 										
 									<div class="clearfix">
-										<button  id="saveEdit_button" class="btn btn-primary login-btn" title="theme-blue" type="submit">Update</button>
+										<button  id="saveEdit_button" class="btn btn-primary login-btn" title="theme-blue" type="button" >Update</button>
 									</div>
 									
 								</fieldset>

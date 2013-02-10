@@ -48,7 +48,7 @@ class Register extends CI_Controller {
 				
 		
 		);
-		$this->db->query("CALL sp_insert_customer(?,?,?,?,?,1,@insertorderstatus)", $params);
+		$this->db->query("CALL sp_insert_customer(?,?,?,?,?,1)", $params);
 		//$params['table'] = array('name' => 'mboos_customers');
 		
 		//if($this->mdldata->insert($params)) 
