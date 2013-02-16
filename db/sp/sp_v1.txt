@@ -1,0 +1,85 @@
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `sp_testing` $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_testing`(IN in_item_lists varchar(1000), OUT pSuccess INT)
+BEGIN
+
+DECLARE int_record_not_found INT DEFAULT 0;
+DECLARE mId INT DEFAULT 0;
+DECLARE mQty INT DEFAULT 0;
+DECLARE validItemLists CURSOR FOR SELECT id, qty FROM tmp_item_tbl;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET int_record_not_found = 1;
+DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
+DECLARE EXIT HANDLER FOR SQLWARNING ROLLBACK;
+
+START TRANSACTION;
+
+SET pSuccess = 1;
+SET @value = in_item_lists;
+
+DROP TEMPORARY TABLE IF EXISTS `tmp_item_tbl`;
+
+CREATE TEMPORARY TABLE `tmp_item_tbl`(
+	pri INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	id INT(11),
+	qty INT(11)
+)ENGINE = Memory COMMENT = 'creates temp table for payment history';
+
+
+
+main_loop : LOOP
+
+	IF LENGTH(@value) < 1 then
+	
+		LEAVE main_loop;
+		
+	END IF;
+  
+
+
+	SET @value = func_parse_product(@value, ',');
+	
+	
+	
+	SET @invQty = (SELECT SUM(mboos_inStocks_quantity) as mboos_inStocks_quantity FROM mboos_instocks WHERE mboos_product_id=@func_parse_product_productID);
+	
+	SET @ordQty = (SELECT COALESCE(sum(mboos_order_detail_quantity),0) as totalQtySolved FROM `mboos_order_details` where mboos_product_id=@func_parse_product_productID);
+	
+	SET @currQty = @invQty - @ordQty;
+	SELECT @currQty ;
+	IF @func_parse_product_productQTY <= @currQty THEN
+	
+		INSERT INTO tmp_item_tbl (id, qty) VALUE (@func_parse_product_productID,@func_parse_product_productQTY);
+		
+	ELSE
+		SET pSuccess = 0;
+		LEAVE main_loop;
+	END IF;
+	
+	
+END LOOP main_loop;
+
+IF pSuccess = 1 THEN
+	OPEN validItemLists;
+
+		process_loop : LOOP
+		
+			FETCH validItemLists INTO mId, mQty;
+			
+			IF int_record_not_found THEN
+
+			   LEAVE process_loop;
+
+			 END IF;
+			 SELECT mQty;
+			 INSERT INTO mboos_order_details (mboos_order_detail_quantity, mboos_product_id) VALUES (mId, mQty );
+				 
+
+		 END LOOP process_loop;
+	CLOSE validItemLists;
+END IF;
+
+COMMIT;
+
+END$$
+DELIMITER $$

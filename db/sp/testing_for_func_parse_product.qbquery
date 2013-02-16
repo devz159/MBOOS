@@ -1,0 +1,79 @@
+﻿SET @value = "32=>17,1=>2";
+SET @value = func_parse_product(@value, ',');
+SELECT @value;
+SELECT @func_parse_product_productID AS ID, @func_parse_product_productQTY AS QTY; -- @func_parse_product_productID AS ID, @func_parse_product_productQTY are constant. You must refer to these ones every time you insert them into your temporary table inside your sp.
+SET @value = func_parse_product(@value, ',');
+SELECT @func_parse_product_productID AS ID, @func_parse_product_productQTY AS QTY;
+
+call sp_testing("1=>2");
+call sp_testing("1=>2", @success);
+call sp_testing("1=>2", @success);
+select @success;
+
+call sp_testing("1=>2, 2=>3", @success);
+select @success
+
+IF currQty > @func_parse_product_productQTY THEN
+	
+		INSERT INTO tmp_item_tbl (id, qty) VALUE (@func_parse_product_productID,@func_parse_product_productQTY);
+	
+END IF;
+
+	SELECT id, qty FROM tmp_item_tbl;
+	
+	
+	
+	
+	DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `sp_testing` $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_testing`(IN in_item_lists varchar(1000))
+BEGIN
+
+DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
+DECLARE EXIT HANDLER FOR SQLWARNING ROLLBACK;
+
+
+START TRANSACTION;
+
+SET @value = in_item_lists;
+
+DROP TEMPORARY TABLE IF EXISTS `tmp_item_tbl`;
+
+CREATE TEMPORARY TABLE `tmp_item_tbl`(
+	pri INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	id INT(11),
+	qty INT(11)
+)ENGINE = Memory COMMENT = 'creates temp table for payment history';
+
+main_loop : LOOP
+
+  IF LENGTH(@value) < 1 then
+	LEAVE main_loop;
+
+  END IF;
+
+	SET @value = func_parse_product(@value, ',');
+  
+	INSERT INTO tmp_item_tbl (id, qty) VALUE (@func_parse_product_productID,@func_parse_product_productQTY);
+
+END LOOP main_loop;
+
+
+	SELECT id, qty FROM tmp_item_tbl;
+
+	SELECT SUM(mboos_instocks.mboos_inStocks_quantity), SUM(mboos_order_details.mboos_order_detail_quantity) , (SUM(mboos_instocks.mboos_inStocks_quantity) - SUM(mboos_order_details.mboos_order_detail_quantity)) as currQty FROM `mboos_instocks` left join mboos_order_details on mboos_order_details.mboos_product_id=mboos_instocks.mboos_product_id where mboos_instocks.mboos_product_id = id;
+	INSERT INTO tmp_item_tbl (id, qty) VALUE (@func_parse_product_productID,@func_parse_product_productQTY);
+
+
+COMMIT;
+
+END$$
+DELIMITER $$
+
+IF pSuccess = 1 THEN
+	SELECT * FROM tmp_item_tbl;
+END IF;
+
+
+SELECT (SUM(mboos_instocks.mboos_inStocks_quantity) - SUM(mboos_order_details.mboos_order_detail_quantity)) as currQty FROM `mboos_instocks` left join mboos_order_details on mboos_order_details.mboos_product_id=mboos_instocks.mboos_product_id where mboos_instocks.mboos_product_id = @func_parse_product_productID); 

@@ -1,0 +1,46 @@
+DELIMITER $$
+
+DROP FUNCTION IF EXISTS `func_parse_product` $$
+CREATE DEFINER=`root`@`localhost` FUNCTION `func_parse_product`(argStr VARCHAR(255), argDelim CHAR(1)) RETURNS varchar(50) CHARSET latin1
+    DETERMINISTIC
+BEGIN
+
+  #====================================================
+  #====================================================
+  # @author    Kenneth "digiArtist_ph" P. Vallejos
+  # @since     Wednesday, February 13, 2013
+  # @company   Mugs and Coffee
+  #
+  #====================================================
+
+  DECLARE flgComma TINYINT DEFAULT 0;
+  DECLARE trncStr VARCHAR(255) DEFAULT "";
+  DECLARE soughtChar VARCHAR(150) DEFAULT "";
+  DECLARE productID INT(4) DEFAULT 0;
+  DECLARE productQTY TINYINT DEFAULT 0;
+  DECLARE keyvalueseptr CHAR(2) DEFAULT "=>";
+
+  # clears the session variables
+  SET @func_parse_product_productID = NULL;
+  SET @func_parse_product_productQTY = NULL;
+
+  IF LENGTH(argStr) > 0 THEN
+
+    IF STRCMP(RIGHT(argStr,1), argDelim) = 0 THEN
+      SET argStr = LEFT(argStr, (LENGTH(argStr) - 1));
+    END IF;
+
+    SET soughtChar = SUBSTRING_INDEX(argStr, ',', -1);
+
+    SET @func_parse_product_productID = SUBSTRING_INDEX(soughtChar, keyvalueseptr, 1);
+    SET @func_parse_product_productQTY = SUBSTRING_INDEX(soughtChar, keyvalueseptr, -1);
+
+    SET argStr = LEFT(argStr, LENGTH(argStr) - LENGTH(soughtChar));
+
+  END IF;
+
+  RETURN argStr;
+
+END $$
+
+DELIMITER ;

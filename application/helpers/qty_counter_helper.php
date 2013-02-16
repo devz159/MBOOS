@@ -8,7 +8,7 @@
 	function count_qty($id) {
 		$CI =& get_instance();
 	
-/* 		$params['querystring'] = "SELECT SUM(mboos_inStocks_quantity) as mboos_inStocks_quantity FROM mboos_instocks WHERE mboos_product_id='". $id . "'";
+		$params['querystring'] = "SELECT SUM(mboos_inStocks_quantity) as mboos_inStocks_quantity FROM mboos_instocks WHERE mboos_product_id='". $id . "'";
 		$CI->mdldata->select($params);
 		
 		$serpsInstock = $CI->mdldata->_mRecords;
@@ -20,14 +20,14 @@
 		//call_debug($serpsOrderDetails, false);
 
 		$currQty = $serpsInstock[0]->mboos_inStocks_quantity - $serpsOrderDetails[0]->totalQtySolved;
-		//call_debug($currQty); */
+		//call_debug($currQty); 
 		
-		$params['querystring'] = "SELECT (SUM(mboos_instocks.mboos_inStocks_quantity) - SUM(mboos_order_details.mboos_order_detail_quantity)) as currQty FROM `mboos_instocks` left join mboos_order_details on mboos_order_details.mboos_product_id=mboos_instocks.mboos_product_id where mboos_instocks.mboos_product_id ='".$id . "'";
+		//$params['querystring'] = "SELECT (SUM(mboos_instocks.mboos_inStocks_quantity) - SUM(mboos_order_details.mboos_order_detail_quantity)) as currQty FROM `mboos_instocks` left join mboos_order_details on mboos_order_details.mboos_product_id=mboos_instocks.mboos_product_id where mboos_instocks.mboos_product_id ='".$id . "'";
 		
-		$CI->mdldata->select($params);
-		$serpsInstock = $CI->mdldata->_mRecords;
+		//$CI->mdldata->select($params);
+		//$serpsInstock = $CI->mdldata->_mRecords;
 		
-		$currQty = $serpsInstock[0]->currQty;
+		//$currQty = $serpsInstock[0]->currQty;
 		
 		if($currQty <= 0)
 			return "Out of Stock";

@@ -14,11 +14,18 @@ class Mobile extends CI_Controller {
 		$params['table'] = array('name' => 'mboos_product_category', 'criteria_phrase' => 'mboos_product_category_status="1"');
 		
 		if($this->mdldata->select($params)) {
+			
+			if($this->mdldata->_mRowCount == 0) {
+				
+				echo '{"categories":[{"result":"0"}]}';
+				
+			} else {
 				
 			$data = $this->mdldata->_mRecords;
 			
 			echo '{"categories":'. json_encode($data) .'}';
 			
+			}
 		} else {
 			
 			echo '{"error":{"text":"Error"}}';
@@ -103,10 +110,17 @@ class Mobile extends CI_Controller {
 		
 		if($this->mdldata->select($params)) {
 		
-			$product_info = $this->mdldata->_mRecords;
+			if($this->mdldata->_mRowCount == 0) {
+			
+				echo '{"cat_item_list":[{"mboos_product_name":"empty"}]}';
+
+			
+			} else {
+				
+				$product_info = $this->mdldata->_mRecords;
 		
-			echo '{"cat_item_list":'. json_encode($product_info) .'}';
-		
+				echo '{"cat_item_list":'. json_encode($product_info) .'}';
+			}
 		
 		} else {
 		
