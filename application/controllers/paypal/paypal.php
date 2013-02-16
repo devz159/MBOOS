@@ -23,8 +23,12 @@ class Paypal extends CI_Controller {
 	}
 	
 	public function index() {
+			
 		
 		$strOrder = $this->input->get("stringOrder");
+		
+		//if(isset($strOrder))
+			//show_404();
 		
 		$this->_subtotal = mysql_real_escape_string($this->input->get("subtotal"));
 		$this->_cust_id = mysql_real_escape_string($this->input->get("cust_id"));

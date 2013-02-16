@@ -8,6 +8,6 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>css/style.css" />		
 <script src="<?php echo base_url(); ?>js/jquery.js"></script>
 <script src="<?php echo base_url(); ?>js/utility.js"></script>
-<script src="<?php echo base_url(); ?>js/jquery.mobile-1.2.0.js"></script> 
+<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 </head>
 <body>

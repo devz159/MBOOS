@@ -47,7 +47,7 @@ class Customer extends CI_Controller {
 				'mboos_customer_phone' => $number
 				
 				);
-		$params['table'] = array('name' => 'mboos_customers', 'criteria' => 'mboos_customer_id', 'criteria_value' => id);
+		$params['table'] = array('name' => 'mboos_customers', 'criteria_phrase' => 'mboos_customer_id="'. $id . '"');
 		
 		if($this->mdldata->update($params))
 			return true;
@@ -94,5 +94,43 @@ class Customer extends CI_Controller {
 		$dateOrdered = $summary_details[0]->mboos_order_date;
 		
 		echo '{"summary_details":'. json_encode($summary_details) .', "dateToBePickUp":[{"datePickUpFormmated":"'. getDateArr($dateToBePickUp) . '", "dateOrderd":"'.  getDateArr($dateOrdered) . '"}]}';
+	}
+	
+	public function editPassword() {
+		
+		$cust_id = $this->input->post("cust_id");
+		$pword = md5($this->input->post('pw'));
+		
+		$params['table'] = array('name' => 'mboos_customers', 'criteria_phrase' => 'mboos_customer_id="'. $cust_id . '" and mboos_customer_pword="'. $pword . '"');
+		
+		$this->mdldata->select($params);
+		
+		if($this->mdldata->_mRowCount < 1) {
+			
+			echo "0";
+			
+		} else {
+			
+		  	echo "1";
+		}
+		
+		
+	}
+	
+	public function savePassword() {
+		
+		$cust_id = $this->input->post("cust_id");
+		$pword = md5($this->input->post('pw'));
+		
+		$params['fields'] = array(
+				'mboos_customer_pword' => $pword
+				);
+		$params['table'] = array('name' => 'mboos_customers', 'criteria_phrase' => 'mboos_customer_id="'. $cust_id . '"');
+		
+		if($this->mdldata->update($params)) {
+			echo "1";
+		} else {
+			echo "0";
+		}
 	}
 }
