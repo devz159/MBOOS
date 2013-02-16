@@ -33,14 +33,15 @@
 <div id="main-content">
 <div class="container-fluid">
     <ul class="breadcrumb">
-      <li><a href="#">Home</a><span class="divider">&raquo;</span></li>
-       <li class="active">Manage Stocks</li>
+      <li><a href="<?php echo base_url(); ?>/admin/dashboard">Home</a><span class="divider">&raquo;</span></li>
+      <li>Reports<span class="divider">&raquo;</span></li>
+       <li class="active">Sales Report</li>
     </ul>
 		
 		<div class="row-fluid">
 			<div class="span12">
-				<p><a href = "<?php echo base_url(); ?>admin/sales_report/monthly_report">View monthly reports</a></p>
-				<p><a href = "<?php echo base_url(); ?>admin/sales_report/yearly_report">View yearly reports</a></p> 
+				<p><a class="btn btn-modal" href = "<?php echo base_url(); ?>admin/sales_report/monthly_report">View monthly reports</a></p>
+				<p><a class="btn btn-modal" href = "<?php echo base_url(); ?>admin/sales_report/yearly_report">View yearly reports</a></p> 
 
 			
 			</div>

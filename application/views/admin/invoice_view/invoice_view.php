@@ -34,7 +34,11 @@
 <div class="container-fluid">
     <ul class="breadcrumb">
       <li><a href="#">Home</a><span class="divider">&raquo;</span></li>
-       <li class="active">Manage Stocks</li>
+      <li>Orders<span class="divider">&raquo;</span></li>
+      <li>Processing Orders<span class="divider">&raquo;</span></li>
+      <?php foreach ($order_detail as $list):?>
+       <li class="active">Order ID: <?php echo $list->mboos_order_id; ?></li>
+        <?php endforeach;?>
     </ul>
 		
 		<div class="row-fluid">
@@ -46,7 +50,7 @@
                     <p>Ordered Date: <?php echo $list->mboos_order_date; ?></p>
                     <p>Pick up Date: <?php echo $list->mboos_order_pick_schedule; ?></p>
                 <?php endforeach;?>
-					<table class="data-tbl-simple table table-bordered">
+					<table class="table table-bordered">
 					<thead>
 					<tr>
 				    	<th>Item ID</th>
@@ -60,7 +64,7 @@
 					<tbody>
 						<?php foreach ($order_product_detail as $list):?>
 					<tr>
-						<td><?php echo $list->mboos_product_id;?></td>
+						<td><?php echo formatedpadding($list->mboos_product_id);?></td>
 						<td><?php echo $list->mboos_product_name;?></td>
 						<td><?php echo $list->mboos_product_category_name;?></td>
 						<td><?php echo $list->mboos_order_detail_quantity;?></td>

@@ -43,7 +43,7 @@
 					<div class="widget-head">
 						<h5>Manage Orders</h5>
 					</div>
-					<table class="data-tbl-simple table table-bordered order_table">
+					<table class=" table table-bordered order_table">
 					<thead>
 					<tr>
 						<th>Order ID</th>
