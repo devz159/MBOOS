@@ -33,6 +33,16 @@
 </div>
 <div id="main-content">
 <div class="container-fluid">
+  <ul class="breadcrumb">
+      <li><a href="<?php echo base_url(); ?>/admin/dashboard">Home</a><span class="divider">&raquo;</span></li>
+      <li>Inventory<span class="divider">&raquo;</span></li>
+      <li><a href="<?php echo base_url(); ?>/admin/item">Manage Item</a><span class="divider">&raquo;</span></li>
+      <?php foreach($item_info as $info):?>
+      <li><a href="<?php echo base_url() . 'admin/item/edit_item/' . $info->mboos_product_id; ?>">Edit Item</a><span class="divider">&raquo;</span></li>
+      
+      <?php endforeach; ?>
+       <li class="active">Change Item Image</li>
+    </ul>
 		<div class="row-fluid">
 			<div class="span7">
 				<div class="widget-block">

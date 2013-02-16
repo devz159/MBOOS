@@ -34,6 +34,8 @@
 <div class="container-fluid">
     <ul class="breadcrumb">
       <li><a href="<?php echo base_url(); ?>/admin/dashboard">Home</a><span class="divider">&raquo;</span></li>
+      <li>Inventory<span class="divider">&raquo;</span></li>
+      <li><a href="<?php echo base_url(); ?>/admin/item">Manage Item</a><span class="divider">&raquo;</span></li>
        <li class="active">Add Stocks</li>
     </ul>
 		<div class="row-fluid">

@@ -34,7 +34,7 @@
 <div class="container-fluid">
     <ul class="breadcrumb">
       <li><a href="<?php echo base_url(); ?>/admin/dashboard">Home</a><span class="divider">&raquo;</span></li>
-      <li>Orders<span class="divider">&raquo;</span></li>
+      <li>Reports<span class="divider">&raquo;</span></li>
        <li class="active">Order Report</li>
     </ul>
 		

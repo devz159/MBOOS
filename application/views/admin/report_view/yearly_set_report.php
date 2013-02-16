@@ -32,6 +32,12 @@
 </div>
 <div id="main-content">
 <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li><a href="<?php echo base_url(); ?>/admin/dashboard">Home</a><span class="divider">&raquo;</span></li>
+      <li>Reports<span class="divider">&raquo;</span></li>
+      <li><a href="<?php echo base_url(); ?>/admin/sales_report">Sales Reports</a><span class="divider">&raquo;</span></li>
+       <li class="active">Generate Yearly Report</li>
+    </ul>
 		<div class="row-fluid">
 			<div class="span7">
 				<div class="widget-block">

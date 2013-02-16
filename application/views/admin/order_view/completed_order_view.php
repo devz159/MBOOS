@@ -44,7 +44,7 @@
 					<div class="widget-head">
 						<h5>Summary</h5>
 					</div>
-					<table class="data-tbl-simple table table-bordered">
+					<table class=" table table-bordered">
 					<thead>
 					<tr>
 						<th>Order ID</th>
