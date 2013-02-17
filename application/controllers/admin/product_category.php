@@ -48,7 +48,7 @@ class Product_category extends CI_Controller {
 		//$validation->set_rules('product_category_image', 'Category image', 'required');
 		if($this->form_validation->run() == FALSE) {
 					
-				$this->index();
+				//redirect('admin/product_category/add_product_category/'. $edit_item_id .'');
 					
 			} else {
 					$params = array(

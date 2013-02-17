@@ -66,7 +66,7 @@
 								
 									
 									<div class="clearfix">
-										<button  id="add_button" class="btn btn-primary login-btn" title="theme-blue" type="submit">Add</button>
+										<button  id="add_button" class="btn btn-primary login-btn" title="theme-blue" type="submit">Update</button>
 									</div>
 								</fieldset>
 							</form>

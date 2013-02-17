@@ -155,7 +155,7 @@
 												<div class="widget-head">
 													<h5>Item Price</h5>
 												</div>
-												<table class="data-tbl-simple table table-bordered">
+												<table class="table table-bordered">
 												<thead>
 												<tr>
 												    	<th>Item Price</th>
@@ -166,7 +166,7 @@
 												<tbody>
 												<?php foreach ($all_price as $currPrice):?>
 												    <tr>
-												    	 <td><input class="product_id" type="hidden" value="<?php echo $currPrice->mboos_product_id; ?>"/></td>
+												    	 <input class="product_id" type="hidden" value="<?php echo $currPrice->mboos_product_id; ?>"/>
 												    	 <td><?php echo $currPrice->mboos_product_price;?></td>
 												         <td><?php echo $currPrice->mboos_product_price_date;?></td>
 												      	 <td><?php if($currPrice->mboos_product_price_status == "1"){

@@ -33,9 +33,9 @@
 <div id="main-content">
 <div class="container-fluid">
     <ul class="breadcrumb">
-      <li><a href="#">Home</a><span class="divider">&raquo;</span></li>
+       <li><a href="<?php echo base_url(); ?>/admin/dashboard">Home</a><span class="divider">&raquo;</span></li>
       <li>Orders<span class="divider">&raquo;</span></li>
-      <li>Processing Orders<span class="divider">&raquo;</span></li>
+      <li><a href="<?php echo base_url(); ?>/admin/orders/process_order">Processing Orders</a><span class="divider">&raquo;</span></li>
       <?php foreach ($order_detail as $list):?>
        <li class="active">Order ID: <?php echo $list->mboos_order_id; ?></li>
         <?php endforeach;?>

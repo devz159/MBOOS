@@ -81,7 +81,7 @@ $(document).ready(function(){
 			data		: { price_id : price_id, product_id : product_id },
 			dataType	: "html",
 			success		: 	function(data) {
-									alert(data);	
+									
 				location.reload();
 								
 							}
