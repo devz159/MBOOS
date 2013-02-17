@@ -395,6 +395,23 @@ WHERE mboos_products.mboos_product_status =  "1" AND mboos_product_price.mboos_p
 
 		$product_id = $this->input->post('product_id');
 		$price_id = $this->input->post('price_id');
+		$product_name = $this->input->post('product_name');
+		$product_desc = $this->input->post('product_desc');
+		$product_supplier = $this->input->post('product_supplier');
+		$product_category = $this->input->post('product_cat');
+		
+		$params['fields'] = array(
+				
+						'mboos_product_name' => $product_name,
+						'mboos_product_desc' => $product_desc,
+						'mboos_product_supplier' => $product_supplier,
+						'mboos_product_category_id' => $product_category
+				
+				);
+		
+		$params['table'] = array('name' => 'mboos_products', 'criteria_phrase' => 'mboos_product_id="'. $product_id . '"');
+		
+		$this->mdldata->update($params);
 		
 		$params['querystring'] ='UPDATE mboos_product_price SET mboos_product_price_status="0" WHERE mboos_product_id="'. $product_id .'"';
 		

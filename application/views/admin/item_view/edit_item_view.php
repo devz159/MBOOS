@@ -61,25 +61,25 @@
 									<div class="control-group">
 										<label class="control-label" for="item_name">Item Name *</label>
 										<div class="controls">
-											<input type="text" class="input-xlarge text-tip" title="first tooltip" name="item_name" value="<?php echo $rec->mboos_product_name;?>" />				
+											<input type="text" id="item_name" class="input-xlarge text-tip" title="first tooltip" name="item_name" value="<?php echo $rec->mboos_product_name;?>" />				
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">Item Description</label>
 										<div class="controls">
-											<textarea name="item_desc" class="input-xlarge" rows="3"><?php echo $rec->mboos_product_desc;?></textarea>
+											<textarea name="item_desc" id="item_desc" class="input-xlarge" rows="3"><?php echo $rec->mboos_product_desc;?></textarea>
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label" for="item_supplier">Item Supplier *</label>
 										<div class="controls">
-											<input type="text" class="input-xlarge" name="item_supplier" value="<?php echo $rec->mboos_product_supplier;?>" />
+											<input type="text" id="item_supplier" class="input-xlarge" name="item_supplier" value="<?php echo $rec->mboos_product_supplier;?>" />
 										</div>
 									</div>
 									<div class="control-group">
 										<label class="control-label">Item Category </label>
 										<div class="controls">
-											<select name='product_category'>
+											<select id="item_category" name='product_category'>
 													<?php foreach ($edit_items as $row):?>
 													<option selected="selected" value="<?php echo $row->mboos_product_category_id;?>">--<?php echo $row->mboos_product_category_name;?>--</option>
 													<?php endforeach;?>

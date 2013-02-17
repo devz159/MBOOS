@@ -65,7 +65,10 @@ $(document).ready(function(){
 	$('#saveEdit_button').click(function() {
 		
 		//alert($("input[name='price_status']:checked").val());
-		
+		var product_name = $('#item_name').val();
+		var product_desc = $('#item_desc').val();
+		var product_supplier = $('#item_supplier').val();
+		var product_cat = $('#item_category').val();
 		var product_id = $('.product_id').val();
 		var price_id = $("input[name='price_status']:checked").val(); 
 		
@@ -78,7 +81,7 @@ $(document).ready(function(){
 		
 			url			: base_url + "admin/item/update_price/",
 			type		: "POST",
-			data		: { price_id : price_id, product_id : product_id },
+			data		: { price_id : price_id, product_id : product_id, product_name : product_name, product_desc : product_desc, product_supplier : product_supplier, product_cat : product_cat },
 			dataType	: "html",
 			success		: 	function(data) {
 									
