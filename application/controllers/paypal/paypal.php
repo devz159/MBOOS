@@ -92,7 +92,7 @@ class Paypal extends CI_Controller {
 		
 		for($i=0; $i < count($data); $i++) {
 			
-			$string .=$data[$i]['id']. "=>" .$data[$i]['qty']. ",";
+			$string .=$data[$i]['item_id']. "=>" .$data[$i]['qty']. ",";
 			
 		}
 		
@@ -107,7 +107,9 @@ class Paypal extends CI_Controller {
 		
 		$response =$records[0]->success;
 		if($response == 0) 	{	
-			echo "<h3>Transaction Failed, Please Order Again</h3>";	
+			
+			$data['main_content'] = 'paypal_view/paypal_failed';
+			$this->load->view('mobile_template/includes/template', $data);
 		} else {
 			
 			$data['order'] = $this->_mItemList;

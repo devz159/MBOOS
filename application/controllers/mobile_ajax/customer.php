@@ -68,7 +68,7 @@ class Customer extends CI_Controller {
 			
 			$cust_id = $cust_info[0]->mboos_customer_id;
 			$this->mdldata->reset();
-			$params['table'] = array('name' => ' mboos_orders', 'criteria_phrase' => 'mboos_customer_id="'. $cust_id . '"');
+			$params['table'] = array('name' => ' mboos_orders', 'criteria_phrase' => 'mboos_customer_id="'. $cust_id . '"', 'order_by' => 'mboos_order_id:desc');
 			
 			$this->mdldata->select($params);
 			
