@@ -26,7 +26,7 @@ class Paypal extends CI_Controller {
 			
 		
 		$strOrder = $this->input->get("stringOrder");
-		
+		//call_debug($strOrder, false);
 		//if(isset($strOrder))
 			//show_404();
 		
@@ -34,14 +34,92 @@ class Paypal extends CI_Controller {
 		$this->_cust_id = mysql_real_escape_string($this->input->get("cust_id"));
 		$this->_paypal_email = mysql_real_escape_string($this->input->get("paypal_email"));
 		
-		$pattern = '/0/';
+		$this->sp_process_order($strOrder);
+		
+		/* $pattern = '/0/';
 		if(preg_match($pattern, $this->_validate_item($strOrder))) {
 			echo "<h3>Transaction Failed, Please Order Again</h3>";
 		} else {
 			
 			$this->paypal_validate($strOrder);
-		}
+		} */
 	} 
+	
+	private function sp_process_order($itemList) {
+		
+		$timezone = "Asia/Manila";
+		
+		date_default_timezone_set($timezone);
+		
+		$pattern = '/,\|/';
+		$replacement = '|';
+		
+		$strOrder = preg_replace($pattern, $replacement, $itemList);
+		
+		$orderArr = explode('||', $strOrder);
+		
+		$tmpArray = array();
+		
+		foreach($orderArr as $v) {
+			if($v != "" && preg_match('/=>/',$v)):
+			$tmpArray[] = $v;
+			endif;
+		}
+		
+		$array = $tmpArray;
+		
+		foreach($array as $k => $v):
+		
+		$tmpArray = preg_split("/,/", $v);
+		
+		// remove single qoute
+		$pattern1 = "/'/";
+		$array = preg_replace($pattern1, "", $tmpArray);
+		
+		foreach($array as $val) {
+			$keyVal = preg_split('/=>/',$val);
+		
+			$cleandArray[$k][trim($keyVal[0])] = trim($keyVal[1]);
+		}
+			
+		endforeach;
+		
+		$this->_mItemList = $cleandArray;
+		
+		$data = $this->_mItemList;
+		
+		$string = "";
+		
+		for($i=0; $i < count($data); $i++) {
+			
+			$string .=$data[$i]['id']. "=>" .$data[$i]['qty']. ",";
+			
+		}
+		
+		$cleanString = substr($string, 0, -1);
+		
+		$currDate = date('Y-m-d H:i:s A');
+		$generated_date = $this->process_date();
+		
+		$this->db->query("CALL sp_testing('". $cleanString ."', '". $currDate . "', '". $generated_date ."', '". $this->_subtotal ."', '". $this->_cust_id ."', @success)");
+		$db = $this->db->query("SELECT @success as success");
+		$records = $db->result();
+		
+		$response =$records[0]->success;
+		if($response == 0) 	{	
+			echo "<h3>Transaction Failed, Please Order Again</h3>";	
+		} else {
+			
+			$data['order'] = $this->_mItemList;
+			
+			$data['paypal_email'] = $this->_paypal_email;
+			
+			$data['main_content'] = 'paypal_view/paypal_process_view';
+			$this->load->view('mobile_template/includes/template', $data);
+		}
+		
+		
+	}
 	
 	private function _validate_item($order) {
 		
@@ -81,6 +159,8 @@ class Paypal extends CI_Controller {
 		$this->_mItemList = $cleandArray;
 		
 		$data['order'] = $this->_mItemList;
+		
+		call_debug($data, false);
 		$status = "";
 		
 		for($j=0; $j<count($data['order']); $j++) {
@@ -175,7 +255,7 @@ class Paypal extends CI_Controller {
 		$this->mdldata->insert($params);
 			
 		$queryStringOrder = $this->mdldata->buildQueryString();
-		
+		call_debug($queryStringOrder);
 		$get_the_last_id = "SET @last_id_in_table1 = LAST_INSERT_ID()";
 		
 		$newArray = array($queryStringOrder, $get_the_last_id );
@@ -213,7 +293,7 @@ class Paypal extends CI_Controller {
 		
 		$this->_readyToInsertQueryString = $newArray;
 		
-		//call_debug($this->_readyToInsertQueryString);
+		call_debug($this->_readyToInsertQueryString);
 		$params['transact'] = $this->_readyToInsertQueryString;
 		
 		$this->mdldata->reset();

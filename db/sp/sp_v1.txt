@@ -1,13 +1,15 @@
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `sp_testing` $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_testing`(IN in_item_lists varchar(1000), OUT pSuccess INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_testing`(IN in_item_lists varchar(1000), IN in_ordered_date DATETIME, IN in_order_to_be_pick_up DATETIME, IN in_total_price double(16,2), in_customer_id INT(11), OUT pSuccess INT)
 BEGIN
 
 DECLARE int_record_not_found INT DEFAULT 0;
 DECLARE mId INT DEFAULT 0;
 DECLARE mQty INT DEFAULT 0;
-DECLARE validItemLists CURSOR FOR SELECT id, qty FROM tmp_item_tbl;
+DECLARE mPrice DOUBLE(16,2) DEFAULT 0.00;
+DECLARE order_id INT DEFAULT 0;
+DECLARE validItemLists CURSOR FOR SELECT id, qty, price FROM tmp_item_tbl;
 DECLARE CONTINUE HANDLER FOR NOT FOUND SET int_record_not_found = 1;
 DECLARE EXIT HANDLER FOR SQLEXCEPTION ROLLBACK;
 DECLARE EXIT HANDLER FOR SQLWARNING ROLLBACK;
@@ -22,8 +24,9 @@ DROP TEMPORARY TABLE IF EXISTS `tmp_item_tbl`;
 CREATE TEMPORARY TABLE `tmp_item_tbl`(
 	pri INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	id INT(11),
-	qty INT(11)
-)ENGINE = Memory COMMENT = 'creates temp table for payment history';
+	qty INT(11),
+	price double(16,2)
+)ENGINE = Memory COMMENT = 'creates temp table for item list history';
 
 
 
@@ -39,44 +42,54 @@ main_loop : LOOP
 
 	SET @value = func_parse_product(@value, ',');
 	
+	SET @item_price = (SELECT mboos_product_price FROM mboos_product_price WHERE mboos_product_price_status=1 AND mboos_product_id=@func_parse_product_productID);
 	
-	
-	SET @invQty = (SELECT SUM(mboos_inStocks_quantity) as mboos_inStocks_quantity FROM mboos_instocks WHERE mboos_product_id=@func_parse_product_productID);
+	SET @invQty = (SELECT COALESCE(SUM(mboos_inStocks_quantity),0) as mboos_inStocks_quantity FROM mboos_instocks WHERE mboos_product_id=@func_parse_product_productID);
 	
 	SET @ordQty = (SELECT COALESCE(sum(mboos_order_detail_quantity),0) as totalQtySolved FROM `mboos_order_details` where mboos_product_id=@func_parse_product_productID);
 	
 	SET @currQty = @invQty - @ordQty;
-	SELECT @currQty ;
+	
 	IF @func_parse_product_productQTY <= @currQty THEN
 	
-		INSERT INTO tmp_item_tbl (id, qty) VALUE (@func_parse_product_productID,@func_parse_product_productQTY);
+		INSERT INTO tmp_item_tbl (id, qty, price) VALUES (@func_parse_product_productID,@func_parse_product_productQTY, @item_price);
+		
 		
 	ELSE
+	
 		SET pSuccess = 0;
 		LEAVE main_loop;
+		
 	END IF;
 	
 	
 END LOOP main_loop;
 
 IF pSuccess = 1 THEN
-	OPEN validItemLists;
 
+	OPEN validItemLists;
+	
+		INSERT INTO mboos_orders (mboos_order_date, mboos_order_pick_schedule, mboos_orders_total_price, mboos_customer_id) VALUES(in_ordered_date, in_order_to_be_pick_up , in_total_price, in_customer_id);
+		
+		SET order_id = LAST_INSERT_ID();
+		
 		process_loop : LOOP
 		
-			FETCH validItemLists INTO mId, mQty;
+			FETCH validItemLists INTO mId, mQty, mPrice;
 			
 			IF int_record_not_found THEN
 
 			   LEAVE process_loop;
 
 			 END IF;
-			 SELECT mQty;
-			 INSERT INTO mboos_order_details (mboos_order_detail_quantity, mboos_product_id) VALUES (mId, mQty );
-				 
+			
+			 INSERT INTO mboos_order_details (mboos_order_detail_quantity, mboos_order_detail_price, mboos_order_id, mboos_product_id) VALUES (mQty, mPrice, order_id, mId );
+ 
 
 		 END LOOP process_loop;
+		 
 	CLOSE validItemLists;
+	
 END IF;
 
 COMMIT;
