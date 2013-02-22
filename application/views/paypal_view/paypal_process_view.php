@@ -27,10 +27,10 @@
         <input type="hidden" name="lc" value="US">
         <input type="hidden" name="rm" value="2">
         <input type="hidden" name="shipping_1" value="0.00">
-        <input type="hidden" name="return" value="<?php echo base_url(); ?>paypal/paypal/thankyou">
+        <input type="hidden" name="return" value="http://192.168.1.107/MBOOS/paypal/paypal/thankyou">
         <input type="hidden" name="cancel_return" value="">
         <input type="hidden" name="notify_url" value="">
-        <input type="submit" name="pay_now" value="Place Order Through PayPal" />
+        <input class="paypalBtn" type="submit" name="pay_now" value="Place Order Through PayPal" />
         
     </form>
     

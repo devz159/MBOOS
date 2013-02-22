@@ -9,6 +9,8 @@ $(document).ready(function(){
 		
 	});
 	
+
+	
 	$('#addNewPrice_btn').click(function() {
 		
 				//alert("wroking");
