@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-<!-- <meta http-equiv="refresh" content="10"> -->
+<meta http-equiv="refresh" content="10">
 <meta charset="utf-8">
 <title>MBOOS || Mobile-Based Online Ordering System Web Application Control Panel</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -50,7 +50,7 @@
 						<th>Customer ID</th>
 						<th>Customer Name</th>
 						<th>Address</th>
-						<th>Order Number</th>	
+						<th>Number of Orders</th>	
 					</tr>
 					</thead>
 					<tbody>
